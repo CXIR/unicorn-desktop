@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu">
+   <children>
+      <SplitPane dividerPositions="0.21410788381742737" prefHeight="600.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>
+               <Pane prefHeight="700.0" prefWidth="250.0" style="-fx-background-color: dodgerblue;">
+                  <children>
+                  <Group />
+                     <ImageView fitHeight="59.0" fitWidth="106.0" layoutX="109.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="/Logo_TV_2015.png" />
+                        </image>
+                     </ImageView>
+                     <Label id="offline" fx:id="offline" layoutX="89.0" layoutY="545.0" onMouseClicked="#labelOff" text="Déconnexion">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     </Label>
+                     <Label id="sites" fx:id="sites" layoutX="80.0" layoutY="386.0" onMouseClicked="#labelSites" text="Gestion des sites">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     </Label>
+                     <Label id="param" fx:id="param" layoutX="95.0" layoutY="514.0" onMouseClicked="#labelParam" text="Paramètres">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     </Label>
+                     <Label id="admins" fx:id="admins" layoutX="54.0" layoutY="332.0" onMouseClicked="#labelAdmins" text="Gestion des administrateurs">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     </Label>
+                     <Label id="users" fx:id="users" layoutX="67.0" layoutY="282.0" onMouseClicked="#labelUsers" text="Gestion des utilisateurs">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     </Label>
+                     <Label id="home" fx:id="home" layoutX="105.0" layoutY="172.0" onMouseClicked="#labelHome" text="ACCUEIL">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <opaqueInsets>
+                           <Insets right="1.0" />
+                        </opaqueInsets>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     </Label>
+                  </children>
+               </Pane>
+            <BorderPane fx:id="pane" prefHeight="598.0" prefWidth="948.0" style="-fx-background-color: white;">
+               <center>
+                     <Rectangle fx:id="rect" arcHeight="30.0" arcWidth="30.0" fill="#a9cef2" height="461.0" stroke="#6f6f6f" strokeType="INSIDE" width="557.0" BorderPane.alignment="CENTER">
+                     <effect>
+                        <DropShadow blurType="ONE_PASS_BOX" color="#5b5151" radius="16.6725" spread="0.03" width="47.69" />
+                     </effect></Rectangle>
+               </center>
+               <top>
+                     <Label id="title" fx:id="title" alignment="CENTER" prefHeight="35.0" prefWidth="644.0" text="PARTAGE TA CAISSE" BorderPane.alignment="CENTER">
+                        <font>
+                           <Font name="System Bold" size="22.0" />
+                        </font>
+                     <BorderPane.margin>
+                        <Insets top="20.0" />
+                     </BorderPane.margin>
+                     </Label>
+               </top>
+            </BorderPane>
+         </items>
+      </SplitPane>
+      </children>
+</AnchorPane>
