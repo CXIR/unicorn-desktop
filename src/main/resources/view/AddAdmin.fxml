@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
 
-<Group xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAdmin">
+
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAdmin">
    <children>
       <VBox prefHeight="267.0" prefWidth="388.0" spacing="30.0">
          <children>
@@ -21,8 +19,8 @@
             <TableView prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn prefWidth="168.0" text="Name" />
-                <TableColumn prefWidth="105.0" text="Admin." />
-                  <TableColumn prefWidth="114.0" text="Super Admin." />
+                <TableColumn prefWidth="105.0" text="controller.Admin." />
+                  <TableColumn prefWidth="114.0" text="Super controller.Admin." />
               </columns>
             </TableView>
          </children>

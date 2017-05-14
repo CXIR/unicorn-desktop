@@ -19,6 +19,10 @@ public class Site {
             FXMLLoader loader  = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/SetSite.fxml"));
             Group add = (Group) loader.load();
+            SetSite setSite = loader.getController();
+            setSite.setMenu(menu);
+            setSite.setEdit("add");
+            setSite.choice();
             menu.fillPane(add, "AJOUTER UN SITE");
         } catch (IOException e) {
             e.printStackTrace();

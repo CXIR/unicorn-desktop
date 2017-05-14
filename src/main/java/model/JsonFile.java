@@ -11,15 +11,29 @@ import java.io.FileReader;
  * Created by mickael.afonso on 27/04/2017.
  */
 public class JsonFile {
-    public void readData() throws Exception{
+    public void readData() {
         //JSONParser parser = new JSONParser()
-        ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-        engine.eval(new FileReader("script.js"));
+        ScriptEngine engine = new ScriptEngineManager().getEngineByName("js");
 
-        Invocable invocable = (Invocable) engine;
+        try {
+            FileReader file = new FileReader("file.js");
+            engine.eval(file);
+            file.close();
+        }catch (Exception e){
+
+        }
+
+
+
+
+        /*Invocable invocable = (Invocable) engine;
 
         Object result = invocable.invokeFunction("fun1", "Peter Parker");
         System.out.println(result);
-        System.out.println(result.getClass());
+        System.out.println(result.getClass());*/
+    }
+
+    public void writeData(String[] content){
+
     }
 }

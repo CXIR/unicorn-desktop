@@ -48,8 +48,8 @@
             </GridPane>
             <HBox alignment="TOP_CENTER" spacing="50.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#validate" text="Valider" />
-                  <Button mnemonicParsing="false" onAction="#back" text="Annuler" />
+                  <Button fx:id="valid" mnemonicParsing="false" onAction="#validate" text="Valider" />
+                  <Button fx:id="cancel" mnemonicParsing="false" onAction="#back" text="Annuler" />
                </children>
             </HBox>
          </children>

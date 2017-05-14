@@ -38,8 +38,8 @@ public class User extends Menu {
             Group add = (Group) loader.load();
             SetUser setUser = loader.getController();
             setUser.setMenu(menu);
-            setUser.setEdit("display");
-
+            setUser.setEdit("add");
+            setUser.choice();
             menu.fillPane(add, "AJOUTER UN UTILISATEUR");
         } catch (IOException e) {
             e.printStackTrace();
