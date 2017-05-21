@@ -2,8 +2,6 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,17 +13,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import model.Main;
 import model.ReadFile;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Created by mickael.afonso on 07/04/2017.
  */
-public class DragAndDrop {
-    private Menu menu;
+public class DragAndDrop extends Menu {
     private ArrayList<File> files = new ArrayList<File>();
+
     @FXML
     private Label name;
 
@@ -89,37 +85,15 @@ public class DragAndDrop {
                 ReadFile read = new ReadFile(file, extension(file));
             }
         }
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/User.fxml"));
-            Group group = (Group) loader.load();
-            User controller = loader.getController();
-            controller.setMenu(menu);
-            menu.fillPane(group, "GESTION DES UTILISATEURS");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");
     }
 
     @FXML
     private void cancel(ActionEvent event){
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/User.fxml"));
-            Group group = (Group) loader.load();
-            User controller = loader.getController();
-            controller.setMenu(menu);
-            menu.fillPane(group, "GESTION DES UTILISATEURS");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");
     }
 
     public String extension(File file){
         return file.getName().substring(file.getName().indexOf('.') + 1,file.getName().length());
-    }
-
-    public void setMenu(Menu menu){
-        this.menu = menu;
     }
 }

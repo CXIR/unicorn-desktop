@@ -2,28 +2,22 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
-import java.io.IOException;
+import model.Site;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
  * Created by mickael.afonso on 21/04/2017.
  */
 public class SetSite implements Initializable {
-    private Menu menu;
-    private String edit;
-
+    private Enumeration edit;
+    private Site site;
     @FXML
     private Label nameDi;
 
@@ -48,7 +42,7 @@ public class SetSite implements Initializable {
     @FXML
     private Button cancel;
 
-    public void setEdit(String edit){
+    public void setEdit(Enumeration edit){
         this.edit = edit;
     }
 
@@ -61,94 +55,79 @@ public class SetSite implements Initializable {
     }
 
     @FXML
-    public void change(ActionEvent event){
-        switch (edit){
-            case "add":
-                edit = "display";
-                display();
-                break;
+    public void validate(ActionEvent event){
+        if (edit == edit.ADD || edit == edit.CHANGE){
+            site.setName(nameAd.getText());
+            site.setAddress(addAd.getText());
+            site.setPostal(postAd.getText());
 
-            case "change":
-
-                edit = "display";
-                display();
-                break;
-
-            case "display":
-                edit = "change";
-                change();
-                break;
+            setEdit(edit.DISPLAY);
+            display();
+        }
+        else{
+            setEdit(edit.CHANGE);
+            change();
         }
     }
 
     @FXML
     public void back(ActionEvent event){
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/Site.fxml"));
-            Group group = (Group) loader.load();
-            Site controller = loader.getController();
-            controller.setMenu(menu);
-            menu.fillPane(group, "GESTION DES SITES");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/Site.fxml", "GESTION DES SITES");
     }
 
     public void choice(){
         switch(edit){
-            case "add":
+            case ADD:
                 break;
-            case "change":
+            case CHANGE:
                 change();
                 break;
-            case "display":
+            case DISPLAY:
                 display();
                 break;
         }
     }
 
-
     public void change(){
-        changeForm(nameAd, nameDi);
-        changeForm(addAd, addDi);
-        changeForm(postAd, postDi);
+        nameAd.setText(site.getName());
+        addAd.setText(site.getAddress());
+        postAd.setText(site.getPostal());
 
+        setForm(true);
+        setDisp(false);
         valid.setText("Valider");
         cancel.setText("Annuler");
     }
 
     public void display(){
-        changeForm(nameAd, nameDi);
-        changeForm(addAd, addDi);
-        changeForm(postAd, postDi);
+        nameDi.setText(site.getName());
+        addDi.setText(site.getAddress());
+        postDi.setText(site.getPostal());
+
+        setForm(false);
+        setDisp(true);
 
         valid.setText("Modifier");
         cancel.setText("Précédent");
     }
 
-    public void changeForm(TextField text, Label label){
-        switch (edit){
-            case "add":
-                text.setVisible(true);
-                label.setVisible(false);
-                break;
-            case "change":
-                text.setText(label.getText());
-                text.setVisible(true);
-                label.setVisible(false);
-                break;
-            case "display":
-                if(text.getText() != null){
-                    label.setText(text.getText());
-                }
-                text.setVisible(false);
-                label.setVisible(true);
-                break;
-        }
+    public void setForm(boolean b){
+        nameAd.setVisible(b);
+        addAd.setVisible(b);
+        postAd.setVisible(b);
     }
 
-    public void setMenu(Menu menu){
-        this.menu = menu;
+    public void setDisp(boolean b){
+        nameDi.setVisible(b);
+        addDi.setVisible(b);
+        postDi.setVisible(b);
+    }
+
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
     }
 }

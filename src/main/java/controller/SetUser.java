@@ -2,16 +2,14 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.*;
-
-import java.io.IOException;
+import model.User;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -19,8 +17,8 @@ import java.util.ResourceBundle;
  * Created by Micka on 27/03/2017.
  */
 public class SetUser implements Initializable {
-    private Menu menu;
-    private String edit;
+    private Enumeration edit;
+    private User user;
 
     @FXML
     private Label nameDi;
@@ -58,7 +56,7 @@ public class SetUser implements Initializable {
     @FXML
     private Button cancel;
 
-    public void setEdit(String edit){
+    public void setEdit(Enumeration edit){
         this.edit = edit;
     }
 
@@ -72,47 +70,38 @@ public class SetUser implements Initializable {
 
     @FXML
     private void validate(ActionEvent event) {
-        switch (edit){
-            case "add":
-                edit = "display";
-                display();
-                break;
+        if (edit == edit.ADD || edit == edit.CHANGE){
+            user.setName(nameAd.getText());
+            user.setFirst(firstAd.getText());
+            Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String strDate = dateFormat.format(date);
+            user.setBirth(strDate);
+            user.setMail(mailAd.getText());
+            user.setPlace(placeAd.getSelectionModel().getSelectedItem().toString());
 
-            case "change":
-
-                edit = "display";
-                display();
-                break;
-
-            case "display":
-                edit = "change";
-                change();
-                break;
+            setEdit(edit.DISPLAY);
+            display();
+        }
+        else{
+            setEdit(edit.CHANGE);
+            change();
         }
     }
 
     @FXML
     private void back(ActionEvent event) {
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/User.fxml"));
-            Group group = (Group) loader.load();
-            User controller = loader.getController();
-            controller.setMenu(menu);
-            menu.fillPane(group, "GESTION DES UTILISATEURS");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");
     }
 
     public void choice(){
         switch(edit){
-            case "add":
+            case ADD:
                 break;
-            case "change":
+            case CHANGE:
                 change();
                 break;
-            case "display":
+            case DISPLAY:
                 display();
                 break;
         }
@@ -120,66 +109,55 @@ public class SetUser implements Initializable {
 
 
     public void change(){
-        changeForm(nameAd, nameDi);
-        changeForm(firstAd, firstDi);
-        changeForm(mailAd, mailDi);
-
-        //dateAd.setValue(LocalDate(dateDi.getText()));
-        dateDi.setVisible(false);
-        dateAd.setVisible(true);
-        LocalDate date = LocalDate.parse(dateDi.getText());
+        nameAd.setText(user.getName());
+        firstAd.setText(user.getFirst());
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(user.getBirth(), format);
         dateAd.setValue(date);
-        placeAd.setValue(placeDi.getText());
-        placeDi.setVisible(false);
-        placeAd.setVisible(true);
-        placeAd.getSelectionModel().select(placeDi.getText());
+        mailAd.setText(user.getMail());
+        placeAd.getSelectionModel().select(user.getPlace());
+
+        setForm(true);
+        setDisp(false);
         valid.setText("Valider");
         cancel.setText("Annuler");
     }
 
     public void display(){
-        changeForm(nameAd, nameDi);
-        changeForm(firstAd, firstDi);
-        changeForm(mailAd, mailDi);
-        if(dateAd.getValue() != null){
-            Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String strDate = dateFormat.format(date);
-            dateDi.setText(strDate);
-        }
-        dateDi.setVisible(true);
-        dateAd.setVisible(false);
-        if(placeAd.getValue() != null){
-            placeDi.setText(placeAd.getSelectionModel().getSelectedItem().toString());
-        }
-        placeDi.setVisible(true);
-        placeAd.setVisible(false);
+        nameDi.setText(user.getName());
+        firstDi.setText(user.getFirst());
+        dateDi.setText(user.getBirth());
+        mailDi.setText(user.getMail());
+        placeDi.setText(user.getPlace());
+
+        setForm(false);
+        setDisp(true);
+
         valid.setText("Modifier");
         cancel.setText("Précédent");
     }
 
-    public void changeForm(TextField text, Label label){
-        switch (edit){
-            case "add":
-                text.setVisible(true);
-                label.setVisible(false);
-                break;
-            case "change":
-                text.setText(label.getText());
-                text.setVisible(true);
-                label.setVisible(false);
-                break;
-            case "display":
-                if(text.getText() != null){
-                    label.setText(text.getText());
-                }
-                text.setVisible(false);
-                label.setVisible(true);
-                break;
-        }
+    public void setForm(boolean b){
+        nameAd.setVisible(b);
+        firstAd.setVisible(b);
+        dateAd.setVisible(b);
+        mailAd.setVisible(b);
+        placeAd.setVisible(b);
     }
 
-    public void setMenu(Menu menu){
-        this.menu = menu;
+    public void setDisp(boolean b){
+        nameDi.setVisible(b);
+        firstDi.setVisible(b);
+        dateDi.setVisible(b);
+        mailDi.setVisible(b);
+        placeDi.setVisible(b);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

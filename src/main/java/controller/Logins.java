@@ -2,20 +2,14 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-
-import java.io.IOException;
 
 /**
  * Created by Micka on 10/04/2017.
  */
 public class Logins {
-    private Menu menu;
     private boolean edit;
 
     @FXML
@@ -65,16 +59,7 @@ public class Logins {
             backContent();
         }
         else{
-            try {
-                FXMLLoader loader  = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/view/Home.fxml"));
-                Group group = (Group) loader.load();
-                Home controller = loader.getController();
-                controller.setMenu(menu);
-                menu.fillPane(group, "PARTAGE TA CAISSE");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            new Loader("/view/Home.fxml", "PARTAGE TA CAISSE");
         }
     }
 
@@ -84,9 +69,5 @@ public class Logins {
         pass.clear();
         pass.setVisible(false);
         valid.setText("Modifier");
-    }
-
-    public void setMenu(Menu menu){
-        this.menu = menu;
     }
 }

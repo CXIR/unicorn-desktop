@@ -19,8 +19,8 @@
             <TableView prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn prefWidth="168.0" text="Name" />
-                <TableColumn prefWidth="105.0" text="controller.Admin." />
-                  <TableColumn prefWidth="114.0" text="Super controller.Admin." />
+                <TableColumn prefWidth="105.0" text="controller.Admin_menu." />
+                  <TableColumn prefWidth="114.0" text="Super controller.Admin_menu." />
               </columns>
             </TableView>
          </children>
