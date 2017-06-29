@@ -7,12 +7,18 @@ public class Site {
     private int id;
     private String name;
     private String address;
-    private String postal;
+    private String city;
+    private Integer postal;
 
-    public Site(int id, String name, String address, String postal){
+    public Site(){
+
+    }
+
+    public Site(int id, String name, String address, String city, int postal){
         this.id = id;
         this.name = name;
         this.address = address;
+        this.city = city;
         this.postal = postal;
     }
 
@@ -40,11 +46,19 @@ public class Site {
         this.address = address;
     }
 
-    public String getPostal() {
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Integer getPostal() {
         return postal;
     }
 
-    public void setPostal(String postal) {
+    public void setPostal(int postal) {
         this.postal = postal;
     }
 }

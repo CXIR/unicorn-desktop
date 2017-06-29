@@ -4,6 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.util.StringConverter;
+import model.Request;
+import model.Site;
 import model.User;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -48,7 +51,7 @@ public class SetUser implements Initializable {
     private Label placeDi;
 
     @FXML
-    private ComboBox placeAd;
+    private ComboBox<Site> placeAd;
 
     @FXML
     private Button valid;
@@ -63,13 +66,30 @@ public class SetUser implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle re){
+        user = new User();
         if(edit != null){
             choice();
         }
+        Request req = new Request("get", "/site/");
+        placeAd.getItems().addAll(req.getSites());
+
+        placeAd.setConverter(new StringConverter() {
+            @Override
+            public String toString(Object object) {
+                Site site = (Site) object;
+                return site.getName();
+            }
+
+            @Override
+            public Object fromString(String string) {
+                return null;
+            }
+        });
     }
 
     @FXML
     private void validate(ActionEvent event) {
+        System.out.println(nameAd.getText());
         if (edit == edit.ADD || edit == edit.CHANGE){
             user.setName(nameAd.getText());
             user.setFirst(firstAd.getText());
@@ -78,8 +98,21 @@ public class SetUser implements Initializable {
             String strDate = dateFormat.format(date);
             user.setBirth(strDate);
             user.setMail(mailAd.getText());
-            user.setPlace(placeAd.getSelectionModel().getSelectedItem().toString());
+            user.setPlace(placeAd.getSelectionModel().getSelectedItem());
 
+
+            if (edit == edit.ADD){
+                dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                user.setBirth(dateFormat.format(date));
+                Request req = new Request("post", "/users/new");
+                req.putUser(user);
+            }
+            else{
+                dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                user.setBirth(dateFormat.format(date));
+                Request req = new Request("post", "/users/modify/" + user.getId());
+                req.putUser(user);
+            }
             setEdit(edit.DISPLAY);
             display();
         }
@@ -115,6 +148,7 @@ public class SetUser implements Initializable {
         LocalDate date = LocalDate.parse(user.getBirth(), format);
         dateAd.setValue(date);
         mailAd.setText(user.getMail());
+        placeAd.getItems().addAll();
         placeAd.getSelectionModel().select(user.getPlace());
 
         setForm(true);
@@ -128,7 +162,7 @@ public class SetUser implements Initializable {
         firstDi.setText(user.getFirst());
         dateDi.setText(user.getBirth());
         mailDi.setText(user.getMail());
-        placeDi.setText(user.getPlace());
+        placeDi.setText(user.getPlace().getName());
 
         setForm(false);
         setDisp(true);

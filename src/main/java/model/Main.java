@@ -19,8 +19,6 @@ public class Main extends Application {
     private AnchorPane pane;
 
     public void start(Stage primaryStage) throws Exception {
-        /*Request re = new Request();
-        re.get("/");*/
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Partage ta Caisse");
         connection();

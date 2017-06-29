@@ -74,7 +74,7 @@ public class Menu implements Initializable {
 
     @FXML
     private void labelAdmins(MouseEvent event) {
-        new Loader("/view/Admin.fxml", "GESTION DES ADMINISTRATEURS");
+        new Loader("/view/AddAdmin.fxml", "GESTION DES ADMINISTRATEURS");
     }
 
     @FXML
@@ -123,4 +123,3 @@ public class Menu implements Initializable {
         pane.setCenter(root);
     }
 }
-/*Vive! vive! vive les gros nichons, les pairs de seins, les gros ballons! */
