@@ -11,15 +11,24 @@ public class User {
     private String first;
     private String birth;
     private String mail;
-    private String place;
+    private Site place;
+    private String namePlace;
+    private Status status;
+    private String nameStatus;
 
-    public User(int id, String name, String first, String birth, String mail, String place){
+    public User(){
+    }
+
+    public User(int id, String name, String first, String birth, String mail, Site place, Status status){
         this.id = id;
         this.name = name;
         this.first = first;
         this.birth = birth;
         this.mail = mail;
         this.place = place;
+        this.namePlace = place.getName();
+        this.status = status;
+        this.nameStatus = status.getStatus();
     }
 
     public int getId() {
@@ -62,11 +71,27 @@ public class User {
         this.mail = mail;
     }
 
-    public String getPlace() {
+    public Site getPlace() {
         return place;
     }
 
-    public void setPlace(String place) {
+    public void setPlace(Site place) {
         this.place = place;
+    }
+
+    public String getNamePlace() {
+        return place.getName();
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getNameStatus() {
+        return nameStatus;
     }
 }

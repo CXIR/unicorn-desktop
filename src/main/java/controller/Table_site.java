@@ -20,18 +20,21 @@ public class Table_site extends TableView<Site> {
     private ArrayList<Site> sites;
     private TableColumn<Site, String> name;
     private TableColumn<Site, String> address;
-    private TableColumn<Site, String> postal;
+    private TableColumn<Site, Integer> postal;
+    private TableColumn<Site, String> city;
 
     public Table_site(ArrayList<Site> sites){
         this.sites = sites;
         name = new TableColumn("Nom");
         address = new TableColumn("Adresse");
         postal = new TableColumn("Code postal");
-        this.getColumns().addAll(name, address, postal);
+        city = new TableColumn("Ville");
+        this.getColumns().addAll(name, address, postal, city);
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         address.setCellValueFactory(new PropertyValueFactory<>("address"));
         postal.setCellValueFactory(new PropertyValueFactory<>("postal"));
+        city.setCellValueFactory(new PropertyValueFactory<>("city"));
 
         if(!(this.sites == null)){
             ObservableList<Site> list = FXCollections.observableArrayList(sites);

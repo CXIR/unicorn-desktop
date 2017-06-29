@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.Request;
 import model.Site;
 import java.net.URL;
 import java.time.LocalDate;
@@ -37,6 +38,12 @@ public class SetSite implements Initializable {
     private TextField postAd;
 
     @FXML
+    private Label cityDi;
+
+    @FXML
+    private TextField cityAd;
+
+    @FXML
     private Button valid;
 
     @FXML
@@ -49,6 +56,7 @@ public class SetSite implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle re){
+        site = new Site();
         if(edit != null){
             choice();
         }
@@ -59,8 +67,18 @@ public class SetSite implements Initializable {
         if (edit == edit.ADD || edit == edit.CHANGE){
             site.setName(nameAd.getText());
             site.setAddress(addAd.getText());
-            site.setPostal(postAd.getText());
+            site.setPostal(Integer.parseInt(postAd.getText()));
+            site.setCity(cityAd.getText());
 
+            if (edit == edit.ADD){
+                System.out.println(site.getName());
+                Request req = new Request("post", "/site/new");
+                req.putSite(site);
+            }
+            else{
+                Request req = new Request("post", "/site/modify/" + site.getId());
+                req.putSite(site);
+            }
             setEdit(edit.DISPLAY);
             display();
         }
@@ -91,7 +109,7 @@ public class SetSite implements Initializable {
     public void change(){
         nameAd.setText(site.getName());
         addAd.setText(site.getAddress());
-        postAd.setText(site.getPostal());
+        postAd.setText(String.valueOf(site.getPostal()));
 
         setForm(true);
         setDisp(false);
@@ -102,7 +120,8 @@ public class SetSite implements Initializable {
     public void display(){
         nameDi.setText(site.getName());
         addDi.setText(site.getAddress());
-        postDi.setText(site.getPostal());
+        postDi.setText(String.valueOf(site.getPostal()));
+        cityDi.setText(site.getCity());
 
         setForm(false);
         setDisp(true);
@@ -115,12 +134,14 @@ public class SetSite implements Initializable {
         nameAd.setVisible(b);
         addAd.setVisible(b);
         postAd.setVisible(b);
+        cityAd.setVisible(b);
     }
 
     public void setDisp(boolean b){
         nameDi.setVisible(b);
         addDi.setVisible(b);
         postDi.setVisible(b);
+        cityDi.setVisible(b);
     }
 
     public Site getSite() {

@@ -36,7 +36,7 @@ public class Table_user extends TableView<User> {
         first.setCellValueFactory(new PropertyValueFactory<>("first"));
         birth.setCellValueFactory(new PropertyValueFactory<>("birth"));
         mail.setCellValueFactory(new PropertyValueFactory<>("mail"));
-        place.setCellValueFactory(new PropertyValueFactory<>("place"));
+        place.setCellValueFactory(new PropertyValueFactory<>("namePlace"));
 
         if(!(this.users == null)){
             ObservableList<User> list = FXCollections.observableArrayList(users);

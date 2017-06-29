@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
+import model.Request;
 import model.Site;
 import model.User;
 import java.net.URL;
@@ -38,14 +39,16 @@ public class Table extends Menu implements Initializable {
     }
 
     public void load(){
+        Request re;
         switch (type){
             case "user":
-                users.add(new User(1,"m", "d", "12/05/2017", "d", "d"));
-                box.getChildren().add(new Table_user(users));
+                re = new Request("get","/users/all");
+                box.getChildren().add(new Table_user(re.getUsers()));
                 break;
             case "site":
-                sites.add(new Site(1, "n", "ad", "post"));
-                box.getChildren().add(new Table_site(sites));
+                re = new Request("get","/site/");
+                //sites.add(new Site(1, "n", "ad", "post"));
+                box.getChildren().add(new Table_site(re.getSites()));
                 break;
         }
 
