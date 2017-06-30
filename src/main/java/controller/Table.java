@@ -43,12 +43,12 @@ public class Table extends Menu implements Initializable {
         switch (type){
             case "user":
                 re = new Request("get","/users/all");
-                box.getChildren().add(new Table_user(re.getUsers()));
+                //box.getChildren().add(new Table_user(re.getUsers()));
                 break;
             case "site":
                 re = new Request("get","/site/");
                 //sites.add(new Site(1, "n", "ad", "post"));
-                box.getChildren().add(new Table_site(re.getSites()));
+                //box.getChildren().add(new Table_site(re.getSites()));
                 break;
         }
 

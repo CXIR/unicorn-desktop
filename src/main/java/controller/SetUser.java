@@ -71,7 +71,7 @@ public class SetUser implements Initializable {
             choice();
         }
         Request req = new Request("get", "/site/");
-        placeAd.getItems().addAll(req.getSites());
+        //placeAd.getItems().addAll(req.getSites());
 
         placeAd.setConverter(new StringConverter() {
             @Override
@@ -91,27 +91,25 @@ public class SetUser implements Initializable {
     private void validate(ActionEvent event) {
         System.out.println(nameAd.getText());
         if (edit == edit.ADD || edit == edit.CHANGE){
-            user.setName(nameAd.getText());
-            user.setFirst(firstAd.getText());
+            user.setLastname(nameAd.getText());
+            user.setFirstname(firstAd.getText());
             Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String strDate = dateFormat.format(date);
-            user.setBirth(strDate);
-            user.setMail(mailAd.getText());
-            user.setPlace(placeAd.getSelectionModel().getSelectedItem());
+            user.setBirthdate(date);
+            user.setMailAdress(mailAd.getText());
+            user.setSite(placeAd.getSelectionModel().getSelectedItem());
 
 
             if (edit == edit.ADD){
-                dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                user.setBirth(dateFormat.format(date));
+                /*dateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                user.setBirthdate(date);
                 Request req = new Request("post", "/users/new");
-                req.putUser(user);
+                req.putUser(user);*/
             }
             else{
-                dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                /*dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 user.setBirth(dateFormat.format(date));
                 Request req = new Request("post", "/users/modify/" + user.getId());
-                req.putUser(user);
+                req.putUser(user);*/
             }
             setEdit(edit.DISPLAY);
             display();
@@ -142,14 +140,15 @@ public class SetUser implements Initializable {
 
 
     public void change(){
-        nameAd.setText(user.getName());
-        firstAd.setText(user.getFirst());
+        nameAd.setText(user.getLastname());
+        firstAd.setText(user.getFirstname());
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate date = LocalDate.parse(user.getBirth(), format);
+        Date dt =  user.getBirthdate();
+        LocalDate date = LocalDate.from(dt.toInstant());
         dateAd.setValue(date);
-        mailAd.setText(user.getMail());
+        mailAd.setText(user.getMailAdress());
         placeAd.getItems().addAll();
-        placeAd.getSelectionModel().select(user.getPlace());
+        placeAd.getSelectionModel().select(user.getSite());
 
         setForm(true);
         setDisp(false);
@@ -158,11 +157,11 @@ public class SetUser implements Initializable {
     }
 
     public void display(){
-        nameDi.setText(user.getName());
-        firstDi.setText(user.getFirst());
-        dateDi.setText(user.getBirth());
-        mailDi.setText(user.getMail());
-        placeDi.setText(user.getPlace().getName());
+        nameDi.setText(user.getLastname());
+        firstDi.setText(user.getFirstname());
+        dateDi.setText(user.getBirthdate().toString());
+        mailDi.setText(user.getMailAdress());
+        placeDi.setText(user.getSite().getName());
 
         setForm(false);
         setDisp(true);

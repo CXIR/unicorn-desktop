@@ -38,7 +38,7 @@ public class AddAdmin implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Request re = new Request("get","/users/all");
-        users = re.getUsers();
+        //users = re.getUsers();
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
 

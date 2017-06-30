@@ -8,13 +8,13 @@ public class Site {
     private String name;
     private String address;
     private String city;
-    private Integer postal;
+    private String postal;
 
     public Site(){
 
     }
 
-    public Site(int id, String name, String address, String city, int postal){
+    public Site(int id, String name, String address, String city, String postal){
         this.id = id;
         this.name = name;
         this.address = address;
@@ -54,11 +54,21 @@ public class Site {
         this.city = city;
     }
 
-    public Integer getPostal() {
+    public String getPostal() {
         return postal;
     }
 
-    public void setPostal(int postal) {
+    public void setPostal(String postal) {
         this.postal = postal;
     }
+
+
+    //AJOUT SITE
+
+    //MODIF SITE
+
+    //DELETE SITE
+
+    //GET SITE
+
 }

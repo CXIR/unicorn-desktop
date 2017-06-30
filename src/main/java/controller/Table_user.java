@@ -49,7 +49,7 @@ public class Table_user extends TableView<User> {
             TableRow<User> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())){
-                    Loader load = new Loader("/view/SetUser.fxml", "UTILISATEUR : " + row.getItem().getName() + " " + row.getItem().getFirst());
+                    Loader load = new Loader("/view/SetUser.fxml", "UTILISATEUR : " + row.getItem().getLastname() + " " + row.getItem().getFirstname());
                     SetUser setUser = load.getLoader().getController();
                     setUser.setUser(row.getItem());
                     setUser.setEdit(Enumeration.DISPLAY);
