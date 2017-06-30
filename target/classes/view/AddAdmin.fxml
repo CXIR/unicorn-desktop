@@ -18,11 +18,11 @@
                   <Button mnemonicParsing="false" text="Rechercher" />
                </children>
             </HBox>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="168.0" text="Name" />
-                <TableColumn prefWidth="105.0" text="Admin." />
-                  <TableColumn prefWidth="114.0" text="Super Admin." />
+                <TableColumn fx:id="name" prefWidth="168.0" text="Name" />
+                <TableColumn fx:id="admin" prefWidth="105.0" text="Admin" />
+                  <TableColumn fx:id="superAd" prefWidth="114.0" text="Super Admin" />
               </columns>
             </TableView>
          </children>
