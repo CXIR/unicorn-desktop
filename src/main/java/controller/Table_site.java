@@ -36,7 +36,7 @@ public class Table_site extends TableView<Site> {
         postal.setCellValueFactory(new PropertyValueFactory<>("postal"));
         city.setCellValueFactory(new PropertyValueFactory<>("city"));
 
-        if(!(this.sites == null)){
+        if(this.sites != null){
             ObservableList<Site> list = FXCollections.observableArrayList(sites);
             this.setItems(list);
         }

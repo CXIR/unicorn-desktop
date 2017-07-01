@@ -14,15 +14,16 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
-                  <TextField />
-                  <Button mnemonicParsing="false" text="Rechercher" />
+                  <TextField fx:id="txt" />
+                  <Button mnemonicParsing="false" onAction="#search" text="Rechercher" />
+                  <Button mnemonicParsing="false" onAction="#cancel" text="Annuler" />
                </children>
             </HBox>
             <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="name" prefWidth="168.0" text="Name" />
-                <TableColumn fx:id="admin" prefWidth="105.0" text="Admin" />
-                  <TableColumn fx:id="superAd" prefWidth="114.0" text="Super Admin" />
+                <TableColumn id="col" fx:id="admin" prefWidth="105.0" text="Admin" />
+                  <TableColumn id="col" fx:id="superAd" prefWidth="114.0" text="Super Admin" />
               </columns>
             </TableView>
          </children>

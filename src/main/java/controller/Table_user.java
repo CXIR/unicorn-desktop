@@ -21,7 +21,7 @@ public class Table_user extends TableView<User> {
     private TableColumn<User, String> first;
     private TableColumn<User, String> birth;
     private TableColumn<User, String> mail;
-    private TableColumn<User, String> place;
+    private TableColumn<User, String> site;
 
     public Table_user(ArrayList<User> users){
         this.users = users;
@@ -29,16 +29,16 @@ public class Table_user extends TableView<User> {
         first = new TableColumn("Prénom");
         birth = new TableColumn("Date de naissance");
         mail = new TableColumn("Mail");
-        place = new TableColumn("Lieu de Travail");
-        this.getColumns().addAll(name, first, birth, mail, place);
+        site = new TableColumn("Lieu de Travail");
+        this.getColumns().addAll(name, first, birth, mail, site);
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         first.setCellValueFactory(new PropertyValueFactory<>("first"));
         birth.setCellValueFactory(new PropertyValueFactory<>("birth"));
         mail.setCellValueFactory(new PropertyValueFactory<>("mail"));
-        place.setCellValueFactory(new PropertyValueFactory<>("namePlace"));
+        site.setCellValueFactory(new PropertyValueFactory<>("nameSite"));
 
-        if(!(this.users == null)){
+        if(this.users != null){
             ObservableList<User> list = FXCollections.observableArrayList(users);
             this.setItems(list);
         }

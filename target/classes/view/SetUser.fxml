@@ -42,14 +42,14 @@
                   <TextField fx:id="mailAd" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label fx:id="mailDi" text="mail" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="Lieu de Travail" GridPane.rowIndex="4" />
-                  <ComboBox fx:id="placeAd" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label fx:id="placeDi" text="place" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <ComboBox fx:id="siteAd" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="siteDi" text="site" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                </children>
             </GridPane>
             <HBox alignment="TOP_CENTER" spacing="50.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#validate" text="Valider" />
-                  <Button mnemonicParsing="false" onAction="#back" text="Annuler" />
+                  <Button fx:id="valid" mnemonicParsing="false" onAction="#validate" text="Valider" />
+                  <Button fx:id="cancel" mnemonicParsing="false" onAction="#back" text="Annuler" />
                </children>
             </HBox>
          </children>
