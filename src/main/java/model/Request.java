@@ -24,21 +24,33 @@ import org.json.simple.parser.ParseException;
 public class Request {
     private String site = "http://localhost:3000";
     private String link;
-    private HttpURLConnection conn;
+    public HttpURLConnection conn;
 
     public Request(String meth, String page){
         link = site + page;
         try {
             URL url = new URL(link);
             conn = (HttpURLConnection) url.openConnection();
-            if(meth.equals("post")){
+            if(meth.toUpperCase().equals("POST")){
                 //conn.setDoInput(true);
                 conn.setDoOutput(true);
                 //conn.setRequestProperty("Content-Type", "x-www-form-urlencoded");
                 //conn.setRequestProperty("Content-Type", "application/json");
                 //conn.setRequestProperty("charset", "utf-8");
+<<<<<<< HEAD
                 conn.setRequestMethod("POST");
             } else{
+=======
+                //conn.setRequestProperty("Accept", "application/json");
+                //conn.setRequestMethod("POST");
+            }
+            else if(meth.toUpperCase().equals("DELETE")){
+                conn.setDoOutput(true);
+                conn.setRequestMethod("DELETE");
+                conn.connect();
+            }
+            else{
+>>>>>>> refs/remotes/origin/master
                 conn.setRequestMethod("GET");
                 conn.connect();
             }
@@ -54,6 +66,7 @@ public class Request {
 
     }
 
+<<<<<<< HEAD
     public ArrayList<User> getUsers(){
         ArrayList<User> users = new ArrayList<>();
         try {
@@ -226,4 +239,6 @@ public class Request {
     }
 
 
+=======
+>>>>>>> refs/remotes/origin/master
 }

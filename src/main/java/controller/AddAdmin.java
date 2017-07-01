@@ -44,9 +44,13 @@ public class AddAdmin implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Request re = new Request("get","/users/all");
+<<<<<<< HEAD
         users = re.getUsers();
         setTable();
     }
+=======
+        //users = re.getUsers();
+>>>>>>> refs/remotes/origin/master
 
     public void setTable(){
         name.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {

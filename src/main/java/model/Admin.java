@@ -8,4 +8,9 @@ public class Admin {
     private int idUser;
 
     public Admin(){}
+
+
+
+    // NE SERS A RIEN
+
 }
