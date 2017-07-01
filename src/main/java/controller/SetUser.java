@@ -48,10 +48,10 @@ public class SetUser implements Initializable {
     private TextField mailAd;
 
     @FXML
-    private Label placeDi;
+    private Label siteDi;
 
     @FXML
-    private ComboBox<Site> placeAd;
+    private ComboBox<Site> siteAd;
 
     @FXML
     private Button valid;
@@ -71,9 +71,9 @@ public class SetUser implements Initializable {
             choice();
         }
         Request req = new Request("get", "/site/");
-        placeAd.getItems().addAll(req.getSites());
+        siteAd.getItems().addAll(req.getSites());
 
-        placeAd.setConverter(new StringConverter() {
+        siteAd.setConverter(new StringConverter() {
             @Override
             public String toString(Object object) {
                 Site site = (Site) object;
@@ -98,7 +98,7 @@ public class SetUser implements Initializable {
             String strDate = dateFormat.format(date);
             user.setBirth(strDate);
             user.setMail(mailAd.getText());
-            user.setPlace(placeAd.getSelectionModel().getSelectedItem());
+            user.setSite(siteAd.getSelectionModel().getSelectedItem());
 
 
             if (edit == edit.ADD){
@@ -148,8 +148,8 @@ public class SetUser implements Initializable {
         LocalDate date = LocalDate.parse(user.getBirth(), format);
         dateAd.setValue(date);
         mailAd.setText(user.getMail());
-        placeAd.getItems().addAll();
-        placeAd.getSelectionModel().select(user.getPlace());
+        siteAd.getItems().addAll();
+        siteAd.getSelectionModel().select(user.getSite());
 
         setForm(true);
         setDisp(false);
@@ -162,7 +162,7 @@ public class SetUser implements Initializable {
         firstDi.setText(user.getFirst());
         dateDi.setText(user.getBirth());
         mailDi.setText(user.getMail());
-        placeDi.setText(user.getPlace().getName());
+        siteDi.setText(user.getSite().getName());
 
         setForm(false);
         setDisp(true);
@@ -176,7 +176,7 @@ public class SetUser implements Initializable {
         firstAd.setVisible(b);
         dateAd.setVisible(b);
         mailAd.setVisible(b);
-        placeAd.setVisible(b);
+        siteAd.setVisible(b);
     }
 
     public void setDisp(boolean b){
@@ -184,7 +184,7 @@ public class SetUser implements Initializable {
         firstDi.setVisible(b);
         dateDi.setVisible(b);
         mailDi.setVisible(b);
-        placeDi.setVisible(b);
+        siteDi.setVisible(b);
     }
 
     public User getUser() {

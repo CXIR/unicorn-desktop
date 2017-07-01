@@ -1,5 +1,7 @@
 package model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 
 /**
@@ -11,25 +13,59 @@ public class User {
     private String first;
     private String birth;
     private String mail;
-    private Site place;
-    private String namePlace;
+    private String pass;
+    private String desc;
+    private String phone;
+    private Site site;
+    private String nameSite;
     private Status status;
     private String nameStatus;
+    private BooleanProperty admin = new SimpleBooleanProperty();
+    private BooleanProperty superAd = new SimpleBooleanProperty();
+    private Ride ride;
 
     public User(){
     }
 
-    public User(int id, String name, String first, String birth, String mail, Site place, Status status){
+    public User(int id, String name, String first, String birth, String mail, ){
         this.id = id;
         this.name = name;
         this.first = first;
         this.birth = birth;
         this.mail = mail;
-        this.place = place;
-        this.namePlace = place.getName();
+        this.site = site;
+        this.nameSite = site.getName();
         this.status = status;
         this.nameStatus = status.getStatus();
+        if (nameStatus.equals("admin")){
+            setAdmin(true);
+        }
+        else if (nameStatus.equals("super admin")){
+            setSuperAd(true);
+        }
+        this.ride = ride;
     }
+    /*public User(int id, String name, String first, String birth, String mail, String pass, String phone, String desc, Site site, Status status, Ride ride){
+        this.id = id;
+        this.name = name;
+        this.first = first;
+        this.birth = birth;
+        this.mail = mail;
+        this.pass = pass;
+        this.desc = desc;
+        this.phone = phone;
+        this.site = site;
+        this.nameSite = site.getName();
+        this.status = status;
+        this.nameStatus = status.getStatus();
+        if (nameStatus.equals("admin")){
+            setAdmin(true);
+        }
+        else if (nameStatus.equals("super admin")){
+            setSuperAd(true);
+        }
+        this.ride = ride;
+    }*/
 
     public int getId() {
         return id;
@@ -71,16 +107,40 @@ public class User {
         this.mail = mail;
     }
 
-    public Site getPlace() {
-        return place;
+    public String getPass() {
+        return pass;
     }
 
-    public void setPlace(Site place) {
-        this.place = place;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
-    public String getNamePlace() {
-        return place.getName();
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
+    }
+
+    public String getNameSite() {
+        return site.getName();
     }
 
     public Status getStatus() {
@@ -93,5 +153,37 @@ public class User {
 
     public String getNameStatus() {
         return nameStatus;
+    }
+
+    public boolean isAdmin() {
+        return admin.get();
+    }
+
+    public BooleanProperty adminProperty() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin.set(admin);
+    }
+
+    public boolean isSuperAd() {
+        return superAd.get();
+    }
+
+    public BooleanProperty superAdProperty() {
+        return superAd;
+    }
+
+    public void setSuperAd(boolean superAd) {
+        this.superAd.set(superAd);
+    }
+
+    public Ride getRide() {
+        return ride;
+    }
+
+    public void setRide(Ride ride) {
+        this.ride = ride;
     }
 }
