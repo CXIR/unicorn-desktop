@@ -37,15 +37,8 @@ public class Request {
                 //conn.setRequestProperty("Content-Type", "x-www-form-urlencoded");
                 //conn.setRequestProperty("Content-Type", "application/json");
                 //conn.setRequestProperty("charset", "utf-8");
-                //conn.setRequestProperty("Accept", "application/json");
-                //conn.setRequestMethod("POST");
-            }
-            else if(meth.equals("delete")){
-                conn.setDoOutput(true);
-                conn.setRequestMethod("DELETE");
-                conn.connect();
-            }
-            else{
+                conn.setRequestMethod("POST");
+            } else{
                 conn.setRequestMethod("GET");
                 conn.connect();
             }
@@ -78,26 +71,10 @@ public class Request {
                     Date da = Date.from(instant);
                     SimpleDateFormat form = new SimpleDateFormat("dd/MM/yyyy");
                     String date = form.format(da);
-
-                    /*Instant instant = Instant.parse(strdate);
-                    SimpleDateFormat form = new SimpleDateFormat("dd/MM/yyyy");
-                    String sr = form.format(instant);
-                    DateTimeFormatter format = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale.FRANCE).withZone(ZoneId.systemDefault());
-                    String da = format.format(instant);
-                    format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    LocalDate date = LocalDate.parse(da, format);
-                    System.out.println(sr);
-                    /*if(strdate.contains("Z")){
-                        Instant instant = Instant.parse(strdate);
-                        strdate = java.util.Date.from(instant).toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString();
-                    }
-                    //LocalDate date = new SimpleDateFormat("yyyy-MM-dd").parse(strdate);
-                    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.FRANCE);
-                    LocalDate date = LocalDate.parse(strdate, format);
-                    format = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE);
-                    date = LocalDate.parse(date.toString(), format);*/
                     int id = ((Long) json.get("id")).intValue();
-                    users.add(new User(id, json.get("lastname").toString(), json.get("firstname").toString(), date, json.get("mailAdress").toString(), new Site(1, json.get("password").toString(), "adress", "city", 456), new Status(1, "r")));
+                    //users.add(new User(id, json.get("lastname").toString(), json.get("firstname").toString(), date, json.get("mailAdress").toString(), json.get("password").toString(), json.get("phoneNumber").toString(), json.get("description").toString(), new Site(), new Status(), new Ride()));
+                    users.add(new User(id, json.get("lastname").toString(), json.get("firstname").toString(), date, json.get("mailAdress").toString(), json.get("password").toString()));
+
                 }
             }
             in.close();
@@ -132,8 +109,9 @@ public class Request {
                     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE);
                     LocalDate date = LocalDate.parse(strdate, format);
                     int id = ((Long) json.get("id")).intValue();
-                    User user = new User(id, json.get("lastname").toString(), json.get("firstname").toString(), date.toString(), json.get("mailAdress").toString(), new Site(1, json.get("password").toString(), "adress", "city", 456), new Status(1, "dssd"));
-                    return user;
+                    //User user = new User(id, json.get("lastname").toString(), json.get("firstname").toString(), date.toString(), json.get("mailAdress").toString(), json.get("password").toString(), json.get("phoneNumber").toString(), json.get("description").toString(), new Site(), new Status(), new Ride());
+                    //return user;
+                    return null;
                 }
                 System.out.println(line);
             }
@@ -158,24 +136,20 @@ public class Request {
         map.put("birth", "1993-03-25");
         map.put("mail", user.getMail());
         map.put("pass", "Test1234");
-
-        //byte[] postPar = param.getBytes(StandardCharsets.UTF_8);
         OutputStreamWriter writer = null;
         try {
             writer = new OutputStreamWriter(conn.getOutputStream());
             writer.write(getDataEncode(map));
             writer.flush();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String ligne;
-        while ((ligne = reader.readLine()) != null) {
-            System.out.println(ligne);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String ligne;
+            while ((ligne = reader.readLine()) != null) {
+                System.out.println(ligne);
+            }
         }
-    }catch (IOException e) {
+        catch (IOException e) {
             e.printStackTrace();
-        }/*finally{
-        try{writer.close();}catch(Exception e){}
-        try{reader.close();}catch(Exception e){}
-    }*/
+        }
     }
 
     public void removeUsers(){
