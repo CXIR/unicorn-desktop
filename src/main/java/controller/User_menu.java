@@ -34,9 +34,6 @@ public class User_menu {
 
     @FXML
     private void search(ActionEvent event) {
-        Loader load = new Loader("/view/Table.fxml", "RECHERCHER UN UTILISATEUR");
-        Table table = load.getLoader().getController();
-        table.setType("user");
-        table.load();
+        Loader load = new Loader("/view/table_user.fxml", "RECHERCHER UN UTILISATEUR");
     }
 }

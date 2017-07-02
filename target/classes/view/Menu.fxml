@@ -82,7 +82,7 @@
                            <Cursor fx:constant="HAND" />
                        </cursor>
                    </Label>
-                  <Label id="signal" fx:id="signal" onMouseClicked="#labelSignal" text="Signalement d'utilisateurs">
+                  <Label id="report" fx:id="report" onMouseClicked="#labelReport" text="Signalement d'utilisateurs">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

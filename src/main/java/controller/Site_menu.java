@@ -19,9 +19,6 @@ public class Site_menu {
 
     @FXML
     private void search(ActionEvent event) {
-        Loader load = new Loader("/view/Table.fxml", "RECHERCHER UN SITE");
-        Table table = load.getLoader().getController();
-        table.setType("site");
-        table.load();
+        new Loader("/view/table_site.fxml", "RECHERCHER UN SITE");
     }
 }

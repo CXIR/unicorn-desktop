@@ -40,7 +40,7 @@ public class Menu implements Initializable {
     protected Label vehicles;
 
     @FXML
-    protected Label signal;
+    protected Label report;
 
     @FXML
     protected Label param;
@@ -90,12 +90,12 @@ public class Menu implements Initializable {
 
     @FXML
     private void labelVehicles(MouseEvent event) {
-        new Loader("/view/setVehicle.fxml", "GESTION DES VEHICULES");
+        new Loader("/view/table_vehicle.fxml", "GESTION DES VEHICULES");
     }
 
     @FXML
-    private void labelSignal(MouseEvent event) {
-        new Loader("/view/Site.fxml", "GESTION DES SITES");
+    private void labelReport(MouseEvent event) {
+        new Loader("/view/table_report.fxml", "SIGNALEMENTS DES UTILISATEURS");
     }
 
     @FXML

@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import model.Request;
 import model.Site;
@@ -22,6 +23,9 @@ import java.util.ResourceBundle;
 public class SetUser implements Initializable {
     private Enumeration edit;
     private User user;
+
+    @FXML
+    private GridPane grid;
 
     @FXML
     private Label nameDi;
@@ -48,6 +52,12 @@ public class SetUser implements Initializable {
     private TextField mailAd;
 
     @FXML
+    private Label desc;
+
+    @FXML
+    private Label phone;
+
+    @FXML
     private Label siteDi;
 
     @FXML
@@ -58,6 +68,9 @@ public class SetUser implements Initializable {
 
     @FXML
     private Button cancel;
+
+    @FXML
+    private Button suppr;
 
     public void setEdit(Enumeration edit){
         this.edit = edit;
@@ -70,12 +83,8 @@ public class SetUser implements Initializable {
         if(edit != null){
             choice();
         }
-        Request req = new Request("get", "/site/");
-<<<<<<< HEAD
-        siteAd.getItems().addAll(req.getSites());
-=======
-        //placeAd.getItems().addAll(req.getSites());
->>>>>>> refs/remotes/origin/master
+        Site site = new Site();
+        siteAd.getItems().addAll(site.getSites());
 
         siteAd.setConverter(new StringConverter() {
             @Override
@@ -93,31 +102,23 @@ public class SetUser implements Initializable {
 
     @FXML
     private void validate(ActionEvent event) {
-        System.out.println(nameAd.getText());
         if (edit == edit.ADD || edit == edit.CHANGE){
             user.setLastname(nameAd.getText());
             user.setFirstname(firstAd.getText());
             Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-<<<<<<< HEAD
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String strDate = dateFormat.format(date);
-            user.setBirth(strDate);
-            user.setMail(mailAd.getText());
-            user.setSite(siteAd.getSelectionModel().getSelectedItem());
-=======
+            /*SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String strDate = dateFormat.format(date);*/
             user.setBirthdate(date);
             user.setMailAdress(mailAd.getText());
-            user.setSite(placeAd.getSelectionModel().getSelectedItem());
->>>>>>> refs/remotes/origin/master
+            user.setSite(siteAd.getSelectionModel().getSelectedItem());
 
 
             if (edit == edit.ADD){
-                /*dateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                user.setBirthdate(date);
-                Request req = new Request("post", "/users/new");
-                req.putUser(user);*/
+                user.createUser();
             }
             else{
+                System.out.println(user.getFirstname());
+                user.updateUser();
                 /*dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 user.setBirth(dateFormat.format(date));
                 Request req = new Request("post", "/users/modify/" + user.getId());
@@ -135,6 +136,11 @@ public class SetUser implements Initializable {
     @FXML
     private void back(ActionEvent event) {
         new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");
+    }
+
+    @FXML
+    public void delete(ActionEvent event){
+        user.deleteUser();
     }
 
     public void choice(){
@@ -156,17 +162,11 @@ public class SetUser implements Initializable {
         firstAd.setText(user.getFirstname());
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Date dt =  user.getBirthdate();
-        LocalDate date = LocalDate.from(dt.toInstant());
+        LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         dateAd.setValue(date);
-<<<<<<< HEAD
-        mailAd.setText(user.getMail());
+        mailAd.setText(user.getMailAdress());
         siteAd.getItems().addAll();
         siteAd.getSelectionModel().select(user.getSite());
-=======
-        mailAd.setText(user.getMailAdress());
-        placeAd.getItems().addAll();
-        placeAd.getSelectionModel().select(user.getSite());
->>>>>>> refs/remotes/origin/master
 
         setForm(true);
         setDisp(false);
@@ -175,19 +175,13 @@ public class SetUser implements Initializable {
     }
 
     public void display(){
-<<<<<<< HEAD
-        nameDi.setText(user.getName());
-        firstDi.setText(user.getFirst());
-        dateDi.setText(user.getBirth());
-        mailDi.setText(user.getMail());
-        siteDi.setText(user.getSite().getName());
-=======
         nameDi.setText(user.getLastname());
         firstDi.setText(user.getFirstname());
-        dateDi.setText(user.getBirthdate().toString());
+        dateDi.setText(user.getStrDate());
         mailDi.setText(user.getMailAdress());
-        placeDi.setText(user.getSite().getName());
->>>>>>> refs/remotes/origin/master
+        siteDi.setText(user.getSite().getName());
+        desc.setText(user.getDescription());
+        phone.setText(user.getPhoneNumber());
 
         setForm(false);
         setDisp(true);
@@ -197,19 +191,25 @@ public class SetUser implements Initializable {
     }
 
     public void setForm(boolean b){
+        grid.setVgap(30);
         nameAd.setVisible(b);
         firstAd.setVisible(b);
         dateAd.setVisible(b);
         mailAd.setVisible(b);
         siteAd.setVisible(b);
+        desc.setVisible(b);
+        phone.setVisible(b);
     }
 
     public void setDisp(boolean b){
+        grid.setVgap(15);
         nameDi.setVisible(b);
         firstDi.setVisible(b);
         dateDi.setVisible(b);
         mailDi.setVisible(b);
         siteDi.setVisible(b);
+        desc.setVisible(b);
+        phone.setVisible(b);
     }
 
     public User getUser() {

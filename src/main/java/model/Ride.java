@@ -1,10 +1,8 @@
 package model;
-
-<<<<<<< HEAD
 /**
  * Created by Micka on 30/06/2017.
  */
-public class Ride {
+/*public class Ride {
     private int id;
     private String ad_date;
     private String ad_mess;
@@ -24,7 +22,7 @@ public class Ride {
         this.depart_postal = depart_postal;
         this.depart_city = depart_city;
     }
-=======
+    */
 import java.util.Date;
 
 /**
@@ -54,7 +52,11 @@ public class Ride {
     //Passager
     private User[] passengers;
 
->>>>>>> refs/remotes/origin/master
+    public Ride(){}
+
+    public Ride(int id){
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -64,55 +66,6 @@ public class Ride {
         this.id = id;
     }
 
-<<<<<<< HEAD
-    public String getAd_date() {
-        return ad_date;
-    }
-
-    public void setAd_date(String ad_date) {
-        this.ad_date = ad_date;
-    }
-
-    public String getAd_mess() {
-        return ad_mess;
-    }
-
-    public void setAd_mess(String ad_mess) {
-        this.ad_mess = ad_mess;
-    }
-
-    public String getDepart_date() {
-        return depart_date;
-    }
-
-    public void setDepart_date(String depart_date) {
-        this.depart_date = depart_date;
-    }
-
-    public String getDepart_adres() {
-        return depart_adres;
-    }
-
-    public void setDepart_adres(String depart_adres) {
-        this.depart_adres = depart_adres;
-    }
-
-    public String getDepart_postal() {
-        return depart_postal;
-    }
-
-    public void setDepart_postal(String depart_postal) {
-        this.depart_postal = depart_postal;
-    }
-
-    public String getDepart_city() {
-        return depart_city;
-    }
-
-    public void setDepart_city(String depart_city) {
-        this.depart_city = depart_city;
-    }
-=======
     public Date getAdd_date() {
         return add_date;
     }
@@ -219,8 +172,4 @@ public class Ride {
 
 
     //GET TRAJETS POUR 1 USER (PAST AND FUTUR)
-
-
-
->>>>>>> refs/remotes/origin/master
 }

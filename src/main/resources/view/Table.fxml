@@ -7,18 +7,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<Group xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Table">
-   <children>
+<Group xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" >
+   <!--<children>
       <VBox fx:id="box" prefHeight="205.0" prefWidth="423.0" spacing="30.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+            <HBox spacing="20.0">
                <children>
-                  <TextField />
-                  <Button mnemonicParsing="false" text="Rechercher" />
-                  <ComboBox prefWidth="150.0" />
+                  <TextField fx:id="txt" />
+                  <Button mnemonicParsing="false" onAction="#search" text="Rechercher" />
+                  <Button mnemonicParsing="false" onAction="#cancel" text="Annuler" />
+                  <ComboBox disable="true" visible="false" />
                </children>
             </HBox>
          </children>
       </VBox>
-   </children>
+   </children>-->
 </Group>

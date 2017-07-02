@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Group xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.SetVehicle">
+<Group xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.Table_vehicle">
     <children>
         <VBox prefHeight="267.0" prefWidth="388.0" spacing="30.0">
             <children>
@@ -18,9 +18,12 @@
                 </HBox>
                 <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                        <TableColumn fx:id="name" prefWidth="168.0" text="Name" />
-                        <TableColumn id="col" fx:id="admin" prefWidth="105.0" text="Admin" />
-                        <TableColumn id="col" fx:id="superAd" prefWidth="114.0" text="Super Admin" />
+                        <TableColumn fx:id="user" prefWidth="168.0" text="Nom" />
+                        <TableColumn id="col" fx:id="brand" prefWidth="105.0" text="Marque" />
+                        <TableColumn id="col" fx:id="model" prefWidth="114.0" text="Modèle" />
+                        <TableColumn id="col" fx:id="registr" prefWidth="105.0" text="Numéro d'enregistrement" />
+                        <TableColumn id="col" fx:id="place" prefWidth="105.0" text="Nombre de places" />
+                        <TableColumn id="col" fx:id="type" prefWidth="105.0" text="Type de Véhicule" />
                     </columns>
                 </TableView>
             </children>

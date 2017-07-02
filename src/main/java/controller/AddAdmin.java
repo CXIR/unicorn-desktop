@@ -43,21 +43,19 @@ public class AddAdmin implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Request re = new Request("get","/users/all");
-<<<<<<< HEAD
-        users = re.getUsers();
+        /*Request re = new Request("get","/users/all");
+        users = re.getUsers();*/
+        User users = new User();
+        this.users = users.getUsers();
         setTable();
     }
-=======
-        //users = re.getUsers();
->>>>>>> refs/remotes/origin/master
 
     public void setTable(){
         name.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
                 if (param.getValue() != null){
-                    return new SimpleStringProperty(param.getValue().getName() + " " + param.getValue().getFirst());
+                    return new SimpleStringProperty(param.getValue().getFirstname() + " " + param.getValue().getLastname());
                 }
                 return null;
             }
@@ -71,7 +69,7 @@ public class AddAdmin implements Initializable {
                 return new CheckBoxTableCell<User,Boolean>() {
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
-                        super.updateItem( item, empty );
+                        super.updateItem(item, empty);
                         if (!empty) {
                             TableRow  row = getTableRow();
 
@@ -85,7 +83,7 @@ public class AddAdmin implements Initializable {
                                 else{
                                     param.getTableView().getItems().get(rowNo).setAdmin(false);
                                 }
-                                Request req = new Request("post", "/users/modify/" + param.getTableView().getItems().get(rowNo).getId());
+                                //Request req = new Request("post", "/users/modify/" + param.getTableView().getItems().get(rowNo).getId());
                             }
                         }
                     }
@@ -101,7 +99,7 @@ public class AddAdmin implements Initializable {
                 return new CheckBoxTableCell<User,Boolean>() {
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
-                        super.updateItem( item, empty );
+                        super.updateItem(item, empty);
                         if (!empty) {
                             TableRow  row = getTableRow();
 
