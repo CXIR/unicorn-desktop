@@ -2,21 +2,26 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.*;
-
-import java.io.IOException;
+import javafx.util.StringConverter;
+import model.Request;
+import model.Site;
+import model.User;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
  * Created by Micka on 27/03/2017.
  */
-public class SetUser {
-    private Menu menu;
-    private String edit;
+public class SetUser implements Initializable {
+    private Enumeration edit;
+    private User user;
 
     @FXML
     private Label nameDi;
@@ -46,7 +51,7 @@ public class SetUser {
     private Label placeDi;
 
     @FXML
-    private ComboBox placeAd;
+    private ComboBox<Site> placeAd;
 
     @FXML
     private Button valid;
@@ -54,113 +59,138 @@ public class SetUser {
     @FXML
     private Button cancel;
 
-    public void setEdit(String edit){
+    public void setEdit(Enumeration edit){
         this.edit = edit;
     }
 
 
-    /*@FXML
-    public void initialize(){
-        if(edit.equals("change")){
-            change();
+    @Override
+    public void initialize(URL url, ResourceBundle re){
+        user = new User();
+        if(edit != null){
+            choice();
         }
-        else if(edit.equals("display")){
-            display();
-        }
-    }*/
+        Request req = new Request("get", "/site/");
+        //placeAd.getItems().addAll(req.getSites());
+
+        placeAd.setConverter(new StringConverter() {
+            @Override
+            public String toString(Object object) {
+                Site site = (Site) object;
+                return site.getName();
+            }
+
+            @Override
+            public Object fromString(String string) {
+                return null;
+            }
+        });
+    }
 
     @FXML
     private void validate(ActionEvent event) {
-        switch (edit){
-            case "add":
+        System.out.println(nameAd.getText());
+        if (edit == edit.ADD || edit == edit.CHANGE){
+            user.setLastname(nameAd.getText());
+            user.setFirstname(firstAd.getText());
+            Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            user.setBirthdate(date);
+            user.setMailAdress(mailAd.getText());
+            user.setSite(placeAd.getSelectionModel().getSelectedItem());
 
-                break;
 
-            case "change":
-                edit = "display";
-                display();
-                break;
-
-            case "display":
-                edit = "change";
-                change();
-                break;
+            if (edit == edit.ADD){
+                /*dateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                user.setBirthdate(date);
+                Request req = new Request("post", "/users/new");
+                req.putUser(user);*/
+            }
+            else{
+                /*dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                user.setBirth(dateFormat.format(date));
+                Request req = new Request("post", "/users/modify/" + user.getId());
+                req.putUser(user);*/
+            }
+            setEdit(edit.DISPLAY);
+            display();
         }
-
-        /*try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/User.fxml"));
-            Group group = (Group) loader.load();
-            User controller = loader.getController();
-            controller.setMenu(menu);
-            menu.fillPane(group, "GESTION DES UTILISATEURS");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        else{
+            setEdit(edit.CHANGE);
+            change();
+        }
     }
 
     @FXML
     private void back(ActionEvent event) {
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/User.fxml"));
-            Group group = (Group) loader.load();
-            User controller = loader.getController();
-            controller.setMenu(menu);
-            menu.fillPane(group, "GESTION DES UTILISATEURS");
-        } catch (IOException e) {
-            e.printStackTrace();
+        new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");
+    }
+
+    public void choice(){
+        switch(edit){
+            case ADD:
+                break;
+            case CHANGE:
+                change();
+                break;
+            case DISPLAY:
+                display();
+                break;
         }
     }
 
-    public void change(){
-        changeForm(nameAd, nameDi);
-        changeForm(firstAd, firstDi);
-        changeForm(mailAd, mailDi);
 
-        //dateAd.setValue(LocalDate(dateDi.getText()));
-        dateDi.setVisible(true);
-        dateAd.setVisible(false);
-        placeAd.setValue(placeDi.getText());
-        placeDi.setVisible(true);
-        placeAd.setVisible(false);
+    public void change(){
+        nameAd.setText(user.getLastname());
+        firstAd.setText(user.getFirstname());
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        Date dt =  user.getBirthdate();
+        LocalDate date = LocalDate.from(dt.toInstant());
+        dateAd.setValue(date);
+        mailAd.setText(user.getMailAdress());
+        placeAd.getItems().addAll();
+        placeAd.getSelectionModel().select(user.getSite());
+
+        setForm(true);
+        setDisp(false);
+        valid.setText("Valider");
+        cancel.setText("Annuler");
     }
 
     public void display(){
-        changeForm(nameAd, nameDi);
-        changeForm(firstAd, firstDi);
-        changeForm(mailAd, mailDi);
+        nameDi.setText(user.getLastname());
+        firstDi.setText(user.getFirstname());
+        dateDi.setText(user.getBirthdate().toString());
+        mailDi.setText(user.getMailAdress());
+        placeDi.setText(user.getSite().getName());
 
-        dateDi.setText(dateAd.toString());
-        dateDi.setVisible(true);
-        dateAd.setVisible(false);
-        placeDi.setText(placeAd.getPromptText());
-        placeDi.setVisible(true);
-        placeAd.setVisible(false);
+        setForm(false);
+        setDisp(true);
+
+        valid.setText("Modifier");
+        cancel.setText("Précédent");
     }
 
-    public void changeForm(TextField text, Label label){
-        switch (edit){
-            case "add":
-                text.setVisible(true);
-                label.setVisible(false);
-                break;
-            case "change":
-                text.setText(label.getText());
-                text.setVisible(true);
-                label.setVisible(false);
-                break;
-            case "display":
-                if(text.getText() != null){
-                    label.setText(text.getText());
-                }
-                text.setVisible(false);
-                label.setVisible(true);
-                break;
-        }
+    public void setForm(boolean b){
+        nameAd.setVisible(b);
+        firstAd.setVisible(b);
+        dateAd.setVisible(b);
+        mailAd.setVisible(b);
+        placeAd.setVisible(b);
     }
 
-    public void setMenu(Menu menu){
-        this.menu = menu;
+    public void setDisp(boolean b){
+        nameDi.setVisible(b);
+        firstDi.setVisible(b);
+        dateDi.setVisible(b);
+        mailDi.setVisible(b);
+        placeDi.setVisible(b);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

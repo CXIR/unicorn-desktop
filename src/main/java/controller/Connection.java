@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import model.Main;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,17 +44,6 @@ public class Connection implements Initializable {
     @FXML
     private void buttonConn(ActionEvent event) throws IOException {
         if(login.getText().equals("admin") && pass.getText().equals("1234")){
-            /*Stage stage;
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/controller.Menu.fxml"));
-            AnchorPane pane = (AnchorPane) loader.load();
-            loader.setController(new controller.Menu());
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(pane, stage.getWidth(), stage.getHeight());
-            stage.setScene(scene);
-            stage.setFullScreen(true);
-            stage.centerOnScreen();
-            stage.show();*/
             main.sample();
 
         }

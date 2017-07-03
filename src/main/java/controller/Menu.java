@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -12,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import model.Main;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,11 +19,7 @@ import java.util.ResourceBundle;
  */
 public class Menu implements Initializable {
     protected Main main;
-    protected static Menu menu;
-
-    public Menu(){
-        this.menu = this;
-    }
+    public static Menu menu;
 
     @FXML
     protected Label title;
@@ -62,6 +56,7 @@ public class Menu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        menu = this;
         //pane2.prefWidthProperty().bind(split.widthProperty());
         //split.lookupAll(".split-pane-divider").stream().forEach(div ->  div.setMouseTransparent(true) );
         //split.setDividerPositions(0.2204);
@@ -69,72 +64,27 @@ public class Menu implements Initializable {
 
     @FXML
     private void labelHome(MouseEvent event) {
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/Home.fxml"));
-            Group group = (Group) loader.load();
-            Home controller = loader.getController();
-            controller.setMenu(this);
-            fillPane(group, "PARTAGE TA CAISSE");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/Home.fxml", "PARTAGE TA CAISSE");
     }
 
     @FXML
     private void labelUsers(MouseEvent event) {
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/User.fxml"));
-            Group group = (Group) loader.load();
-            User controller = loader.getController();
-            controller.setMenu(this);
-            fillPane(group, "GESTION DES UTILISATEURS");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/User.fxml","GESTION DES UTILISATEURS");
     }
 
     @FXML
     private void labelAdmins(MouseEvent event) {
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/Admin.fxml"));
-            Group group = (Group) loader.load();
-            Admin controller = loader.getController();
-            controller.setMenu(this);
-            fillPane(group, "GESTION DES ADMINISTRATEURS");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/AddAdmin.fxml", "GESTION DES ADMINISTRATEURS");
     }
 
     @FXML
     private void labelSites(MouseEvent event) {
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/Site.fxml"));
-            Group group = (Group) loader.load();
-            Site controller = loader.getController();
-            controller.setMenu(this);
-            fillPane(group, "GESTION DES SITES");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/Site.fxml", "GESTION DES SITES");
     }
 
     @FXML
     private void labelParam(MouseEvent event) {
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/Logins.fxml"));
-            Group group = (Group) loader.load();
-            Logins controller = loader.getController();
-            controller.setMenu(this);
-            fillPane(group, "PARAMÈTRE");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/Logins.fxml", "PARAMÈTRE");
     }
 
     @FXML
@@ -146,7 +96,7 @@ public class Menu implements Initializable {
         this.main = main;
     }
 
-    public Group change(String file){
+    /*public Group change(String file){
         try {
             FXMLLoader loader  = new FXMLLoader();
             loader.setLocation(getClass().getResource(file));
@@ -156,14 +106,14 @@ public class Menu implements Initializable {
             classe.getSuperclass() view.controller = loader.getController();
             view.controller.setMenu(this);*/
             //Class c = loader.getController();
-            return group;
+            //return group;
             //fillPane(group, title);
-        } catch (IOException e) {
+        /*} catch (IOException e) {
             throw new IllegalStateException("Erreur fichier FXML");
         } /*catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }*/
-    }
+        }
+    }*/
 
     public void fillPane(Group group, String titre) {
         pane.getChildren().clear();

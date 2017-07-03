@@ -2,8 +2,6 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,17 +12,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import model.Main;
-
+import model.ReadFile;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Created by mickael.afonso on 07/04/2017.
  */
-public class DragAndDrop {
-    private Menu menu;
-    private ArrayList<String> nameList = new ArrayList<String>();
+public class DragAndDrop extends Menu {
+    private ArrayList<File> files = new ArrayList<File>();
+
     @FXML
     private Label name;
 
@@ -43,7 +40,7 @@ public class DragAndDrop {
         fileChooser.setTitle("Sélectionner le fichier");
         File file = fileChooser.showOpenDialog(Main.primaryStage);
         if(file != null){
-            String extension = file.getName().substring(file.getName().indexOf('.') + 1,file.getName().length());
+            //String extension = file.getName().substring(file.getName().indexOf('.') + 1,file.getName().length());
 
         }
     }
@@ -62,13 +59,13 @@ public class DragAndDrop {
         Dragboard db = event.getDragboard();
         if(db.hasFiles()){
             name.setText("");
-            nameList.clear();
+            files.clear();
             for (File file : db.getFiles()) {
-                String extension = file.getName().substring(file.getName().indexOf('.') + 1,file.getName().length());
-                System.out.println(extension);
-                if(extension.equals("txt") || extension.equals("xml")){
-                    nameList.add(file.getName());
-                    name.setText(file.getName());
+                //String extension = file.getName().substring(file.getName().indexOf('.') + 1,file.getName().length());
+                String ext = extension(file);
+                if(ext.equals("txt") || ext.equals("xml") || ext.equals("csv")){
+                    files.add(file);
+                    name.setText(name.getText() + ", " + file.getName());
                 }
                 else{
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -83,33 +80,20 @@ public class DragAndDrop {
 
     @FXML
     private void validate(ActionEvent event){
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/User.fxml"));
-            Group group = (Group) loader.load();
-            User controller = loader.getController();
-            controller.setMenu(menu);
-            menu.fillPane(group, "GESTION DES UTILISATEURS");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(files != null){
+            for(File file : files){
+                ReadFile read = new ReadFile(file, extension(file));
+            }
         }
+        new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");
     }
 
     @FXML
     private void cancel(ActionEvent event){
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/User.fxml"));
-            Group group = (Group) loader.load();
-            User controller = loader.getController();
-            controller.setMenu(menu);
-            menu.fillPane(group, "GESTION DES UTILISATEURS");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");
     }
 
-    public void setMenu(Menu menu){
-        this.menu = menu;
+    public String extension(File file){
+        return file.getName().substring(file.getName().indexOf('.') + 1,file.getName().length());
     }
 }

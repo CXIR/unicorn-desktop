@@ -31,6 +31,7 @@ public class Main extends Application {
             pane = (AnchorPane) loader.load();
             Connection control = loader.getController();
             control.setMain(this);
+
             scene = new Scene(pane);
             primaryStage.setScene(scene);
             //primaryStage.setFullScreen(true);
@@ -52,8 +53,8 @@ public class Main extends Application {
             pane = (AnchorPane) loader.load();
             Menu control = loader.getController();
             control.setMain(this);
+
             scene = new Scene(pane);
-            //scene.getStylesheets().add(getClass().getResource("/css/Style.css").toString());
             primaryStage.setScene(scene);
             primaryStage.setMinHeight(650);
             primaryStage.setMinWidth(1000);
