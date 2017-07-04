@@ -26,9 +26,9 @@ public class Report {
         this.message = message;
         this.plaintiff = plaintiff;
         this.reported = reported;
-
-        if (reported.getStatus().getId() != 0){
-            if (reported.getStatus().getLabel().equals("bloqued")){
+        System.out.println(reported.getLastname());
+        if (reported.getStatus() != null) {
+            if (reported.getStatus().getId() == 4) {
                 setBloqued(true);
             }
         }
@@ -76,20 +76,20 @@ public class Report {
 
     public void setBloqued(boolean bloqued) {
         this.bloqued.set(bloqued);
-        if (bloqued == true){
+        /*if (bloqued == true){
             if (reported.getStatus().getId() != 0){
                 reported.setStatus(new Status());
-                reported.updateStatus();
+                reported.updateStatus(4);
             }
             else{
                 for (Status status : reported.getStatus().getAllStatus()){
-                    if (status.getLabel().equals("bloqued")){
+                    if (status.getId() == 4){
                         this.reported.setStatus(status);
-                        reported.updateStatus();
+                        reported.updateStatus(1);
                     }
                 }
             }
-        }
+        }*/
     }
 
     public ArrayList<Report> getReports(){
@@ -111,13 +111,13 @@ public class Report {
                 String message = jsonObject.get("message").toString();
 
                 User plaintiff = new User();
-                if (jsonObject.get("plaintiff") != null){
-                    plaintiff = plaintiff.getUser(jsonObject.get("plaintiff"));
+                if (jsonObject.get("Plaintiff") != null){
+                    plaintiff = plaintiff.getUser(jsonObject.get("Plaintiff"));
                 }
 
                 User reported = new User();
-                if (jsonObject.get("reported") != null){
-                    reported = plaintiff.getUser(jsonObject.get("reported"));
+                if (jsonObject.get("Reported") != null){
+                    reported = plaintiff.getUser(jsonObject.get("Reported"));
                 }
 
                 reports.add(new Report(idReport, message, plaintiff, reported));

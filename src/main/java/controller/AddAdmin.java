@@ -43,8 +43,6 @@ public class AddAdmin implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /*Request re = new Request("get","/users/all");
-        users = re.getUsers();*/
         User users = new User();
         this.users = users.getUsers();
         setTable();
@@ -74,14 +72,17 @@ public class AddAdmin implements Initializable {
                             TableRow  row = getTableRow();
 
                             if (row != null) {
-                                int rowNo = row.getIndex();
-                                TableView.TableViewSelectionModel select = getTableView().getSelectionModel();
+                                User user = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
-                                    param.getTableView().getItems().get(rowNo).setAdmin(true);
-                                    param.getTableView().getItems().get(rowNo).setSuperAd(false);
+                                    user.setAdmin(true);
+                                    user.setSuperAd(false);
+                                    user.updateStatus(2);
                                 }
                                 else{
-                                    param.getTableView().getItems().get(rowNo).setAdmin(false);
+                                    user.setAdmin(false);
+                                    if (!user.isSuperAd()) {
+                                        user.updateStatus(1);
+                                    }
                                 }
                                 //Request req = new Request("post", "/users/modify/" + param.getTableView().getItems().get(rowNo).getId());
                             }
@@ -104,14 +105,17 @@ public class AddAdmin implements Initializable {
                             TableRow  row = getTableRow();
 
                             if (row != null) {
-                                int rowNo = row.getIndex();
-                                TableView.TableViewSelectionModel select = getTableView().getSelectionModel();
+                                User user = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
-                                    param.getTableView().getItems().get(rowNo).setAdmin(false);
-                                    param.getTableView().getItems().get(rowNo).setSuperAd(true);
+                                    user.setAdmin(false);
+                                    user.setSuperAd(true);
+                                    user.updateStatus(3);
                                 }
                                 else{
-                                    param.getTableView().getItems().get(rowNo).setSuperAd(false);
+                                    user.setSuperAd(false);
+                                    if (!user.isAdmin()){
+                                        user.updateStatus(1);
+                                    }
                                 }
                             }
                         }
@@ -119,6 +123,17 @@ public class AddAdmin implements Initializable {
                 };
             }
         } );
+
+        table.setRowFactory(param -> new TableRow<User>() {
+            @Override
+            public void updateItem(User item, boolean empty) {
+                super.updateItem(item, empty);
+                int row = param.getItems().indexOf(item);
+                if (param.getItems().get(row).getStatus().getId() == 4){
+                    param.getItems().remove(item);
+                }
+            }
+        });
 
         if(this.users != null){
             ObservableList<User> list = FXCollections.observableArrayList(users);

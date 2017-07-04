@@ -85,13 +85,14 @@ public class Table_report implements Initializable {
                             TableRow  row = getTableRow();
 
                             if (row != null) {
-                                int rowNo = row.getIndex();
-                                //TableView.TableViewSelectionModel select = getTableView().getSelectionModel();
+                                Report report = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
-                                    param.getTableView().getItems().get(rowNo).setBloqued(true);
+                                    report.setBloqued(true);
+                                    report.getReported().updateStatus(4);
                                 }
                                 else{
-                                    param.getTableView().getItems().get(rowNo).setBloqued(false);
+                                    report.setBloqued(false);
+                                    report.getReported().updateStatus(1);
                                 }
                                 //Request req = new Request("post", "/users/modify/" + param.getTableView().getItems().get(rowNo).getId());
                             }

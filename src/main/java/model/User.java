@@ -66,12 +66,13 @@ public class User {
         this.site = site;
         this.status = status;
 
+        System.out.println(lastname);
         if (status != null) {
             if (status.getId() != 0) {
                 this.nameStatus = status.getLabel();
-                if (nameStatus.equals("admin")) {
+                if (status.getId() == 2) {
                     setAdmin(true);
-                } else if (nameStatus.equals("super admin")) {
+                } else if (status.getId() == 3) {
                     setSuperAd(true);
                 }
             }
@@ -200,7 +201,7 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin.set(admin);
-        if (admin == true){
+        /*if (admin == true){
             if (status.getId() != 0){
                 status = new Status();
                 updateStatus();
@@ -213,10 +214,7 @@ public class User {
                     }
                 }
             }
-        }
-
-        //status.setLabel("admin");
-        //updateStatus(true);
+        }*/
     }
 
     public boolean isSuperAd() {
@@ -229,7 +227,7 @@ public class User {
 
     public void setSuperAd(boolean superAd) {
         this.superAd.set(superAd);
-        if (superAd == true){
+        /*if (superAd == true){
             if (status.getId() != 0){
                 status = new Status();
                 updateStatus();
@@ -242,7 +240,7 @@ public class User {
                     }
                 }
             }
-        }
+        }*/
     }
 
     public Ride[] getRides() {
@@ -410,8 +408,8 @@ public class User {
         json.put("birth", birthdate.toInstant().toString());
         json.put("mail", mailAdress);
         json.put("pass", password);
-        json.put("site", site.jsonSite());
-        //json.put("status", status.jsonStatus());
+        json.put("site", getStatus().getId());
+        json.put("status", getSite().getId());
         return json;
     }
 
@@ -428,14 +426,14 @@ public class User {
     }
 
     //Update Status
-    public void updateStatus(){
+    public void updateStatus(int status){
         String method = "POST";
         String page = "/users/edit/status";
         Request req = new Request(method, page);
         JSONObject json = new JSONObject();
         json.put("user", String.valueOf(id));
 
-        json.put("status", String.valueOf(status.getId()));
+        json.put("status", String.valueOf(status));
         req.post(json);
     }
 

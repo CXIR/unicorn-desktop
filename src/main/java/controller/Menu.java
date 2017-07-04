@@ -63,6 +63,7 @@ public class Menu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         menu = this;
+
         //pane2.prefWidthProperty().bind(split.widthProperty());
         //split.lookupAll(".split-pane-divider").stream().forEach(div ->  div.setMouseTransparent(true) );
         //split.setDividerPositions(0.2204);

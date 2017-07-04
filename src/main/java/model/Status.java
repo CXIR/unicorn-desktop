@@ -91,7 +91,7 @@ public class Status {
         return status;
     }
 
-    /*public void createStatus(){
+    public void createStatus(){
         String method = "POST";
         String page = "/status/new";
         Request req = new Request(method, page);
@@ -112,6 +112,6 @@ public class Status {
         }
         json.put("label", label);
         return json;
-    }*/
+    }
 
 }
