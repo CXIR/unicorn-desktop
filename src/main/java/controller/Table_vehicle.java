@@ -48,6 +48,9 @@ public class Table_vehicle implements Initializable {
     @FXML
     private TableColumn<Vehicle, String> type;
 
+    @FXML
+    private TableColumn<Vehicle, Boolean> valid;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Vehicle vehicles = new Vehicle();
@@ -76,13 +79,42 @@ public class Table_vehicle implements Initializable {
 
         type.setCellValueFactory(new PropertyValueFactory<>("vehicleType"));
 
+        valid.setCellValueFactory(new PropertyValueFactory<>("isOK"));
+
+        valid.setCellFactory( new Callback<TableColumn<Vehicle,Boolean>, TableCell<Vehicle,Boolean>>() {
+            @Override
+            public TableCell<Vehicle,Boolean> call( TableColumn<Vehicle,Boolean> param ) {
+                return new CheckBoxTableCell<Vehicle,Boolean>() {
+                    @Override
+                    public void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty) {
+                            TableRow  row = getTableRow();
+
+                            if (row != null) {
+                                Vehicle vehicle = param.getTableView().getItems().get(row.getIndex());
+                                if (item){
+                                    vehicle.setIsOK(true);
+                                    //vehicle.updateValid();
+                                }
+                                else{
+                                    vehicle.setIsOK(false);
+                                    //vehicle.updateValid();
+                                }
+                            }
+                        }
+                    }
+                };
+            }
+        } );
+
         if(this.vehicles != null){
             ObservableList<Vehicle> list = FXCollections.observableArrayList(vehicles);
             table.setItems(list);
         }
 
         table.setEditable(true);
-
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
     }
 

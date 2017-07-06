@@ -48,7 +48,11 @@ public class AddAdmin implements Initializable {
         setTable();
     }
 
+    /**
+     * Set the data to put on the table
+     */
     public void setTable(){
+        //On récupère l'objet user pour retourner son nom et son prénom
         name.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
@@ -61,6 +65,10 @@ public class AddAdmin implements Initializable {
 
         admin.setCellValueFactory(new PropertyValueFactory<>("admin"));
 
+        /**
+         * Convertir la valeur boolean des cellules en checkbox
+         * si
+         */
         admin.setCellFactory( new Callback<TableColumn<User,Boolean>, TableCell<User,Boolean>>() {
             @Override
             public TableCell<User,Boolean> call( TableColumn<User,Boolean> param ) {
@@ -128,9 +136,11 @@ public class AddAdmin implements Initializable {
             @Override
             public void updateItem(User item, boolean empty) {
                 super.updateItem(item, empty);
-                int row = param.getItems().indexOf(item);
-                if (param.getItems().get(row).getStatus().getId() == 4){
-                    param.getItems().remove(item);
+                if (item != null){
+                    int row = param.getItems().indexOf(item);
+                    if (param.getItems().get(row).getStatus().getId() == 4){
+                        param.getItems().remove(item);
+                    }
                 }
             }
         });

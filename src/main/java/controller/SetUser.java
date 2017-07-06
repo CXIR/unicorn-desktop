@@ -160,7 +160,6 @@ public class SetUser implements Initializable {
     public void change(){
         nameAd.setText(user.getLastname());
         firstAd.setText(user.getFirstname());
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Date dt =  user.getBirthdate();
         LocalDate date = dt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         dateAd.setValue(date);

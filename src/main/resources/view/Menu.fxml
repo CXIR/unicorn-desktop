@@ -116,7 +116,7 @@
             </VBox>
             <BorderPane fx:id="pane" prefHeight="698.0" prefWidth="708.0" style="-fx-background-color: white;">
                <center>
-                     <Rectangle fx:id="rect" arcHeight="30.0" arcWidth="30.0" fill="#a9cef2" height="461.0" stroke="#6f6f6f" strokeType="INSIDE" width="557.0" BorderPane.alignment="CENTER">
+                     <Rectangle fx:id="rect" arcHeight="30.0" arcWidth="30.0" fill="#a9cef2" height="550.0" stroke="#6f6f6f" strokeType="INSIDE" width="800.0" BorderPane.alignment="CENTER">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX" color="#5b5151" radius="16.6725" spread="0.03" width="47.69" />
                      </effect>

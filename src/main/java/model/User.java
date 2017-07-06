@@ -66,7 +66,6 @@ public class User {
         this.site = site;
         this.status = status;
 
-        System.out.println(lastname);
         if (status != null) {
             if (status.getId() != 0) {
                 this.nameStatus = status.getLabel();
@@ -111,6 +110,10 @@ public class User {
         this.birthdate = birthdate;
     }
 
+    /**
+     * Get the birthdate with the format dd/MM/yyyy
+     * @return
+     */
     public String getStrDate() {
         if (birthdate != null){
             SimpleDateFormat form = new SimpleDateFormat("dd/MM/yyyy");
@@ -201,20 +204,6 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin.set(admin);
-        /*if (admin == true){
-            if (status.getId() != 0){
-                status = new Status();
-                updateStatus();
-            }
-            else{
-                for (Status status : status.getAllStatus()){
-                    if (status.getLabel().equals("admin")){
-                        this.status = status;
-                        updateStatus();
-                    }
-                }
-            }
-        }*/
     }
 
     public boolean isSuperAd() {
@@ -227,20 +216,6 @@ public class User {
 
     public void setSuperAd(boolean superAd) {
         this.superAd.set(superAd);
-        /*if (superAd == true){
-            if (status.getId() != 0){
-                status = new Status();
-                updateStatus();
-            }
-            else{
-                for (Status status : status.getAllStatus()){
-                    if (status.getLabel().equals("superAdmin")){
-                        this.status = status;
-                        updateStatus();
-                    }
-                }
-            }
-        }*/
     }
 
     public Ride[] getRides() {
@@ -256,8 +231,11 @@ public class User {
         return form.format(birthdate);
     }
 
-    //GET USER
-    //Récupère le JSon
+    /**
+     * GET ALL USERS
+     * Call the method get to have a Json Object
+     * @return a list of users
+     */
     public User getUser(String id){
         String method = "GET";
         String page = "/users/" + id;
@@ -265,6 +243,12 @@ public class User {
         return getUser(req.get());
     }
 
+    /**
+     * GET USER
+     * split the json object to get user informations
+     * @param object who will be cast to a json
+     * @return
+     */
     public User getUser(Object object){
         if (object != null){
             JSONObject jsonObject = (JSONObject) object;
@@ -319,7 +303,11 @@ public class User {
         return null;
     }
 
-    //GET ALL USERS
+    /**
+     * GET ALL USERS
+     * Call the method get to have a Json Object
+     * @return a list of users
+     */
     public ArrayList<User> getUsers() {
         String method = "GET";
         String page = "/users/all";
@@ -327,6 +315,11 @@ public class User {
         return getUsers(req.get());
     }
 
+    /**
+     * split the json object to get user informations
+     * @param object who will be cast to a json
+     * @return return a list of users to the getUsers method
+     */
     public ArrayList<User> getUsers(Object object){
         ArrayList<User> users = new ArrayList<>();
 
@@ -382,7 +375,10 @@ public class User {
         return users;
     }
 
-    //CREATE USER
+    /**
+     * CREATE USER
+     * Call the method post to Input the user in the database
+     */
     public void createUser() {
         String method = "POST";
         String page = "/users/new";
@@ -390,7 +386,10 @@ public class User {
         req.post(jsonUser(false));
     }
 
-    //UPDATE USER
+    /**
+     * UPDATE USER
+     *
+     */
     public void updateUser(){
         String method = "POST";
         String page = "/users/edit/";
@@ -413,33 +412,38 @@ public class User {
         return json;
     }
 
-    //Update Site
+    /**
+     * UPDATE SITE
+     * Call the method post to update site of the user
+     */
     public void updateSite(){
         String method = "POST";
         String page = "/users/edit/site";
         Request req = new Request(method, page);
         JSONObject json = new JSONObject();
         json.put("user", String.valueOf(id));
-
         json.put("site", String.valueOf(site.getId()));
         req.post(json);
     }
 
-    //Update Status
+    /**
+     * UPDATE STATUS
+     * @param status the idStatus
+     */
     public void updateStatus(int status){
         String method = "POST";
         String page = "/users/edit/status";
         Request req = new Request(method, page);
         JSONObject json = new JSONObject();
         json.put("user", String.valueOf(id));
-
         json.put("status", String.valueOf(status));
         req.post(json);
     }
 
-    //Update Rating
-
-    //DELETE USER
+    /**
+     * DELETE USER
+     * Call the request DELETE with the user id
+     */
     public void deleteUser(){
         String method = "DELETE";
         String page = "/users/" + id;
