@@ -1,0 +1,13 @@
+.split-pane-divider {
+    -fx-padding: 0 1 0 1;
+    visibility: false;
+}
+
+.button{
+    -fx-font-weight: bold;
+    -fx-background-color: azure;
+    -fx-background-radius: 5,5,4;
+    -fx-background-insets: 0 0 -1 0,0,1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-cursor: hand;
+}

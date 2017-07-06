@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<Group xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAdmin">
+   <children>
+      <VBox prefHeight="267.0" prefWidth="388.0" spacing="30.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+               <children>
+                  <TextField />
+                  <Button mnemonicParsing="false" text="Rechercher" />
+               </children>
+            </HBox>
+            <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="name" prefWidth="168.0" text="Name" />
+                <TableColumn fx:id="admin" prefWidth="105.0" text="Admin" />
+                  <TableColumn fx:id="superAd" prefWidth="114.0" text="Super Admin" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</Group>

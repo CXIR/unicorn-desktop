@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" stylesheets="/css/Style.css" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Menu">
+   <children>
+      <SplitPane dividerPositions="0.2204" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>
+            <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="268.0" spacing="30.0" style="-fx-background-color: dodgerblue;" SplitPane.resizableWithParent="false">
+               <children>
+                     <ImageView fitHeight="59.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="/images/Logo_TV_2015.png" />
+                        </image>
+                     <VBox.margin>
+                        <Insets bottom="30.0" top="10.0" />
+                     </VBox.margin>
+                     </ImageView>
+                     <Label id="home" fx:id="home" onMouseClicked="#labelHome" text="ACCUEIL">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                        <opaqueInsets>
+                           <Insets right="1.0" />
+                        </opaqueInsets>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets bottom="50.0" />
+                     </VBox.margin>
+                     </Label>
+                     <Label id="users" fx:id="users" onMouseClicked="#labelUsers" text="Gestion des utilisateurs">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     </Label>
+                     <Label id="admins" fx:id="admins" onMouseClicked="#labelAdmins" text="Gestion des administrateurs">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     </Label>
+                     <Label id="sites" fx:id="sites" onMouseClicked="#labelSites" text="Gestion des sites">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     </Label>
+                     <Label id="param" fx:id="param" onMouseClicked="#labelParam" text="Paramètres">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                        </font>
+                     <cursor>
+                           <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                     </Label>
+                     <Label id="offline" fx:id="offline" onMouseClicked="#labelOff" text="Déconnexion">
+                        <font>
+                           <Font name="System Bold" size="12.0" />
+                              </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     </Label>
+               </children>
+            </VBox>
+            <BorderPane fx:id="pane" prefHeight="698.0" prefWidth="708.0" style="-fx-background-color: white;">
+               <center>
+                     <Rectangle fx:id="rect" arcHeight="30.0" arcWidth="30.0" fill="#a9cef2" height="461.0" stroke="#6f6f6f" strokeType="INSIDE" width="557.0" BorderPane.alignment="CENTER">
+                     <effect>
+                        <DropShadow blurType="ONE_PASS_BOX" color="#5b5151" radius="16.6725" spread="0.03" width="47.69" />
+                     </effect>
+                  </Rectangle>
+               </center>
+               <top>
+                     <Label id="title" fx:id="title" alignment="CENTER" prefHeight="35.0" prefWidth="644.0" text="PARTAGE TA CAISSE" BorderPane.alignment="CENTER">
+                        <font>
+                           <Font name="System Bold" size="22.0" />
+                        </font>
+                     <BorderPane.margin>
+                        <Insets top="20.0" />
+                     </BorderPane.margin>
+                     </Label>
+               </top>
+            </BorderPane>
+         </items>
+      </SplitPane>
+      </children>
+</AnchorPane>
