@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -27,7 +28,7 @@ public class Ride {
     private User driver;
 
     //Passager
-    private User[] passengers;
+    private ArrayList<User> passengers = new ArrayList<User>();
 
 
     public int getId() {
@@ -134,12 +135,16 @@ public class Ride {
         this.driver = driver;
     }
 
-    public User[] getPassengers() {
+    public ArrayList<User> getPassengers() {
         return passengers;
     }
 
-    public void setPassengers(User[] passengers) {
+    public void setPassengers(ArrayList<User> passengers) {
         this.passengers = passengers;
+    }
+
+    public void setPassenger(User user){
+        this.passengers.add(user);
     }
 
 
