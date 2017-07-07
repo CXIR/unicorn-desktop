@@ -31,7 +31,6 @@
                         <TableColumn id="col" fx:id="place" editable="false" minWidth="110.0" prefWidth="-1.0" text="Nombre de places" />
                         <TableColumn id="col" fx:id="type" editable="false" minWidth="110.0" prefWidth="-1.0" text="Type de Véhicule" />
                         <TableColumn id="col" fx:id="valid" editable="true" minWidth="40.0" prefWidth="-1.0" text="Validé" />
-                  <TableColumn minWidth="40.0" prefWidth="-1.0" text="Validé" />
                     </columns>
                 </TableView>
             </children>
