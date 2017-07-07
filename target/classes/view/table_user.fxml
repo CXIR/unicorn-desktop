@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Group xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Table_user">
+    <children>
+        <VBox prefHeight="267.0" prefWidth="388.0" spacing="30.0">
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                    <children>
+                        <TextField fx:id="txt" />
+                        <Button mnemonicParsing="false" onAction="#search" text="Rechercher" />
+                        <Button mnemonicParsing="false" onAction="#cancel" text="Annuler" />
+                    </children>
+                </HBox>
+                <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                        <TableColumn fx:id="first" prefWidth="168.0" text="Prénom" />
+                        <TableColumn fx:id="name" prefWidth="168.0" text="Nom" />
+                        <TableColumn fx:id="birth" prefWidth="168.0" text="Date de naissance" />
+                        <TableColumn fx:id="mail" prefWidth="168.0" text="Mail" />
+                        <TableColumn fx:id="site" prefWidth="168.0" text="Lieu de Travail" />
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </children>
+</Group>
