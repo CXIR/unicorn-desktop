@@ -4,13 +4,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<Group xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Logins">
+<Group xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Logins">
    <children>
       <VBox alignment="CENTER" spacing="50.0">
          <children>
@@ -25,10 +26,11 @@
               </rowConstraints>
                <children>
                   <Label text="Login :" />
-                  <Label text="name" GridPane.columnIndex="1" />
+                  <Label fx:id="logDi" text="name" GridPane.columnIndex="1" />
+                  <TextField fx:id="logAd" GridPane.columnIndex="1" />
                   <Label text="Mot de Passe :" GridPane.rowIndex="1" />
-                  <Label fx:id="label" text="*****" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <PasswordField fx:id="pass" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="passDi" text="*****" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="passAd" onMouseClicked="#clearPass" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <HBox alignment="CENTER" spacing="50.0">

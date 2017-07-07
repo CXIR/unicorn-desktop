@@ -38,6 +38,12 @@ public class Menu implements Initializable {
     protected Label sites;
 
     @FXML
+    protected Label vehicles;
+
+    @FXML
+    protected Label report;
+
+    @FXML
     protected Label param;
 
     @FXML
@@ -58,9 +64,6 @@ public class Menu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         menu = this;
-        //pane2.prefWidthProperty().bind(split.widthProperty());
-        //split.lookupAll(".split-pane-divider").stream().forEach(div ->  div.setMouseTransparent(true) );
-        //split.setDividerPositions(0.2204);
     }
 
     @FXML
@@ -84,6 +87,16 @@ public class Menu implements Initializable {
     }
 
     @FXML
+    private void labelVehicles(MouseEvent event) {
+        new Loader("/view/table_vehicle.fxml", "GESTION DES VEHICULES");
+    }
+
+    @FXML
+    private void labelReport(MouseEvent event) {
+        new Loader("/view/table_report.fxml", "SIGNALEMENTS DES UTILISATEURS");
+    }
+
+    @FXML
     private void labelParam(MouseEvent event) {
         new Loader("/view/Logins.fxml", "PARAMÈTRE");
     }
@@ -91,30 +104,12 @@ public class Menu implements Initializable {
     @FXML
     private void labelOff(MouseEvent event) {
         main.connection();
+        Connection.account = null;
     }
 
     public void setMain(Main main){
         this.main = main;
     }
-
-    /*public Group change(String file){
-        try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource(file));
-            Group group = (Group) loader.load();
-            loader.getController();
-            /*classe view.controller = Class.forName(classe);
-            classe.getSuperclass() view.controller = loader.getController();
-            view.controller.setMenu(this);*/
-            //Class c = loader.getController();
-            //return group;
-            //fillPane(group, title);
-        /*} catch (IOException e) {
-            throw new IllegalStateException("Erreur fichier FXML");
-        } /*catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public void fillPane(Group group, String titre) {
         pane.getChildren().clear();

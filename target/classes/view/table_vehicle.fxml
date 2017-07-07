@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Table_vehicle">
+    <children>
+        <VBox maxHeight="550.0" maxWidth="750.0" spacing="30.0">
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                    <children>
+                        <TextField />
+                        <Button mnemonicParsing="false" text="Rechercher" />
+                    </children>
+                </HBox>
+                <TableView fx:id="table">
+                    <columns>
+                        <TableColumn fx:id="user" editable="false" minWidth="40.0" prefWidth="-1.0" text="Nom" />
+                        <TableColumn id="col" fx:id="brand" editable="false" minWidth="50.0" prefWidth="-1.0" text="Marque" />
+                        <TableColumn id="col" fx:id="model" editable="false" minWidth="50.0" prefWidth="-1.0" text="Modèle" />
+                        <TableColumn id="col" fx:id="registr" editable="false" minWidth="120.0" prefWidth="-1.0" text="N° d'enregistrement" />
+                        <TableColumn id="col" fx:id="place" editable="false" minWidth="110.0" prefWidth="-1.0" text="Nombre de places" />
+                        <TableColumn id="col" fx:id="type" editable="false" minWidth="110.0" prefWidth="-1.0" text="Type de Véhicule" />
+                        <TableColumn id="col" fx:id="valid" editable="true" minWidth="40.0" prefWidth="-1.0" text="Validé" />
+                  <TableColumn minWidth="40.0" prefWidth="-1.0" text="Validé" />
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </children>
+</Group>

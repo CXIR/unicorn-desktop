@@ -96,6 +96,7 @@ public class Request {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
 
     public Object getSingleResult(String className, HashMap<String,String[]> properties) throws ParseException {
         try {
@@ -193,4 +194,6 @@ public class Request {
         return null;
     }
 
+=======
+>>>>>>> master
 }

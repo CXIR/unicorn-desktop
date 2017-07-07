@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Created by mickael.afonso on 21/04/2017.
  */
@@ -67,17 +69,16 @@ public class SetSite implements Initializable {
         if (edit == edit.ADD || edit == edit.CHANGE){
             site.setName(nameAd.getText());
             site.setAddress(addAd.getText());
-            site.setPostal(postAd.getText());
+            site.setPostal(parseInt(postAd.getText()));
             site.setCity(cityAd.getText());
 
             if (edit == edit.ADD){
-                System.out.println(site.getName());
-                Request req = new Request("post", "/site/new");
-                //req.putSite(site);
+                site.createSite();
             }
             else{
                 Request req = new Request("post", "/site/modify/" + site.getId());
                 //req.putSite(site);
+                site.changeSite();
             }
             setEdit(edit.DISPLAY);
             display();
@@ -110,6 +111,7 @@ public class SetSite implements Initializable {
         nameAd.setText(site.getName());
         addAd.setText(site.getAddress());
         postAd.setText(String.valueOf(site.getPostal()));
+        cityAd.setText(site.getCity());
 
         setForm(true);
         setDisp(false);

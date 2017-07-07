@@ -2,6 +2,7 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,13 +14,17 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import model.Main;
 import model.ReadFile;
+import model.User;
+
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * Created by mickael.afonso on 07/04/2017.
  */
-public class DragAndDrop extends Menu {
+public class DragAndDrop implements Initializable {
     private ArrayList<File> files = new ArrayList<File>();
 
     @FXML
@@ -34,14 +39,20 @@ public class DragAndDrop extends Menu {
     @FXML
     private StackPane stack;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
     @FXML
     private void searchFile(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Sélectionner le fichier");
         File file = fileChooser.showOpenDialog(Main.primaryStage);
-        if(file != null){
-            //String extension = file.getName().substring(file.getName().indexOf('.') + 1,file.getName().length());
-
+        String ext = extension(file);
+        if(file != null && (ext.equals("txt") || ext.equals("csv"))){
+            files.add(file);
+            name.setText(name.getText() + ", " + file.getName());
         }
     }
 
@@ -61,9 +72,8 @@ public class DragAndDrop extends Menu {
             name.setText("");
             files.clear();
             for (File file : db.getFiles()) {
-                //String extension = file.getName().substring(file.getName().indexOf('.') + 1,file.getName().length());
                 String ext = extension(file);
-                if(ext.equals("txt") || ext.equals("xml") || ext.equals("csv")){
+                if(ext.equals("txt") || ext.equals("csv")){
                     files.add(file);
                     name.setText(name.getText() + ", " + file.getName());
                 }
@@ -78,11 +88,13 @@ public class DragAndDrop extends Menu {
         event.consume();
     }
 
+
     @FXML
     private void validate(ActionEvent event){
         if(files != null){
             for(File file : files){
                 ReadFile read = new ReadFile(file, extension(file));
+                read.read();
             }
         }
         new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");

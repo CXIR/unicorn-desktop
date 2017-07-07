@@ -1,6 +1,32 @@
 package model;
+/**
+ * Created by Micka on 30/06/2017.
+ */
+/*public class Ride {
+    private int id;
+    private String ad_date;
+    private String ad_mess;
+    private String depart_date;
+    private String depart_adres;
+    private String depart_postal;
+    private String depart_city;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+    public Ride(){}
+
+    public Ride(int id, String ad_date, String ad_mess, String depart_date, String depart_adres, String depart_postal, String depart_city){
+        this.id = id;
+        this.ad_date = ad_date;
+        this.ad_mess = ad_mess;
+        this.depart_date = depart_date;
+        this.depart_adres = depart_adres;
+        this.depart_postal = depart_postal;
+        this.depart_city = depart_city;
+    }
+    */
+>>>>>>> master
 import java.util.Date;
 
 /**
@@ -30,6 +56,11 @@ public class Ride {
     //Passager
     private ArrayList<User> passengers = new ArrayList<User>();
 
+    public Ride(){}
+
+    public Ride(int id){
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -149,7 +180,4 @@ public class Ride {
 
 
     //GET TRAJETS POUR 1 USER (PAST AND FUTUR)
-
-
-
 }
