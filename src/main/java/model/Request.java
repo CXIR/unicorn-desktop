@@ -29,21 +29,19 @@ public class Request {
     private String link;
     public HttpURLConnection conn;
 
-    public Request(String method, String path){
-        link = site + path;
+    public Request(String meth, String page){
+        link = site + page;
         try {
             URL url = new URL(link);
             conn = (HttpURLConnection) url.openConnection();
-            if(method.toUpperCase().equals("POST")){
-                //conn.setDoInput(true);
+            if(meth.toUpperCase().equals("POST")){
                 conn.setDoOutput(true);
                 //conn.setRequestProperty("Content-Type", "x-www-form-urlencoded");
-                //conn.setRequestProperty("Content-Type", "application/json");
-                //conn.setRequestProperty("charset", "utf-8");
-                //conn.setRequestProperty("Accept", "application/json");
-                //conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("charset", "utf-8");
+                conn.setRequestMethod("POST");
             }
-            else if(method.toUpperCase().equals("DELETE")){
+            else if(meth.toUpperCase().equals("DELETE")){
                 conn.setDoOutput(true);
                 conn.setRequestMethod("DELETE");
                 conn.connect();
@@ -62,6 +60,41 @@ public class Request {
             alert.showAndWait();
         }
 
+    }
+
+    public Object get(){
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = in.readLine();
+            if (line != null) {
+                JSONParser parser = new JSONParser();
+                Object obj = parser.parse(line);
+                //On retourne le Json parsé
+                return obj;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void post(JSONObject json){
+        OutputStreamWriter writer = null;
+        try {
+            writer = new OutputStreamWriter(conn.getOutputStream());
+            json.writeJSONString(writer);
+            writer.flush();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String ligne;
+            while ((ligne = reader.readLine()) != null) {
+                System.out.println(ligne);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Object getSingleResult(String className, HashMap<String,String[]> properties) throws ParseException {
@@ -139,7 +172,7 @@ public class Request {
                 }
                 else if(type == "Date"){
                     Class cls = type.getClass();
-                    Object param = Class.forName(cls.getName()).getConstructor(new Class[]{Date.class}).newInstance(Date.parse(value);
+                    Object param = Class.forName(cls.getName()).getConstructor(new Class[]{Date.class}).newInstance(Date.from(Instant.parse(value)));
                     f.set(obj,param);
                 }
             }
