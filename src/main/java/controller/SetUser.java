@@ -84,7 +84,7 @@ public class SetUser implements Initializable {
             choice();
         }
         Site site = new Site();
-        siteAd.getItems().addAll(site.getSites());
+        //siteAd.getItems().addAll(site.getSites());
 
         siteAd.setConverter(new StringConverter() {
             @Override

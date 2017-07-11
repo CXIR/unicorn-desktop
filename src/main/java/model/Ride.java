@@ -1,65 +1,55 @@
 package model;
-/**
- * Created by Micka on 30/06/2017.
- */
-/*public class Ride {
-    private int id;
-    private String ad_date;
-    private String ad_mess;
-    private String depart_date;
-    private String depart_adres;
-    private String depart_postal;
-    private String depart_city;
 
-<<<<<<< HEAD
+import org.json.simple.parser.ParseException;
 import java.util.ArrayList;
-=======
-    public Ride(){}
-
-    public Ride(int id, String ad_date, String ad_mess, String depart_date, String depart_adres, String depart_postal, String depart_city){
-        this.id = id;
-        this.ad_date = ad_date;
-        this.ad_mess = ad_mess;
-        this.depart_date = depart_date;
-        this.depart_adres = depart_adres;
-        this.depart_postal = depart_postal;
-        this.depart_city = depart_city;
-    }
-    */
->>>>>>> master
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by aimee on 30/06/2017.
  */
+
 public class Ride {
-    private int id;
-    private Date add_date;
+    protected int id;
+    protected Date add_date;
 
-    //Départ
-    private Date depature_date;
-    private String depature_adress;
-    private String depature_postalCode;
-    private String depature_city;
-    private int depature_idsite = 0;
+    protected Date depature_date;
+    protected String depature_adress;
+    protected String depature_postalCode;
+    protected String depature_city;
+    protected Site departure;
 
-    //Arrivée
-    private Date arrival_date;
-    private String arrival_adress;
-    private String arrival_postalCode;
-    private String arrival_city;
-    private int arrival_idsite = 0;
+    protected Date arrival_date;
+    protected String arrival_adress;
+    protected String arrival_postalCode;
+    protected String arrival_city;
+    protected Site arrival;
 
-    //Conducteur
-    private User driver;
+    protected User driver;
 
-    //Passager
-    private ArrayList<User> passengers = new ArrayList<User>();
+    protected ArrayList<User> passengers = new ArrayList<User>();
 
     public Ride(){}
 
-    public Ride(int id){
-        this.id = id;
+    /** HashMap which contains this Class properties with types */
+    public HashMap<String,String> getProperties(){
+        HashMap<String,String> map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("add_date","Date");
+        map.put("depature_date","Date");
+        map.put("depature_adress","String");
+        map.put("depature_postalCode","String");
+        map.put("depature_city","String");
+        map.put("departure","Site");
+        map.put("arrival_date","Date");
+        map.put("arrival_adress","String");
+        map.put("arrival_postalCode","String");
+        map.put("arrival_city","String");
+        map.put("arrival","Site");
+        map.put("driver","User");
+
+        return map;
     }
 
     public int getId() {
@@ -110,14 +100,6 @@ public class Ride {
         this.depature_city = depature_city;
     }
 
-    public int getDepature_idsite() {
-        return depature_idsite;
-    }
-
-    public void setDepature_idsite(int depature_idsite) {
-        this.depature_idsite = depature_idsite;
-    }
-
     public Date getArrival_date() {
         return arrival_date;
     }
@@ -150,14 +132,6 @@ public class Ride {
         this.arrival_city = arrival_city;
     }
 
-    public int getArrival_idsite() {
-        return arrival_idsite;
-    }
-
-    public void setArrival_idsite(int arrival_idsite) {
-        this.arrival_idsite = arrival_idsite;
-    }
-
     public User getDriver() {
         return driver;
     }
@@ -178,6 +152,32 @@ public class Ride {
         this.passengers.add(user);
     }
 
+    /**GET SINGLE RIDE */
+    public Object getRide(int id) throws ParseException{
+        Request request = new Request("GET","/ride/"+id);
+        return request.getSingleResult("Ride");
+    }
 
-    //GET TRAJETS POUR 1 USER (PAST AND FUTUR)
+    /** GET ALL RIDES */
+    public ArrayList<Object> getRides() throws ParseException{
+        return null;
+    }
+
+    /** Object to String Method*/
+    @Override
+    public String toString(){
+        return this.id+" "
+        +this.add_date+" "
+        +this.depature_date+" "
+        +this.depature_adress+" "
+        +this.depature_postalCode+" "
+        +this.depature_city+" "
+        +this.departure.toString()+" "
+        +this.arrival_date+" "
+        +this.arrival_adress+" "
+        +this.arrival_postalCode+" "
+        +this.arrival_city+" "
+        +this.arrival.toString()+" "
+        +this.driver.toString();
+    }
 }

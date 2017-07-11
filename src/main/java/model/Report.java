@@ -112,12 +112,12 @@ public class Report {
 
                 User plaintiff = new User();
                 if (jsonObject.get("Plaintiff") != null){
-                    plaintiff = plaintiff.getUser(jsonObject.get("Plaintiff"));
+                    //plaintiff = plaintiff.getUser(jsonObject.get("Plaintiff"));
                 }
 
                 User reported = new User();
                 if (jsonObject.get("Reported") != null){
-                    reported = plaintiff.getUser(jsonObject.get("Reported"));
+                    //reported = plaintiff.getUser(jsonObject.get("Reported"));
                 }
 
                 reports.add(new Report(idReport, message, plaintiff, reported));

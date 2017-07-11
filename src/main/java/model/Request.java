@@ -3,14 +3,9 @@ package model;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.*;
 
 import javafx.scene.control.Alert;
@@ -96,9 +91,8 @@ public class Request {
             e.printStackTrace();
         }
     }
-<<<<<<< HEAD
 
-    public Object getSingleResult(String className, HashMap<String,String[]> properties) throws ParseException {
+    public Object getSingleResult(String className) throws ParseException {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(this.conn.getInputStream()));
             String line = in.readLine();
@@ -109,11 +103,7 @@ public class Request {
                 Object obj = parser.parse(line);
                 JSONObject single = (JSONObject)obj;
 
-                for(HashMap.Entry<String,String[]> entry : properties.entrySet()){
-                    entry.getValue()[1] = single.get(entry.getKey().toString()).toString();
-                }
-
-                return createObject(className,properties);
+                return createObject(className,single);
             }
         }
         catch (IOException e) {
@@ -122,7 +112,7 @@ public class Request {
         return null;
     }
 
-    public ArrayList<Object> getMultipleResults(String className, HashMap<String,String[]> properties) throws ParseException{
+    public ArrayList<Object> getMultipleResults(String className) throws ParseException{
         ArrayList<Object> results = new ArrayList<>();
 
         try {
@@ -135,8 +125,9 @@ public class Request {
                 Object obj = parser.parse(line);
                 JSONArray array = (JSONArray)obj;
 
-                for(Object elem : array){
-                    results.add(createObject(className,properties));
+                for(int i = 0; i < array.size(); i++){
+                    JSONObject elem = (JSONObject)array.get(i);
+                    results.add(createObject(className,elem));
                 }
 
                 return results;
@@ -148,36 +139,57 @@ public class Request {
         return null;
     }
 
-    private Object createObject(String className, HashMap<String,String[]> properties){
+    private Object createObject(String className,JSONObject elem){
         try {
-            Class<?> _class = Class.forName(className);
+            String hauptklasse = "model."+className;
+            Class<?> _class = Class.forName(hauptklasse);
             Object obj = _class.newInstance();
 
-            for (HashMap.Entry<String,String[]> entry : properties.entrySet()) {
+            Method prop =  _class.getMethod("getProperties");
+            Object o =  prop.invoke(obj);
+
+            HashMap<String,String> properties = (HashMap<String,String>)o;
+
+            for(HashMap.Entry<String,String> entry : properties.entrySet()){
                 String attribute = entry.getKey();
-                String type = entry.getValue()[0];
-                String value = entry.getValue()[1];
+                String type = entry.getValue();
 
-                Field f = _class.getDeclaredField(attribute);
+                if(elem.get(entry.getKey()) instanceof JSONObject){
+                    JSONObject object = (JSONObject)elem.get(entry.getKey());
+                    Object association = createObject(type,object);
 
-                if(type == "String"){
-                    Class cls = type.getClass();
-                    Object param = Class.forName(cls.getName()).getConstructor(new Class[]{String.class}).newInstance(value);
-                    f.set(obj,param);
+                    Field f = _class.getDeclaredField(attribute);
+                    f.set(obj,association);
                 }
-                else if(type == "int"){
-                    f.setInt(obj,Integer.parseInt(value));
+                else if(elem.get(entry.getKey()) instanceof String){
+                    String value = (String)elem.get(entry.getKey());
+                    Field f = _class.getDeclaredField(attribute);
+
+                    if(type == "String"){
+                        Class cls = type.getClass();
+                        Object param = Class.forName(cls.getName()).getConstructor(new Class[]{String.class}).newInstance(value);
+                        f.set(obj,param);
+                    }
+                    else if(type == "boolean"){
+                        f.setBoolean(obj,Boolean.parseBoolean(value));
+                    }
+                    else if(type == "Date"){
+                        Date date = Date.from(Instant.parse(value));
+                        f.set(obj,date);
+                    }
                 }
-                else if(type == "boolean"){
-                    f.setBoolean(obj,Boolean.parseBoolean(value));
-                }
-                else if(type == "Date"){
-                    Class cls = type.getClass();
-                    Object param = Class.forName(cls.getName()).getConstructor(new Class[]{Date.class}).newInstance(Date.from(Instant.parse(value)));
-                    f.set(obj,param);
+                else if(elem.get(entry.getKey()) instanceof Long){
+                    Long value = (Long)elem.get(entry.getKey());
+                    Field f = _class.getDeclaredField(attribute);
+
+                    if(type == "int"){
+                        f.setInt(obj,Integer.parseInt(value.toString()));
+                    }
                 }
             }
+
             return obj;
+
         } catch (NoSuchMethodException e1) {
             e1.printStackTrace();
         } catch (InstantiationException e1) {
@@ -193,7 +205,4 @@ public class Request {
         }
         return null;
     }
-
-=======
->>>>>>> master
 }

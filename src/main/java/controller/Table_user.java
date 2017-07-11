@@ -48,7 +48,7 @@ public class Table_user implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         User users = new User();
-        this.users = users.getUsers();
+        //this.users = users.getUsers();
         setTable();
     }
 

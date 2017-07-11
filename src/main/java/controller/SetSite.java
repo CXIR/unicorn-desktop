@@ -69,7 +69,7 @@ public class SetSite implements Initializable {
         if (edit == edit.ADD || edit == edit.CHANGE){
             site.setName(nameAd.getText());
             site.setAddress(addAd.getText());
-            site.setPostal(parseInt(postAd.getText()));
+            site.setPostal(postAd.getText());
             site.setCity(cityAd.getText());
 
             if (edit == edit.ADD){
