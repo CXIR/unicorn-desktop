@@ -6,11 +6,10 @@
 
 <Group xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.User_menu">
    <children>
-      <VBox alignment="CENTER" spacing="50.0">
+      <VBox fx:id="box" alignment="CENTER" spacing="50.0">
          <children>
             <Button fx:id="btn1" mnemonicParsing="false" onAction="#newUser" prefHeight="40.0" text="Ajouter un utilisateur" />
-            <Button fx:id="btn2" mnemonicParsing="false" onAction="#newUsers" prefHeight="40.0" text="Ajouter des utilisateurs" />
-            <Button fx:id="btn3" mnemonicParsing="false" onAction="#search" prefHeight="40.0" text="Rechercher un utilisateur" />
+            <Button fx:id="btn2" mnemonicParsing="false" onAction="#search" prefHeight="40.0" text="Rechercher un utilisateur" />
          </children>
       </VBox>
    </children>

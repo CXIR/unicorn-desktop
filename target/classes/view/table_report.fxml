@@ -19,10 +19,10 @@
                 </HBox>
                 <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                        <TableColumn fx:id="reported" prefWidth="168.0" text="Nom du Signalé" />
-                        <TableColumn fx:id="plaintiff" prefWidth="168.0" text="Nom du Signaleur" />
-                        <TableColumn id="col" fx:id="message" prefWidth="105.0" text="Commentaire" />
-                        <TableColumn id="col" fx:id="bloqued" prefWidth="114.0" text="Bloquer" />
+                        <TableColumn fx:id="reported" editable="false" prefWidth="168.0" text="Nom du Signalé" />
+                        <TableColumn fx:id="plaintiff" editable="false" prefWidth="168.0" text="Nom du Signaleur" />
+                        <TableColumn id="col" fx:id="message" editable="false" prefWidth="105.0" text="Commentaire" />
+                        <TableColumn id="col" fx:id="bloqued" editable="true" prefWidth="114.0" text="Bloquer" />
                     </columns>
                 </TableView>
             </children>

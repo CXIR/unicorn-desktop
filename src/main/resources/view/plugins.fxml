@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Group xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Plugins">
+    <children>
+        <VBox fx:id="box" alignment="CENTER" spacing="50.0">
+            <children>
+                <Button fx:id="btn1" mnemonicParsing="false" onAction="#dad" prefHeight="40.0" text="Drag And Drop" />
+            </children>
+        </VBox>
+    </children>
+</Group>

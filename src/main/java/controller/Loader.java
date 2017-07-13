@@ -2,6 +2,8 @@ package controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import model.User;
+
 import java.io.IOException;
 
 /**
