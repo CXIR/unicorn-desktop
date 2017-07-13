@@ -153,13 +153,17 @@ public class Ride {
     }
 
     /**GET SINGLE RIDE */
-    public Object getRide(int id) throws ParseException{
+    public Ride getRide(int id) throws ParseException{
         Request request = new Request("GET","/ride/"+id);
-        return request.getSingleResult("Ride");
+        Object ride = request.getSingleResult("Ride");
+
+        if(ride instanceof Ride) return (Ride)ride;
+        return null;
     }
 
     /** GET ALL RIDES */
-    public ArrayList<Object> getRides() throws ParseException{
+    public ArrayList<Ride> getRides() throws ParseException{
+        Request request = new Request("GET","/ride/");
         return null;
     }
 

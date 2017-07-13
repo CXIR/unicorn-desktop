@@ -2,6 +2,7 @@ package model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +20,18 @@ public class Vehicle {
     protected int placesNumber;
     protected String vehicleType;
     protected BooleanProperty isOK = new SimpleBooleanProperty();
+    protected User user;
 
     public Vehicle(){ }
 
-    public Vehicle(int id, String brand, String model, String registrationNumber, int placesNumber, String vehicleType, boolean isOK, User user){
+    public Vehicle(int id,
+                   String brand,
+                   String model,
+                   String registrationNumber,
+                   int placesNumber,
+                   String vehicleType,
+                   boolean isOK,
+                   User user){
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -30,6 +39,7 @@ public class Vehicle {
         this.placesNumber = placesNumber;
         this.vehicleType = vehicleType;
         setIsOK(isOK);
+        this.user = user;
     }
 
     /** HashMap which contains this Class properties with types */
@@ -113,14 +123,39 @@ public class Vehicle {
     }
 
     /** Get All Vehicle */
-    public ArrayList<Object> getVehicles() throws ParseException{
+    public ArrayList<Vehicle> getVehicles() throws ParseException{
         Request request = new Request("GET", "/vehicle/");
-        return request.getMultipleResults("Vehicle");
+        ArrayList<Object> raw = request.getMultipleResults("Vehicle");
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+
+        for(Object elem : raw){
+            if(elem instanceof Vehicle){
+                vehicles.add((Vehicle)elem);
+            }
+        }
+
+        return vehicles;
     }
 
     /** Get Single Vehicle */
-    public Object getVehicle(int id) throws ParseException{
+    public Vehicle getVehicle(int id) throws ParseException{
         Request request = new Request("GET","/vehicle/"+id);
-        return request.getSingleResult("Vehicle");
+        Object vehicle = request.getSingleResult("Vehicle");
+
+        if(vehicle instanceof Vehicle) return (Vehicle)vehicle;
+        return null;
+    }
+
+    /** Transform this Object into JSONObject */
+    public JSONObject jsonUser(boolean update){
+        JSONObject json = new JSONObject();
+        json.put("brand",this.brand);
+        json.put("model",this.model);
+        json.put("registration",this.registrationNumber);
+        json.put("seats",this.placesNumber);
+        json.put("type",this.vehicleType);
+        json.put("user",this.user.getId());
+
+        return json;
     }
 }

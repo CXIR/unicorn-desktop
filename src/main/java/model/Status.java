@@ -50,14 +50,26 @@ public class Status {
     }
 
 
-    public Object getStatus(int id) throws ParseException{
+    public Status getStatus(int id) throws ParseException{
         Request request = new Request("GET","/status/"+id);
-        return request.getSingleResult("Status");
+        Object status = request.getSingleResult("Status");
+
+        if(status instanceof Status) return (Status)status;
+        return null;
     }
 
-    public ArrayList<Object> getAllStatus() throws ParseException{
+    public ArrayList<Status> getStatuses() throws ParseException{
         Request request = new Request("GET","/status/");
-        return request.getMultipleResults("Status");
+        ArrayList<Object> raw = request.getMultipleResults("Status");
+        ArrayList<Status> statuses = new ArrayList<>();
+
+        for(Object elem : raw){
+            if(elem instanceof Status){
+                statuses.add((Status)elem);
+            }
+        }
+
+        return statuses;
     }
 
     public void createStatus(){

@@ -26,7 +26,6 @@ public class User {
 
     protected Site site;
     protected Status status;
-    protected Vehicle vehicle;
 
     protected BooleanProperty admin = new SimpleBooleanProperty();
     protected BooleanProperty superAd = new SimpleBooleanProperty();
@@ -46,8 +45,7 @@ public class User {
                 int positiveRating,
                 int negativeRating,
                 Site site,
-                Status status,
-                Vehicle vehicle){
+                Status status){
 
         this.id = id;
         this.firstname = firstname;
@@ -65,7 +63,6 @@ public class User {
         this.negativeRating = negativeRating;
         this.site = site;
         this.status = status;
-        this.vehicle = vehicle;
 
         if (status != null) {
             if (status.getId() != 0) {
@@ -256,9 +253,12 @@ public class User {
      * GET Single USERS
      * @return a object user
      */
-    public Object getUser(int id) throws ParseException{
+    public User getUser(int id) throws ParseException{
         Request request = new Request("GET", "users/"+id);
-        return request.getSingleResult("User");
+        Object user = request.getSingleResult("User");
+
+        if(user instanceof User) return (User)user;
+        else return null;
     }
 
 
@@ -266,9 +266,17 @@ public class User {
      * GET ALL USERS
      * @return a list objects users
      */
-    public ArrayList<Object> getUsers() throws ParseException{
+    public ArrayList<User> getUsers() throws ParseException{
         Request request = new Request("GET", "/users/");
-        return request.getMultipleResults("User");
+        ArrayList<Object> raw = request.getMultipleResults("User");
+        ArrayList<User> users = new ArrayList<>();
+
+        for(Object elem : raw){
+            if(elem instanceof User){
+                users.add((User)elem);
+            }
+        }
+        return users;
     }
 
     /**
@@ -356,7 +364,6 @@ public class User {
                 +this.site.toString()+"} status : {"
                 +this.status.toString()+"} rate : { bad : "
                 +this.positiveRating+" good : "
-                +this.negativeRating+" } vehicle : {"
-                +this.vehicle.toString()+" }";
+                +this.negativeRating+" }";
     }
 }

@@ -20,23 +20,23 @@ import org.json.simple.parser.ParseException;
  */
 
 public class Request {
-    private String site = "http://localhost:3000";
+    private String domain = "http://localhost:3000";
     private String link;
-    public HttpURLConnection conn;
+    private HttpURLConnection conn;
 
-    public Request(String meth, String page){
-        link = site + page;
+    public Request(String method, String path){
+        link = domain + path;
         try {
             URL url = new URL(link);
             conn = (HttpURLConnection) url.openConnection();
-            if(meth.toUpperCase().equals("POST")){
+            if(method.toUpperCase().equals("POST")){
                 conn.setDoOutput(true);
                 //conn.setRequestProperty("Content-Type", "x-www-form-urlencoded");
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("charset", "utf-8");
                 conn.setRequestMethod("POST");
             }
-            else if(meth.toUpperCase().equals("DELETE")){
+            else if(method.toUpperCase().equals("DELETE")){
                 conn.setDoOutput(true);
                 conn.setRequestMethod("DELETE");
                 conn.connect();
@@ -50,13 +50,14 @@ public class Request {
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setContentText("La connexion au serveur a échoué.");
+            alert.setTitle("Error");
+            alert.setContentText("Failed to connect to the server "+domain);
             alert.showAndWait();
         }
 
     }
 
+    @Deprecated
     public Object get(){
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -154,7 +155,18 @@ public class Request {
                 String attribute = entry.getKey();
                 String type = entry.getValue();
 
-                if(elem.get(entry.getKey()) instanceof JSONObject){
+                if(elem.get(entry.getKey()) instanceof JSONArray){
+                    ArrayList<Object> list = new ArrayList<>();
+                    JSONArray array = (JSONArray)elem.get(entry.getKey());
+                    for(int i = 0; i < array.size(); i++){
+                        JSONObject array_elem = (JSONObject)array.get(i);
+                        Object current = createObject(type,array_elem);
+                        list.add(current);
+                    }
+                    Field f = _class.getDeclaredField(attribute);
+                    f.set(obj,list);
+                }
+                else if(elem.get(entry.getKey()) instanceof JSONObject){
                     JSONObject object = (JSONObject)elem.get(entry.getKey());
                     Object association = createObject(type,object);
 

@@ -114,17 +114,28 @@ public class Site {
     /** Get single Site
      *  Please verify this returned Object is an instanceof Site
      * */
-    public Object getSite(int id) throws ParseException {
+    public Site getSite(int id) throws ParseException {
         Request request = new Request("GET","/site/"+id);
-        return request.getSingleResult("Site");
+        Object site = request.getSingleResult("Site");
+
+        if(site instanceof Site) return (Site)site;
+        return null;
     }
 
     /** Get all Sites
      * Please verify this returned Object is an instanceof Site
      * */
-    public ArrayList<Object> getAllSites() throws ParseException{
+    public ArrayList<Site> getAllSites() throws ParseException{
         Request request = new Request("GET","/site/");
-        return request.getMultipleResults("Site");
+        ArrayList<Object> raw =  request.getMultipleResults("Site");
+        ArrayList<Site> sites = new ArrayList<>();
+
+        for(Object elem : raw){
+            if(elem instanceof Site){
+                sites.add((Site)elem);
+            }
+        }
+        return sites;
     }
 
     /** Object to String method */

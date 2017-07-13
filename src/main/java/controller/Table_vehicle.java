@@ -15,6 +15,7 @@ import model.Report;
 import model.Vehicle;
 
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -54,7 +55,11 @@ public class Table_vehicle implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Vehicle vehicles = new Vehicle();
-        this.vehicles = vehicles.getVehicles();
+        try {
+            this.vehicles = vehicles.getVehicles();
+        } catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
         setTable();
     }
 
@@ -63,7 +68,7 @@ public class Table_vehicle implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Vehicle, String> param) {
                 if (param.getValue() != null){
-                    return new SimpleStringProperty(param.getValue().getUser().getFirstname() + " " + param.getValue().getUser().getLastname());
+                    return null;//new SimpleStringProperty(param.getValue().getUser().getFirstname() + " " + param.getValue().getUser().getLastname());
                 }
                 return null;
             }
