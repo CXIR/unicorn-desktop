@@ -1,8 +1,10 @@
 package controller;
 
+import PluginManager.PluginLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
@@ -72,7 +74,17 @@ public class Menu implements Initializable {
 
     @FXML
     private void labelUsers(MouseEvent event) {
-        new Loader("/view/User.fxml","GESTION DES UTILISATEURS");
+        User_menu user_menu = User_menu.user_menu;
+        Loader loader = new Loader("/view/User.fxml","GESTION DES UTILISATEURS");
+        User_menu user_m = loader.getLoader().getController();
+
+        if (user_menu != null){
+            if (user_menu.getButtons() != null) {
+                for (Button button : user_menu.getButtons()) {
+                    user_m.addButton(button);
+                }
+            }
+        }
     }
 
     @FXML
@@ -93,6 +105,11 @@ public class Menu implements Initializable {
     @FXML
     private void labelReport(MouseEvent event) {
         new Loader("/view/table_report.fxml", "SIGNALEMENTS DES UTILISATEURS");
+    }
+
+    @FXML
+    private void labelPlugins(MouseEvent event) {
+        new Loader("/view/plugins.fxml", "PLUGINS");
     }
 
     @FXML

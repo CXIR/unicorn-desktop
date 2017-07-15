@@ -1,6 +1,7 @@
 package PluginManager;
 
 import controller.Loader;
+import controller.Menu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
@@ -31,7 +32,8 @@ public class PluginLoader {
 
         //Jar List
         File[] files = loc.listFiles(new FileFilter() {
-            public boolean accept(File file) {return file.getPath().toLowerCase().endsWith(".jar");}
+            public boolean accept(File file) {
+                return file.getPath().toLowerCase().endsWith(".jar");}
         });
 
         URL[] urls = new URL[files.length];
@@ -51,7 +53,9 @@ public class PluginLoader {
         Iterator<IPlugin> apit = sl.iterator();
 
         while (apit.hasNext()) {
-            apit.next().init();
+            IPlugin plugin = apit.next();
+            System.out.println(plugin.getName());
+            plugin.init();
         }
 
     }
