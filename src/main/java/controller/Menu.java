@@ -65,6 +65,8 @@ public class Menu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         menu = this;
+        PluginLoader loader = new PluginLoader();
+        loader.LoadPlugins();
     }
 
     @FXML
@@ -109,7 +111,7 @@ public class Menu implements Initializable {
 
     @FXML
     private void labelPlugins(MouseEvent event) {
-        new Loader("/view/plugins.fxml", "PLUGINS");
+        new Loader("/view/plugins.fxml", "GESTION DES PLUGINS");
     }
 
     @FXML
