@@ -54,11 +54,11 @@ public class Connection implements Initializable {
                     if (user.getStatus().getId() == 2 || user.getStatus().getId() == 3){
                         account = user;
                         main.sample();
-                        logs = true;
                     }
                     else {
                         error("L'utilisateur n'a pas les droits pour accéder à l'application");
                     }
+                    logs = true;
                 }
             }
             if (!logs) {

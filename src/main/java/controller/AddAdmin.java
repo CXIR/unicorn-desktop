@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
  * Created by mickael.afonso on 07/04/2017.
  */
 public class AddAdmin implements Initializable {
+    private boolean created;
+
     @FXML
     private TextField txt;
 
@@ -76,7 +78,8 @@ public class AddAdmin implements Initializable {
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (!empty) {
+                        System.out.println(item);
+                        /*if (!empty) {
                             TableRow  row = getTableRow();
 
                             if (row != null) {
@@ -92,9 +95,9 @@ public class AddAdmin implements Initializable {
                                         user.updateStatus(1);
                                     }
                                 }
-                                //Request req = new Request("post", "/users/modify/" + param.getTableView().getItems().get(rowNo).getId());
                             }
-                        }
+                        }*/
+                        created = true;
                     }
                 };
             }
@@ -112,7 +115,7 @@ public class AddAdmin implements Initializable {
                         if (!empty) {
                             TableRow  row = getTableRow();
 
-                            if (row != null) {
+                            if (row != null && created) {
                                 User user = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
                                     user.setAdmin(false);

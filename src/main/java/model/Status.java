@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static java.lang.Integer.parseInt;
 
@@ -21,6 +22,16 @@ public class Status {
     public Status(int id, String label){
         this.id = id;
         this.label = label;
+    }
+
+    /** HashMap which contains this Class properties with types */
+    public HashMap<String,String> getProperties(){
+        HashMap<String,String> map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("label","String");
+
+        return map;
     }
 
     public int getId() {

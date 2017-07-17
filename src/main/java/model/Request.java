@@ -36,7 +36,6 @@ public class Request {
             conn = (HttpURLConnection) url.openConnection();
             if(meth.toUpperCase().equals("POST")){
                 conn.setDoOutput(true);
-                //conn.setRequestProperty("Content-Type", "x-www-form-urlencoded");
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("charset", "utf-8");
                 conn.setRequestMethod("POST");

@@ -23,7 +23,7 @@
                     <columns>
                         <TableColumn fx:id="name" prefWidth="152.0" text="Nom" />
                         <TableColumn fx:id="adress" prefWidth="157.0" text="Adresse" />
-                        <TableColumn fx:id="postal" prefWidth="118.0" text="Code postal" />
+                        <TableColumn fx:id="postalCode" prefWidth="118.0" text="Code postal" />
                         <TableColumn fx:id="city" prefWidth="100.0" text="Ville" />
                     </columns>
                 </TableView>

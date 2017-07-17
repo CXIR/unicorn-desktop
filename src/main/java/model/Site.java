@@ -20,22 +20,36 @@ import static java.lang.Integer.parseInt;
  * Created by mickael.afonso on 18/05/2017.
  */
 public class Site {
+    public HashMap<String, String> map;
     protected int id;
     protected String name;
-    protected String address;
+    protected String adress;
     protected String city;
-    protected int postal;
+    protected String postalCode;
 
     public Site(){
 
     }
 
-    public Site(int id, String name, String address, String city, int postal){
+    public Site(int id, String name, String adress, String city, String postalCode){
         this.id = id;
         this.name = name;
-        this.address = address;
+        this.adress = adress;
         this.city = city;
-        this.postal = postal;
+        this.postalCode = postalCode;
+    }
+
+    /** HashMap which contains this Class properties with types */
+    public HashMap<String,String> getProperties(){
+        map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("name","String");
+        map.put("adress","String");
+        map.put("city","String");
+        map.put("postalCode","String");
+
+        return map;
     }
 
     public int getId() {
@@ -54,12 +68,12 @@ public class Site {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
     public String getCity() {
@@ -70,18 +84,18 @@ public class Site {
         this.city = city;
     }
 
-    public int getPostal() {
-        return postal;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setPostal(int postal) {
-        this.postal = postal;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     //GET SITE
     public Site getSite(){
         String method = "GET";
-        String page = "/users/" + id;
+        String page = "/site/" + id;
         Request req = new Request(method, page);
         try {
             return (Site) req.getSingleResult("Site");
@@ -127,9 +141,9 @@ public class Site {
         JSONObject json = new JSONObject();
         json.put("id", String.valueOf(id));
         json.put("name", name);
-        json.put("adress", address);
+        json.put("adress", adress);
         json.put("city", city);
-        json.put("postalCode", String.valueOf(postal));
+        json.put("postalCode", postalCode);
         return json;
     }
 

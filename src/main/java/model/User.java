@@ -40,10 +40,10 @@ public class User {
     protected int negativeRating;
     protected Site site;
     protected Status status;
-    protected String nameStatus;
     protected BooleanProperty admin = new SimpleBooleanProperty();
     protected BooleanProperty superAd = new SimpleBooleanProperty();
     protected Ride[] rides;
+    public HashMap<String, String> map;
 
     public User(){
     }
@@ -68,7 +68,6 @@ public class User {
 
         if (status != null) {
             if (status.getId() != 0) {
-                this.nameStatus = status.getLabel();
                 if (status.getId() == 2) {
                     setAdmin(true);
                 } else if (status.getId() == 3) {
@@ -76,6 +75,26 @@ public class User {
                 }
             }
         }
+    }
+
+    public HashMap<String,String> getProperties(){
+        map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("firstname","String");
+        map.put("lastname","String");
+        map.put("birthdate","Date");
+        map.put("mailAdress","String");
+        map.put("password","String");
+        map.put("phoneNumber","String");
+        map.put("description","String");
+        map.put("positiveRating","int");
+        map.put("negativeRating","int");
+        map.put("site","Site");
+        map.put("status","Status");
+        map.put("vehicle","Vehicle");
+
+        return map;
     }
 
     public int getId() {
@@ -132,10 +151,6 @@ public class User {
 
     public void setMailAdress(String mailAdress) {
         this.mailAdress = mailAdress;
-    }
-
-    public String getNameSite() {
-        return site.getName();
     }
 
     public String getPassword() {
@@ -300,8 +315,13 @@ public class User {
         json.put("birth", birthdate.toInstant().toString());
         json.put("mail", mailAdress);
         json.put("pass", password);
-        json.put("site", getStatus().getId());
-        json.put("status", getSite().getId());
+        json.put("site", getSite().getId());
+        if (update){
+            json.put("status", getStatus().getId());
+        }
+        else {
+            json.put("status", 1);
+        }
         return json;
     }
 
