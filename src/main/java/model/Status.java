@@ -2,6 +2,7 @@ package model;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 
@@ -11,8 +12,8 @@ import static java.lang.Integer.parseInt;
  * Created by Micka on 29/06/2017.
  */
 public class Status {
-    private int id;
-    private String label;
+    protected int id;
+    protected String label;
 
     public Status(){
     }
@@ -43,22 +44,10 @@ public class Status {
         String method = "GET";
         String page = "/status/";
         Request req = new Request(method, page);
-        return getStatus(req.get());
-    }
-
-    public Status getStatus(Object object){
-        if (object != null) {
-            JSONObject jsonObject = (JSONObject) object;
-
-            //On récupère les champs
-            int idStatus = parseInt(jsonObject.get("id").toString());
-            String label = jsonObject.get("label").toString();
-
-            //Création de l'objet status
-            Status status = new Status(idStatus, label);
-
-            //on retourne status
-            return status;
+        try {
+            return (Status) req.getSingleResult("Status");
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -68,25 +57,13 @@ public class Status {
         String method = "GET";
         String page = "/status/";
         Request req = new Request(method, page);
-        return getAllStatus(req.get());
-    }
-
-    public ArrayList<Status> getAllStatus(Object object){
         ArrayList<Status> status = new ArrayList<>();
-        if (object != null) {
-            JSONArray array = (JSONArray) object;
-            for (Object obj : array) {
-                JSONObject jsonObject = (JSONObject) obj;
-
-                //On récupère les champs
-                int idStatus = parseInt(jsonObject.get("id").toString());
-                String label = jsonObject.get("label").toString();
-
-                //Création de l'objet status
-                status.add(new Status(idStatus, label));
-
-                //on retourne status
+        try {
+            for (Object obj : req.getMultipleResults("Status")){
+                status.add((Status) obj);
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return status;
     }

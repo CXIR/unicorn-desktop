@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 
@@ -13,11 +14,11 @@ import static java.lang.Integer.parseInt;
  * Created by Micka on 01/07/2017.
  */
 public class Report {
-    private int id;
-    private String message;
-    private User plaintiff;
-    private User reported;
-    private BooleanProperty bloqued = new SimpleBooleanProperty();
+    protected int id;
+    protected String message;
+    protected User plaintiff;
+    protected User reported;
+    protected BooleanProperty bloqued = new SimpleBooleanProperty();
 
     public Report(){}
 
@@ -76,52 +77,19 @@ public class Report {
 
     public void setBloqued(boolean bloqued) {
         this.bloqued.set(bloqued);
-        /*if (bloqued == true){
-            if (reported.getStatus().getId() != 0){
-                reported.setStatus(new Status());
-                reported.updateStatus(4);
-            }
-            else{
-                for (Status status : reported.getStatus().getAllStatus()){
-                    if (status.getId() == 4){
-                        this.reported.setStatus(status);
-                        reported.updateStatus(1);
-                    }
-                }
-            }
-        }*/
     }
 
     public ArrayList<Report> getReports(){
         String method = "GET";
         String page = "/report/";
         Request req = new Request(method, page);
-        return getReports(req.get());
-    }
-
-    public ArrayList<Report> getReports(Object object){
         ArrayList<Report> reports = new ArrayList<>();
-        if (object != null){
-            JSONArray array = (JSONArray) object;
-            for(Object obj : array){
-                JSONObject jsonObject = (JSONObject) obj;
-
-                //On récupère les champs
-                int idReport = parseInt(jsonObject.get("id").toString());
-                String message = jsonObject.get("message").toString();
-
-                User plaintiff = new User();
-                if (jsonObject.get("Plaintiff") != null){
-                    plaintiff = plaintiff.getUser(jsonObject.get("Plaintiff"));
-                }
-
-                User reported = new User();
-                if (jsonObject.get("Reported") != null){
-                    reported = plaintiff.getUser(jsonObject.get("Reported"));
-                }
-
-                reports.add(new Report(idReport, message, plaintiff, reported));
+        try {
+            for(Object obj : req.getMultipleResults("Report")){
+                reports.add((Report) obj);
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return reports;
     }

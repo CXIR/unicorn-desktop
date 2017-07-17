@@ -20,11 +20,11 @@ import static java.lang.Integer.parseInt;
  * Created by mickael.afonso on 18/05/2017.
  */
 public class Site {
-    private int id;
-    private String name;
-    private String address;
-    private String city;
-    private int postal;
+    protected int id;
+    protected String name;
+    protected String address;
+    protected String city;
+    protected int postal;
 
     public Site(){
 
@@ -83,25 +83,10 @@ public class Site {
         String method = "GET";
         String page = "/users/" + id;
         Request req = new Request(method, page);
-        return getSite(req.get());
-    }
-
-    public Site getSite(Object object){
-        if (object != null) {
-            JSONObject jsonObject = (JSONObject) object;
-
-            //On récupère les champs
-            int idSite = parseInt(jsonObject.get("id").toString());
-            String name = jsonObject.get("name").toString();
-            String adress = jsonObject.get("adress").toString();
-            String city = jsonObject.get("city").toString();
-            int postal = parseInt(jsonObject.get("postalCode").toString());
-
-            //Création de l'objet site
-            Site site = new Site(idSite, name, adress, city, postal);
-
-            //on retourne site
-            return site;
+        try {
+            return (Site) req.getSingleResult("Site");
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -111,26 +96,13 @@ public class Site {
         String method = "GET";
         String page = "/site/";
         Request req = new Request(method, page);
-        return getSites(req.get());
-    }
-
-    public ArrayList<Site> getSites(Object object){
         ArrayList<Site> sites = new ArrayList<>();
-        if (object != null){
-            JSONArray array = (JSONArray) object;
-            for(Object obj : array){
-                JSONObject jsonObject = (JSONObject) obj;
-
-                //On récupère les champs
-                int idSite = parseInt(jsonObject.get("id").toString());
-                String name = jsonObject.get("name").toString();
-                String adress = jsonObject.get("adress").toString();
-                String city = jsonObject.get("city").toString();
-                int postal = parseInt(jsonObject.get("postalCode").toString());
-
-                //Ajout de l'objet site
-                sites.add(new Site(idSite, name, adress, city, postal));
+        try {
+            for (Object obj : req.getMultipleResults("Site")){
+                sites.add((Site) obj);
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return sites;
     }
