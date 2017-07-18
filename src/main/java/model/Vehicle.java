@@ -28,7 +28,8 @@ public class Vehicle {
     protected String registrationNumber;
     protected int placesNumber;
     protected String vehicleType;
-    protected BooleanProperty isVehicleOK = new SimpleBooleanProperty();
+    protected boolean isVehicleOk;
+    protected BooleanProperty vehicleValid = new SimpleBooleanProperty();
     protected User driver;
 
     public Vehicle(){}
@@ -40,7 +41,7 @@ public class Vehicle {
         this.registrationNumber = registrationNumber;
         this.placesNumber = placesNumber;
         this.vehicleType = vehicleType;
-        setIsOK(isVehicleOK);
+        setVehicleOk(isVehicleOK);
         this.driver = driver;
     }
 
@@ -108,16 +109,25 @@ public class Vehicle {
         this.vehicleType = vehicleType;
     }
 
-    public boolean isVehicleOK() {
-        return isVehicleOK.get();
+    public boolean isVehicleOk() {
+        return isVehicleOk;
     }
 
-    public BooleanProperty isOKProperty() {
-        return isVehicleOK;
+    public void setVehicleOk(boolean vehicleOk) {
+        isVehicleOk = vehicleOk;
     }
 
-    public void setIsOK(boolean isOK) {
-        this.isVehicleOK.set(isOK);
+    public boolean isVehicleValid() {
+        return vehicleValid.get();
+    }
+
+    public BooleanProperty vehicleValidProperty() {
+        return vehicleValid;
+    }
+
+    public void setVehicleValid(boolean vehicleValid) {
+
+        this.vehicleValid.set(vehicleValid);
     }
 
     public User getDriver() {
@@ -133,7 +143,12 @@ public class Vehicle {
         String page = "/vehicle/" + id;
         Request req = new Request(method, page);
         try {
-            return (Vehicle) req.getSingleResult("Vehicle");
+            Object obj = req.getSingleResult("Vehicle");
+            if(obj instanceof Vehicle){
+                Vehicle vehicle = (Vehicle) obj;
+                vehicle.setVehicleValid(vehicle.isVehicleOk());
+                return vehicle;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -147,7 +162,13 @@ public class Vehicle {
         ArrayList<Vehicle> vehicles = new ArrayList<>();
         try {
             for (Object obj : req.getMultipleResults("Vehicle")){
-                vehicles.add((Vehicle) obj);
+                if(obj instanceof Vehicle){
+                    Vehicle vehicle = (Vehicle) obj;
+                    System.out.println(vehicle.getBrand());
+                    System.out.println(vehicle.isVehicleOk());
+                    vehicle.setVehicleValid(vehicle.isVehicleOk());
+                    vehicles.add(vehicle);
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();

@@ -97,7 +97,14 @@ public class Report {
         ArrayList<Report> reports = new ArrayList<>();
         try {
             for(Object obj : req.getMultipleResults("Report")){
-                reports.add((Report) obj);
+                if(obj instanceof Report){
+                    Report report = (Report) obj;
+                    System.out.println(report.getReported().getLastname());
+                    if (report.getReported().getStatus().getId() == 4){
+                        report.setBloqued(true);
+                    }
+                    reports.add(report);
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();

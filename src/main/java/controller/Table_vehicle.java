@@ -81,7 +81,7 @@ public class Table_vehicle implements Initializable {
 
         valid.setCellValueFactory(new PropertyValueFactory<>("isVehicleOK"));
 
-        valid.setCellFactory( new Callback<TableColumn<Vehicle,Boolean>, TableCell<Vehicle,Boolean>>() {
+        /*valid.setCellFactory( new Callback<TableColumn<Vehicle,Boolean>, TableCell<Vehicle,Boolean>>() {
             @Override
             public TableCell<Vehicle,Boolean> call( TableColumn<Vehicle,Boolean> param ) {
                 return new CheckBoxTableCell<Vehicle,Boolean>() {
@@ -94,11 +94,11 @@ public class Table_vehicle implements Initializable {
                             if (row != null) {
                                 Vehicle vehicle = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
-                                    vehicle.setIsOK(true);
+                                    vehicle.setVehicleValid(true);
                                     vehicle.validateVehicle();
                                 }
                                 else{
-                                    vehicle.setIsOK(false);
+                                    vehicle.setVehicleValid(false);
                                     vehicle.validateVehicle();
                                 }
                             }
@@ -106,7 +106,7 @@ public class Table_vehicle implements Initializable {
                     }
                 };
             }
-        } );
+        } );*/
 
         if(this.vehicles != null){
             ObservableList<Vehicle> list = FXCollections.observableArrayList(vehicles);

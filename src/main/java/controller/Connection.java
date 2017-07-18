@@ -13,6 +13,7 @@ import model.User;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Base64;
 import java.util.ResourceBundle;
 
 
@@ -48,6 +49,7 @@ public class Connection implements Initializable {
     @FXML
     private void buttonConn(ActionEvent event) throws IOException {
         if(login.getText()!= null && pass.getText() != null){
+            //String passEncode = Base64.getEncoder().encode(pass.getText().getBytes()).toString();
             for (User user : new User().getUsers()){
                 if (login.getText().equals(user.getMailAdress()) && pass.getText().equals(user.getPassword())){
 

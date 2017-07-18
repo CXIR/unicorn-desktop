@@ -24,7 +24,6 @@ public class User {
     protected int negativeRating;
     protected Site site;
     protected Status status;
-    private String nameStatus;
     protected BooleanProperty admin = new SimpleBooleanProperty();
     protected BooleanProperty superAd = new SimpleBooleanProperty();
     protected Ride[] rides;
@@ -56,7 +55,6 @@ public class User {
 
         if (status != null) {
             if (status.getId() != 0) {
-                this.nameStatus = status.getLabel();
                 if (status.getId() == 2) {
                     setAdmin(true);
                 } else if (status.getId() == 3) {
@@ -245,7 +243,17 @@ public class User {
         String page = "/users/" + id;
         Request req = new Request(method, page);
         try {
-            return (User) req.getSingleResult("User");
+            Object obj = req.getSingleResult("User");
+            if(obj instanceof User){
+                User user = (User) obj;
+                if (user.getStatus().getId() == 2){
+                    user.setAdmin(true);
+                }
+                else if (user.getStatus().getId() == 2) {
+                    user.setSuperAd(true);
+                }
+                return user;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -264,13 +272,23 @@ public class User {
         ArrayList<User> users = new ArrayList<>();
         try {
             for (Object obj : req.getMultipleResults("User")){
-                users.add((User) obj);
+                if(obj instanceof User){
+                    User user = (User) obj;
+                    if (user.getStatus().getId() == 2){
+                        user.setAdmin(true);
+                    }
+                    else if (user.getStatus().getId() == 2) {
+                        user.setSuperAd(true);
+                    }
+                    users.add(user);
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return users;
     }
+
 
     /**
      * CREATE USER
