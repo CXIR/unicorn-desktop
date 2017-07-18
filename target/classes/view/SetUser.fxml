@@ -45,7 +45,7 @@
                   <Label fx:id="mailDi" text="mail" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="Lieu de Travail :" GridPane.rowIndex="4" />
                   <ComboBox fx:id="siteAd" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label fx:id="siteDi" text="site" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="siteDi" text="" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="Description :" visible="false" GridPane.rowIndex="5" />
                   <Label fx:id="desc" text="desc" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label text="Telephone :" visible="false" GridPane.rowIndex="6" />

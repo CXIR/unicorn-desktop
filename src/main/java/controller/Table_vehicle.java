@@ -63,7 +63,7 @@ public class Table_vehicle implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Vehicle, String> param) {
                 if (param.getValue() != null){
-                    return new SimpleStringProperty(param.getValue().getUser().getFirstname() + " " + param.getValue().getUser().getLastname());
+                    return new SimpleStringProperty(param.getValue().getDriver().getFirstname() + " " + param.getValue().getDriver().getLastname());
                 }
                 return null;
             }
@@ -79,7 +79,7 @@ public class Table_vehicle implements Initializable {
 
         type.setCellValueFactory(new PropertyValueFactory<>("vehicleType"));
 
-        valid.setCellValueFactory(new PropertyValueFactory<>("isOK"));
+        valid.setCellValueFactory(new PropertyValueFactory<>("isVehicleOK"));
 
         valid.setCellFactory( new Callback<TableColumn<Vehicle,Boolean>, TableCell<Vehicle,Boolean>>() {
             @Override
@@ -88,18 +88,18 @@ public class Table_vehicle implements Initializable {
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (!empty) {
+                        if (item != null && !empty) {
                             TableRow  row = getTableRow();
 
                             if (row != null) {
                                 Vehicle vehicle = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
                                     vehicle.setIsOK(true);
-                                    //vehicle.updateValid();
+                                    vehicle.validateVehicle();
                                 }
                                 else{
                                     vehicle.setIsOK(false);
-                                    //vehicle.updateValid();
+                                    vehicle.validateVehicle();
                                 }
                             }
                         }

@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import static java.lang.Integer.parseInt;
 
@@ -20,26 +21,43 @@ import static java.lang.Integer.parseInt;
  * Created by Micka on 30/06/2017.
  */
 public class Vehicle {
+    public HashMap<String,String> map;
     protected int id;
     protected String brand;
     protected String model;
     protected String registrationNumber;
     protected int placesNumber;
     protected String vehicleType;
-    protected BooleanProperty isOK = new SimpleBooleanProperty();
-    protected User user;
+    protected BooleanProperty isVehicleOK = new SimpleBooleanProperty();
+    protected User driver;
 
     public Vehicle(){}
 
-    public Vehicle(int id, String brand, String model, String registrationNumber, int placesNumber, String vehicleType, boolean isOK, User user){
+    public Vehicle(int id, String brand, String model, String registrationNumber, int placesNumber, String vehicleType, boolean isVehicleOK, User driver){
         this.id = id;
         this.brand = brand;
         this.model = model;
         this.registrationNumber = registrationNumber;
         this.placesNumber = placesNumber;
         this.vehicleType = vehicleType;
-        setIsOK(isOK);
-        this.user = user;
+        setIsOK(isVehicleOK);
+        this.driver = driver;
+    }
+
+    /** HashMap which contains this Class properties with types */
+    public HashMap<String,String> getProperties(){
+        map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("brand","String");
+        map.put("model","String");
+        map.put("registrationNumber","String");
+        map.put("placesNumber","int");
+        map.put("vehicleType","String");
+        map.put("isVehicleOK","boolean");
+        map.put("driver","User");
+
+        return map;
     }
 
     public int getId() {
@@ -90,24 +108,24 @@ public class Vehicle {
         this.vehicleType = vehicleType;
     }
 
-    public boolean isIsOK() {
-        return isOK.get();
+    public boolean isVehicleOK() {
+        return isVehicleOK.get();
     }
 
     public BooleanProperty isOKProperty() {
-        return isOK;
+        return isVehicleOK;
     }
 
     public void setIsOK(boolean isOK) {
-        this.isOK.set(isOK);
+        this.isVehicleOK.set(isOK);
     }
 
-    public User getUser() {
-        return user;
+    public User getDriver() {
+        return driver;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDriver(User user) {
+        this.driver = driver;
     }
 
     public Vehicle getVehicle(String id) {
@@ -135,5 +153,17 @@ public class Vehicle {
             e.printStackTrace();
         }
         return vehicles;
+    }
+
+    public void validateVehicle(){
+        String method = "GET";
+        String page = "/users/vehicle/validate/" + id;
+        new Request(method, page);
+    }
+
+    public void unvalidateVehicle(){
+        String method = "GET";
+        String page = "/users/vehicle/unvalidate/" + id;
+        new Request(method, page);
     }
 }

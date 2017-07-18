@@ -49,6 +49,9 @@ public class User {
         this.positiveRating = positiveRating;
         this.negativeRating = negativeRating;
         this.site = site;
+        if (site != null){
+            System.out.println(site.getName());
+        }
         this.status = status;
 
         if (status != null) {
@@ -301,13 +304,6 @@ public class User {
         json.put("birth", birthdate.toInstant().toString());
         json.put("mail", mailAdress);
         json.put("pass", password);
-        json.put("site", getSite().getId());
-        if (update){
-            json.put("status", getStatus().getId());
-        }
-        else {
-            json.put("status", 1);
-        }
         return json;
     }
 

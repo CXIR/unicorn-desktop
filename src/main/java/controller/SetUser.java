@@ -115,10 +115,12 @@ public class SetUser implements Initializable {
 
             if (edit == edit.ADD){
                 user.createUser();
+                user.updateSite();
             }
             else{
                 System.out.println(user.getFirstname());
                 user.updateUser();
+                user.updateSite();
                 /*dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 user.setBirth(dateFormat.format(date));
                 Request req = new Request("post", "/users/modify/" + user.getId());

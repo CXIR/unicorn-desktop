@@ -15,10 +15,11 @@ import static java.lang.Integer.parseInt;
  * Created by Micka on 01/07/2017.
  */
 public class Report {
+    public HashMap<String,String> map;
     protected int id;
     protected String message;
-    protected User plaintiff;
-    protected User reported;
+    protected User Plaintiff;
+    protected User Reported;
     protected BooleanProperty bloqued = new SimpleBooleanProperty();
 
     public Report(){}
@@ -26,14 +27,23 @@ public class Report {
     public Report(int id, String message, User plaintiff, User reported){
         this.id = id;
         this.message = message;
-        this.plaintiff = plaintiff;
-        this.reported = reported;
-        System.out.println(reported.getLastname());
-        if (reported.getStatus() != null) {
-            if (reported.getStatus().getId() == 4) {
-                setBloqued(true);
-            }
+        this.Plaintiff = plaintiff;
+        this.Reported = reported;
+        if (reported.getStatus().getId() == 4) {
+            setBloqued(true);
         }
+    }
+
+    /** HashMap which contains this Class properties with types */
+    public HashMap<String,String> getProperties(){
+        map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("message","String");
+        map.put("Plaintiff","User");
+        map.put("Reported","User");
+
+        return map;
     }
 
     public int getId() {
@@ -45,19 +55,19 @@ public class Report {
     }
 
     public User getPlaintiff() {
-        return plaintiff;
+        return Plaintiff;
     }
 
     public void setPlaintiff(User plaintiff) {
-        this.plaintiff = plaintiff;
+        this.Plaintiff = plaintiff;
     }
 
     public User getReported() {
-        return reported;
+        return Reported;
     }
 
     public void setReported(User reported) {
-        this.reported = reported;
+        this.Reported = reported;
     }
 
     public String getMessage() {

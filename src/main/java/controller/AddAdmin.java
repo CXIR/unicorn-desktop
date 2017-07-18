@@ -76,11 +76,12 @@ public class AddAdmin implements Initializable {
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (!empty) {
+                        if (item!= null && !empty) {
                             TableRow  row = getTableRow();
 
                             if (row != null) {
                                 User user = param.getTableView().getItems().get(row.getIndex());
+                                System.out.println(user.getLastname());
                                 if (item){
                                     user.setAdmin(true);
                                     user.setSuperAd(false);
@@ -101,14 +102,14 @@ public class AddAdmin implements Initializable {
 
         superAd.setCellValueFactory(new PropertyValueFactory<>("superAd"));
 
-        superAd.setCellFactory( new Callback<TableColumn<User,Boolean>, TableCell<User,Boolean>>() {
+        /*superAd.setCellFactory( new Callback<TableColumn<User,Boolean>, TableCell<User,Boolean>>() {
             @Override
             public TableCell<User,Boolean> call( TableColumn<User,Boolean> param ) {
                 return new CheckBoxTableCell<User,Boolean>() {
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (!empty) {
+                        if (item != null && !empty) {
                             TableRow  row = getTableRow();
 
                             if (row != null) {
@@ -129,7 +130,7 @@ public class AddAdmin implements Initializable {
                     }
                 };
             }
-        } );
+        } );*/
 
         table.setRowFactory(param -> new TableRow<User>() {
             @Override

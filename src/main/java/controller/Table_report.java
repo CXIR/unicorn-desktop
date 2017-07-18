@@ -54,6 +54,7 @@ public class Table_report implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Report, String> param) {
                 if (param.getValue() != null){
+                    System.out.println(param.getValue().getReported().getLastname());
                     return new SimpleStringProperty(param.getValue().getReported().getFirstname() + " " + param.getValue().getReported().getLastname());
                 }
                 return null;
