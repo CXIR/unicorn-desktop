@@ -101,6 +101,14 @@ public class Plugins implements Initializable {
 
     }
 
+    public void logout(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setContentText("L'application doit redémarrer pour prendre en compte les modifications");
+        alert.showAndWait();
+        Menu.menu.logout();
+    }
+
     public boolean extension(File file){
         if (file.getName().substring(file.getName().indexOf('.') + 1,file.getName().length()).equals("jar")){
             return true;

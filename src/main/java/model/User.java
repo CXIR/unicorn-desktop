@@ -2,26 +2,10 @@ package model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.StringProperty;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static java.lang.Integer.parseInt;
 
 /**
  * Created by mickael.afonso on 15/05/2017.
@@ -40,6 +24,7 @@ public class User {
     protected int negativeRating;
     protected Site site;
     protected Status status;
+    private String nameStatus;
     protected BooleanProperty admin = new SimpleBooleanProperty();
     protected BooleanProperty superAd = new SimpleBooleanProperty();
     protected Ride[] rides;
@@ -68,6 +53,7 @@ public class User {
 
         if (status != null) {
             if (status.getId() != 0) {
+                this.nameStatus = status.getLabel();
                 if (status.getId() == 2) {
                     setAdmin(true);
                 } else if (status.getId() == 3) {

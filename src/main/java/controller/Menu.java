@@ -39,6 +39,9 @@ public class Menu implements Initializable {
     protected Label sites;
 
     @FXML
+    protected Label status;
+
+    @FXML
     protected Label vehicles;
 
     @FXML
@@ -100,6 +103,11 @@ public class Menu implements Initializable {
     }
 
     @FXML
+    private void labelStatus(MouseEvent event) {
+        new Loader("/view/Status.fxml", "GESTION DES STATUS");
+    }
+
+    @FXML
     private void labelVehicles(MouseEvent event) {
         new Loader("/view/table_vehicle.fxml", "GESTION DES VEHICULES");
     }
@@ -121,6 +129,10 @@ public class Menu implements Initializable {
 
     @FXML
     private void labelOff(MouseEvent event) {
+        logout();
+    }
+
+    public void logout(){
         main.connection();
         Connection.account = null;
     }

@@ -178,7 +178,9 @@ public class SetUser implements Initializable {
         firstDi.setText(user.getFirstname());
         dateDi.setText(user.getStrDate());
         mailDi.setText(user.getMailAdress());
-        siteDi.setText(user.getSite().getName());
+        if (user.getSite() != null) {
+            siteDi.setText(user.getSite().getName());
+        }
         desc.setText(user.getDescription());
         phone.setText(user.getPhoneNumber());
 
