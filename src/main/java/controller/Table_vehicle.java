@@ -11,9 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import model.Report;
 import model.Vehicle;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -56,6 +54,7 @@ public class Table_vehicle implements Initializable {
         Vehicle vehicles = new Vehicle();
         this.vehicles = vehicles.getVehicles();
         setTable();
+
     }
 
     public void setTable(){
@@ -79,9 +78,9 @@ public class Table_vehicle implements Initializable {
 
         type.setCellValueFactory(new PropertyValueFactory<>("vehicleType"));
 
-        valid.setCellValueFactory(new PropertyValueFactory<>("isVehicleOK"));
+        valid.setCellValueFactory(new PropertyValueFactory<>("vehicleValid"));
 
-        /*valid.setCellFactory( new Callback<TableColumn<Vehicle,Boolean>, TableCell<Vehicle,Boolean>>() {
+        valid.setCellFactory( new Callback<TableColumn<Vehicle,Boolean>, TableCell<Vehicle,Boolean>>() {
             @Override
             public TableCell<Vehicle,Boolean> call( TableColumn<Vehicle,Boolean> param ) {
                 return new CheckBoxTableCell<Vehicle,Boolean>() {
@@ -106,7 +105,7 @@ public class Table_vehicle implements Initializable {
                     }
                 };
             }
-        } );*/
+        } );
 
         if(this.vehicles != null){
             ObservableList<Vehicle> list = FXCollections.observableArrayList(vehicles);
@@ -114,8 +113,6 @@ public class Table_vehicle implements Initializable {
         }
 
         table.setEditable(true);
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
     }
 
     @FXML

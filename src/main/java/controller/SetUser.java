@@ -51,11 +51,11 @@ public class SetUser implements Initializable {
     @FXML
     private TextField mailAd;
 
-    @FXML
+    /*@FXML
     private Label desc;
 
     @FXML
-    private Label phone;
+    private Label phone;*/
 
     @FXML
     private Label siteDi;
@@ -71,6 +71,14 @@ public class SetUser implements Initializable {
 
     @FXML
     private Button suppr;
+
+    private Label descTitle;
+
+    private Label desc;
+
+    private Label phoneTitle;
+
+    private Label phone;
 
     public void setEdit(Enumeration edit){
         this.edit = edit;
@@ -98,6 +106,10 @@ public class SetUser implements Initializable {
                 return null;
             }
         });
+        descTitle = new Label("Description :");
+        desc = new Label();
+        phoneTitle = new Label("Telephone :");
+        phone = new Label();
     }
 
     @FXML
@@ -106,8 +118,6 @@ public class SetUser implements Initializable {
             user.setLastname(nameAd.getText());
             user.setFirstname(firstAd.getText());
             Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            /*SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String strDate = dateFormat.format(date);*/
             user.setBirthdate(date);
             user.setMailAdress(mailAd.getText());
             user.setSite(siteAd.getSelectionModel().getSelectedItem());
@@ -121,10 +131,6 @@ public class SetUser implements Initializable {
                 System.out.println(user.getFirstname());
                 user.updateUser();
                 user.updateSite();
-                /*dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                user.setBirth(dateFormat.format(date));
-                Request req = new Request("post", "/users/modify/" + user.getId());
-                req.putUser(user);*/
             }
             setEdit(edit.DISPLAY);
             display();
@@ -137,7 +143,17 @@ public class SetUser implements Initializable {
 
     @FXML
     private void back(ActionEvent event) {
-        new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");
+        User_menu user_menu = User_menu.user_menu;
+        Loader loader = new Loader("/view/User.fxml","GESTION DES UTILISATEURS");
+        User_menu user_m = loader.getLoader().getController();
+
+        if (user_menu != null){
+            if (user_menu.getButtons() != null) {
+                for (Button button : user_menu.getButtons()) {
+                    user_m.addButton(button);
+                }
+            }
+        }
     }
 
     @FXML
@@ -168,6 +184,7 @@ public class SetUser implements Initializable {
         mailAd.setText(user.getMailAdress());
         siteAd.getItems().addAll();
         siteAd.getSelectionModel().select(user.getSite());
+        grid.getChildren().removeAll(desc, descTitle, phone, phoneTitle);
 
         setForm(true);
         setDisp(false);
@@ -185,6 +202,10 @@ public class SetUser implements Initializable {
         }
         desc.setText(user.getDescription());
         phone.setText(user.getPhoneNumber());
+        grid.add(descTitle, 0, 5);
+        grid.add(desc, 1, 5);
+        grid.add(phoneTitle, 0, 6);
+        grid.add(phone, 1, 6);
 
         setForm(false);
         setDisp(true);

@@ -65,7 +65,7 @@ import java.util.ResourceBundle;
 
     @FXML
     public void search(ActionEvent event){
-        if (status != null && txt != null) {
+        if (ob != null && txt != null) {
             for (int i = table.getItems().size() - 1; i >= 0; i--) {
                 if (table.getColumns().get(0).getCellData(i).toString().toLowerCase().contains(txt.getText().toLowerCase()) == false) {
                     table.getItems().remove(i);

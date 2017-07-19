@@ -88,7 +88,7 @@ public class Status {
 
     public void updateStatus(){
         String method = "POST";
-        String page = "/users/edit";
+        String page = "/status/edit";
         Request req = new Request(method, page);
         req.post(jsonStatus(true));
     }

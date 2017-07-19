@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -106,7 +107,6 @@ public class Request {
             String line = in.readLine();
 
             if(line != null){
-
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(line);
                 JSONArray array = (JSONArray)obj;
@@ -161,19 +161,20 @@ public class Request {
                 else if(elem.get(entry.getKey()) instanceof String){
                     String value = (String)elem.get(entry.getKey());
                     Field f = _class.getDeclaredField(attribute);
-
                     if(type == "String"){
                         Class cls = type.getClass();
                         Object param = Class.forName(cls.getName()).getConstructor(new Class[]{String.class}).newInstance(value);
                         f.set(obj,param);
                     }
-                    else if(type == "boolean"){
-                        f.setBoolean(obj,Boolean.parseBoolean(value));
-                    }
                     else if(type == "Date"){
                         Date date = Date.from(Instant.parse(value));
                         f.set(obj,date);
                     }
+                }
+                else if (elem.get(entry.getKey()) instanceof Boolean){
+                    boolean value = (Boolean) elem.get(entry.getKey());
+                    Field f = _class.getDeclaredField(attribute);
+                    f.setBoolean(obj, value);
                 }
                 else if(elem.get(entry.getKey()) instanceof Long){
                     Long value = (Long)elem.get(entry.getKey());

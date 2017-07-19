@@ -28,7 +28,7 @@ public class Vehicle {
     protected String registrationNumber;
     protected int placesNumber;
     protected String vehicleType;
-    protected boolean isVehicleOk;
+    protected boolean isVehicleOK;
     protected BooleanProperty vehicleValid = new SimpleBooleanProperty();
     protected User driver;
 
@@ -41,7 +41,7 @@ public class Vehicle {
         this.registrationNumber = registrationNumber;
         this.placesNumber = placesNumber;
         this.vehicleType = vehicleType;
-        setVehicleOk(isVehicleOK);
+        setVehicleValid(isVehicleOK);
         this.driver = driver;
     }
 
@@ -109,12 +109,12 @@ public class Vehicle {
         this.vehicleType = vehicleType;
     }
 
-    public boolean isVehicleOk() {
-        return isVehicleOk;
+    public boolean isVehicleOK() {
+        return isVehicleOK;
     }
 
-    public void setVehicleOk(boolean vehicleOk) {
-        isVehicleOk = vehicleOk;
+    public void setVehicleOK(boolean vehicleOK) {
+        isVehicleOK = vehicleOK;
     }
 
     public boolean isVehicleValid() {
@@ -146,7 +146,7 @@ public class Vehicle {
             Object obj = req.getSingleResult("Vehicle");
             if(obj instanceof Vehicle){
                 Vehicle vehicle = (Vehicle) obj;
-                vehicle.setVehicleValid(vehicle.isVehicleOk());
+                vehicle.setVehicleValid(vehicle.isVehicleOK());
                 return vehicle;
             }
         } catch (ParseException e) {
@@ -164,9 +164,7 @@ public class Vehicle {
             for (Object obj : req.getMultipleResults("Vehicle")){
                 if(obj instanceof Vehicle){
                     Vehicle vehicle = (Vehicle) obj;
-                    System.out.println(vehicle.getBrand());
-                    System.out.println(vehicle.isVehicleOk());
-                    vehicle.setVehicleValid(vehicle.isVehicleOk());
+                    vehicle.setVehicleValid(vehicle.isVehicleOK());
                     vehicles.add(vehicle);
                 }
             }
