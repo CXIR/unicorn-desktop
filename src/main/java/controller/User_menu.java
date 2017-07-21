@@ -50,10 +50,6 @@ public class User_menu implements Initializable {
 
     public void addButton(Button button){
         buttons = new ArrayList<>();
-        button.setOnAction(event -> {
-            PluginLoader loader = new PluginLoader();
-            loader.LoadPlugins();
-        });
         this.box.getChildren().add(button);
         buttons.add(button);
     }

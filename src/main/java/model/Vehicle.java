@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import static java.lang.Integer.parseInt;
 
@@ -20,26 +21,44 @@ import static java.lang.Integer.parseInt;
  * Created by Micka on 30/06/2017.
  */
 public class Vehicle {
-    private int id;
-    private String brand;
-    private String model;
-    private String registrationNumber;
-    private int placesNumber;
-    private String vehicleType;
-    private BooleanProperty isOK = new SimpleBooleanProperty();
-    private User user;
+    public HashMap<String,String> map;
+    protected int id;
+    protected String brand;
+    protected String model;
+    protected String registrationNumber;
+    protected int placesNumber;
+    protected String vehicleType;
+    protected boolean isVehicleOK;
+    protected BooleanProperty vehicleValid = new SimpleBooleanProperty();
+    protected User user;
 
     public Vehicle(){}
 
-    public Vehicle(int id, String brand, String model, String registrationNumber, int placesNumber, String vehicleType, boolean isOK, User user){
+    public Vehicle(int id, String brand, String model, String registrationNumber, int placesNumber, String vehicleType, boolean isVehicleOK, User user){
         this.id = id;
         this.brand = brand;
         this.model = model;
         this.registrationNumber = registrationNumber;
         this.placesNumber = placesNumber;
         this.vehicleType = vehicleType;
-        setIsOK(isOK);
+        setVehicleValid(isVehicleOK);
         this.user = user;
+    }
+
+    /** HashMap which contains this Class properties with types */
+    public HashMap<String,String> getProperties(){
+        map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("brand","String");
+        map.put("model","String");
+        map.put("registrationNumber","String");
+        map.put("placesNumber","int");
+        map.put("vehicleType","String");
+        map.put("isVehicleOK","boolean");
+        map.put("user","User");
+
+        return map;
     }
 
     public int getId() {
@@ -90,16 +109,25 @@ public class Vehicle {
         this.vehicleType = vehicleType;
     }
 
-    public boolean isIsOK() {
-        return isOK.get();
+    public boolean isVehicleOK() {
+        return isVehicleOK;
     }
 
-    public BooleanProperty isOKProperty() {
-        return isOK;
+    public void setVehicleOK(boolean vehicleOK) {
+        isVehicleOK = vehicleOK;
     }
 
-    public void setIsOK(boolean isOK) {
-        this.isOK.set(isOK);
+    public boolean isVehicleValid() {
+        return vehicleValid.get();
+    }
+
+    public BooleanProperty vehicleValidProperty() {
+        return vehicleValid;
+    }
+
+    public void setVehicleValid(boolean vehicleValid) {
+        setVehicleOK(vehicleValid);
+        this.vehicleValid.set(vehicleValid);
     }
 
     public User getUser() {
@@ -114,33 +142,17 @@ public class Vehicle {
         String method = "GET";
         String page = "/vehicle/" + id;
         Request req = new Request(method, page);
-        return getVehicle(req.get());
-    }
-
-    public Vehicle getVehicle(Object object){
-        if (object != null){
-            JSONObject jsonObject = (JSONObject) object;
-
-            //On récupère les champs
-            int idVehicle = parseInt(jsonObject.get("id").toString());
-            String brand = jsonObject.get("brand").toString();
-            String model = jsonObject.get("model").toString();
-            String registrationNumber = jsonObject.get("registrationNumber").toString();
-            int placesNumber = parseInt(jsonObject.get("placesNumber").toString());
-            String vehicleType = jsonObject.get("vehicleType").toString();
-            boolean isVehicleOK = (Boolean) jsonObject.get("isVehicleOK");
-
-            User user = new User();
-            if (jsonObject.get("driver") != null){
-
-                user = user.getUser(jsonObject.get("driver"));
+        try {
+            Object obj = req.getSingleResult("Vehicle");
+            if(obj instanceof Vehicle){
+                Vehicle vehicle = (Vehicle) obj;
+                vehicle.setVehicleValid(vehicle.isVehicleOK());
+                return vehicle;
             }
-
-            //Création de l'objet user
-            Vehicle vehicle = new Vehicle(idVehicle, brand, model, registrationNumber, placesNumber, vehicleType, isVehicleOK, user);
-
-            //on retourne user
-            return vehicle;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -149,35 +161,33 @@ public class Vehicle {
         String method = "GET";
         String page = "/vehicle/";
         Request req = new Request(method, page);
-        return getVehicles(req.get());
-    }
-
-    public ArrayList<Vehicle> getVehicles(Object object){
         ArrayList<Vehicle> vehicles = new ArrayList<>();
-        if (object != null){
-            JSONArray array = (JSONArray) object;
-            for(Object obj : array){
-                JSONObject jsonObject = (JSONObject) obj;
-
-                //On récupère les champs
-                int idVehicle = parseInt(jsonObject.get("id").toString());
-                String brand = jsonObject.get("brand").toString();
-                String model = jsonObject.get("model").toString();
-                String registrationNumber = jsonObject.get("registrationNumber").toString();
-                int placesNumber = parseInt(jsonObject.get("placesNumber").toString());
-                String vehicleType = jsonObject.get("vehicleType").toString();
-                boolean isVehicleOK = (Boolean) jsonObject.get("isVehicleOK");
-
-                User user = new User();
-                if (jsonObject.get("driver") != null){
-
-                    user = user.getUser(jsonObject.get("driver"));
+        try {
+            for (Object obj : req.getMultipleResults("Vehicle")){
+                if(obj instanceof Vehicle){
+                    Vehicle vehicle = (Vehicle) obj;
+                    vehicle.setVehicleValid(vehicle.isVehicleOK());
+                    vehicles.add(vehicle);
                 }
-
-                //Ajout de l'objet site
-                vehicles.add(new Vehicle(idVehicle, brand, model, registrationNumber, placesNumber, vehicleType, isVehicleOK, user));
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return vehicles;
+    }
+
+    public void validateVehicle(){
+        String method = "GET";
+        String page = "/vehicle/validate/" + id;
+        new Request(method, page);
+    }
+
+    public void unvalidateVehicle(){
+        System.out.println(id);
+        String method = "GET";
+        String page = "/vehicle/unvalidate/" + id;
+        new Request(method, page);
     }
 }

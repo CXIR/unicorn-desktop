@@ -68,16 +68,14 @@ public class SetSite implements Initializable {
     public void validate(ActionEvent event){
         if (edit == edit.ADD || edit == edit.CHANGE){
             site.setName(nameAd.getText());
-            site.setAddress(addAd.getText());
-            site.setPostal(parseInt(postAd.getText()));
+            site.setAdress(addAd.getText());
+            site.setPostalCode(postAd.getText());
             site.setCity(cityAd.getText());
 
             if (edit == edit.ADD){
                 site.createSite();
             }
             else{
-                Request req = new Request("post", "/site/modify/" + site.getId());
-                //req.putSite(site);
                 site.changeSite();
             }
             setEdit(edit.DISPLAY);
@@ -109,8 +107,8 @@ public class SetSite implements Initializable {
 
     public void change(){
         nameAd.setText(site.getName());
-        addAd.setText(site.getAddress());
-        postAd.setText(String.valueOf(site.getPostal()));
+        addAd.setText(site.getAdress());
+        postAd.setText(site.getPostalCode());
         cityAd.setText(site.getCity());
 
         setForm(true);
@@ -121,8 +119,8 @@ public class SetSite implements Initializable {
 
     public void display(){
         nameDi.setText(site.getName());
-        addDi.setText(site.getAddress());
-        postDi.setText(String.valueOf(site.getPostal()));
+        addDi.setText(site.getAdress());
+        postDi.setText(site.getPostalCode());
         cityDi.setText(site.getCity());
 
         setForm(false);

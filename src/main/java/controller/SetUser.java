@@ -9,6 +9,8 @@ import javafx.util.StringConverter;
 import model.Request;
 import model.Site;
 import model.User;
+import model.Verifications;
+
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -51,11 +53,11 @@ public class SetUser implements Initializable {
     @FXML
     private TextField mailAd;
 
-    @FXML
+    /*@FXML
     private Label desc;
 
     @FXML
-    private Label phone;
+    private Label phone;*/
 
     @FXML
     private Label siteDi;
@@ -71,6 +73,14 @@ public class SetUser implements Initializable {
 
     @FXML
     private Button suppr;
+
+    private Label descTitle;
+
+    private Label desc;
+
+    private Label phoneTitle;
+
+    private Label phone;
 
     public void setEdit(Enumeration edit){
         this.edit = edit;
@@ -98,36 +108,41 @@ public class SetUser implements Initializable {
                 return null;
             }
         });
+        descTitle = new Label("Description :");
+        desc = new Label();
+        phoneTitle = new Label("Telephone :");
+        phone = new Label();
     }
 
     @FXML
     private void validate(ActionEvent event) {
-        if (edit == edit.ADD || edit == edit.CHANGE){
-            user.setLastname(nameAd.getText());
-            user.setFirstname(firstAd.getText());
-            Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            /*SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String strDate = dateFormat.format(date);*/
-            user.setBirthdate(date);
-            user.setMailAdress(mailAd.getText());
-            user.setSite(siteAd.getSelectionModel().getSelectedItem());
+        Verifications verif = new Verifications();
+        if (edit == edit.ADD || edit == edit.CHANGE) {
+            if (verif.isNotEmpty(nameAd.getText()) && verif.isNotEmpty(firstAd.getText()) && verif.isNotEmpty(dateAd.getValue().toString()) && verif.isNotEmpty(mailAd.getText()) && verif.isNotEmpty(siteAd.getSelectionModel().getSelectedItem().toString())) {
+
+                user.setLastname(nameAd.getText());
+                user.setFirstname(firstAd.getText());
+                Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                user.setBirthdate(date);
+                user.setMailAdress(mailAd.getText());
+                user.setSite(siteAd.getSelectionModel().getSelectedItem());
 
 
-            if (edit == edit.ADD){
-                user.createUser();
+                if (edit == edit.ADD) {
+                    user.createUser();
+                } else {
+                    System.out.println(user.getFirstname());
+                    user.updateUser();
+                    user.updateSite();
+                }
+                setEdit(edit.DISPLAY);
+                display();
             }
-            else{
-                System.out.println(user.getFirstname());
-                user.updateUser();
-                /*dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                user.setBirth(dateFormat.format(date));
-                Request req = new Request("post", "/users/modify/" + user.getId());
-                req.putUser(user);*/
+            else {
+                new Message("L'un des champs est vide");
             }
-            setEdit(edit.DISPLAY);
-            display();
         }
-        else{
+        else {
             setEdit(edit.CHANGE);
             change();
         }
@@ -135,7 +150,17 @@ public class SetUser implements Initializable {
 
     @FXML
     private void back(ActionEvent event) {
-        new Loader("/view/User.fxml", "GESTION DES UTILISATEURS");
+        User_menu user_menu = User_menu.user_menu;
+        Loader loader = new Loader("/view/User.fxml","GESTION DES UTILISATEURS");
+        User_menu user_m = loader.getLoader().getController();
+
+        if (user_menu != null){
+            if (user_menu.getButtons() != null) {
+                for (Button button : user_menu.getButtons()) {
+                    user_m.addButton(button);
+                }
+            }
+        }
     }
 
     @FXML
@@ -166,6 +191,7 @@ public class SetUser implements Initializable {
         mailAd.setText(user.getMailAdress());
         siteAd.getItems().addAll();
         siteAd.getSelectionModel().select(user.getSite());
+        grid.getChildren().removeAll(desc, descTitle, phone, phoneTitle);
 
         setForm(true);
         setDisp(false);
@@ -178,9 +204,15 @@ public class SetUser implements Initializable {
         firstDi.setText(user.getFirstname());
         dateDi.setText(user.getStrDate());
         mailDi.setText(user.getMailAdress());
-        siteDi.setText(user.getSite().getName());
+        if (user.getSite() != null) {
+            siteDi.setText(user.getSite().getName());
+        }
         desc.setText(user.getDescription());
         phone.setText(user.getPhoneNumber());
+        grid.add(descTitle, 0, 5);
+        grid.add(desc, 1, 5);
+        grid.add(phoneTitle, 0, 6);
+        grid.add(phone, 1, 6);
 
         setForm(false);
         setDisp(true);

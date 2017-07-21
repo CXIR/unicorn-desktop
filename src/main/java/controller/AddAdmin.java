@@ -43,8 +43,12 @@ public class AddAdmin implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        User users = new User();
-        this.users = users.getUsers();
+        users = new User().getUsers();
+        for (User user : users){
+            if (user.getId() == Connection.account.getId()){
+                users.remove(user);
+            }
+        }
         setTable();
     }
 
@@ -81,6 +85,7 @@ public class AddAdmin implements Initializable {
 
                             if (row != null) {
                                 User user = param.getTableView().getItems().get(row.getIndex());
+                                System.out.println(user.getLastname());
                                 if (item){
                                     user.setAdmin(true);
                                     user.setSuperAd(false);
@@ -92,7 +97,6 @@ public class AddAdmin implements Initializable {
                                         user.updateStatus(1);
                                     }
                                 }
-                                //Request req = new Request("post", "/users/modify/" + param.getTableView().getItems().get(rowNo).getId());
                             }
                         }
                     }
@@ -109,7 +113,7 @@ public class AddAdmin implements Initializable {
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (!empty) {
+                        if (item != null && !empty) {
                             TableRow  row = getTableRow();
 
                             if (row != null) {

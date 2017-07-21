@@ -4,8 +4,10 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static java.lang.Integer.parseInt;
 
@@ -13,25 +15,35 @@ import static java.lang.Integer.parseInt;
  * Created by Micka on 01/07/2017.
  */
 public class Report {
-    private int id;
-    private String message;
-    private User plaintiff;
-    private User reported;
-    private BooleanProperty bloqued = new SimpleBooleanProperty();
+    public HashMap<String,String> map;
+    protected int id;
+    protected String message;
+    protected User Plaintiff;
+    protected User Reported;
+    protected BooleanProperty bloqued = new SimpleBooleanProperty();
 
     public Report(){}
 
     public Report(int id, String message, User plaintiff, User reported){
         this.id = id;
         this.message = message;
-        this.plaintiff = plaintiff;
-        this.reported = reported;
-        System.out.println(reported.getLastname());
-        if (reported.getStatus() != null) {
-            if (reported.getStatus().getId() == 4) {
-                setBloqued(true);
-            }
+        this.Plaintiff = plaintiff;
+        this.Reported = reported;
+        if (reported.getStatus().getId() == 4) {
+            setBloqued(true);
         }
+    }
+
+    /** HashMap which contains this Class properties with types */
+    public HashMap<String,String> getProperties(){
+        map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("message","String");
+        map.put("Plaintiff","User");
+        map.put("Reported","User");
+
+        return map;
     }
 
     public int getId() {
@@ -43,19 +55,19 @@ public class Report {
     }
 
     public User getPlaintiff() {
-        return plaintiff;
+        return Plaintiff;
     }
 
     public void setPlaintiff(User plaintiff) {
-        this.plaintiff = plaintiff;
+        this.Plaintiff = plaintiff;
     }
 
     public User getReported() {
-        return reported;
+        return Reported;
     }
 
     public void setReported(User reported) {
-        this.reported = reported;
+        this.Reported = reported;
     }
 
     public String getMessage() {
@@ -76,52 +88,29 @@ public class Report {
 
     public void setBloqued(boolean bloqued) {
         this.bloqued.set(bloqued);
-        /*if (bloqued == true){
-            if (reported.getStatus().getId() != 0){
-                reported.setStatus(new Status());
-                reported.updateStatus(4);
-            }
-            else{
-                for (Status status : reported.getStatus().getAllStatus()){
-                    if (status.getId() == 4){
-                        this.reported.setStatus(status);
-                        reported.updateStatus(1);
-                    }
-                }
-            }
-        }*/
     }
 
     public ArrayList<Report> getReports(){
         String method = "GET";
         String page = "/report/";
         Request req = new Request(method, page);
-        return getReports(req.get());
-    }
-
-    public ArrayList<Report> getReports(Object object){
         ArrayList<Report> reports = new ArrayList<>();
-        if (object != null){
-            JSONArray array = (JSONArray) object;
-            for(Object obj : array){
-                JSONObject jsonObject = (JSONObject) obj;
-
-                //On récupère les champs
-                int idReport = parseInt(jsonObject.get("id").toString());
-                String message = jsonObject.get("message").toString();
-
-                User plaintiff = new User();
-                if (jsonObject.get("Plaintiff") != null){
-                    plaintiff = plaintiff.getUser(jsonObject.get("Plaintiff"));
+        System.out.println();
+        try {
+            for(Object obj : req.getMultipleResults("Report")){
+                if(obj instanceof Report){
+                    Report report = (Report) obj;
+                    System.out.println(report.getReported());
+                    if (report.getReported().getStatus().getId() == 4){
+                        report.setBloqued(true);
+                    }
+                    reports.add(report);
                 }
-
-                User reported = new User();
-                if (jsonObject.get("Reported") != null){
-                    reported = plaintiff.getUser(jsonObject.get("Reported"));
-                }
-
-                reports.add(new Report(idReport, message, plaintiff, reported));
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return reports;
     }

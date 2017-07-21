@@ -29,22 +29,22 @@ import java.util.Date;
  * Created by aimee on 30/06/2017.
  */
 public class Ride {
-    private int id;
-    private Date add_date;
+    protected int id;
+    protected Date add_date;
 
     //Départ
-    private Date depature_date;
-    private String depature_adress;
-    private String depature_postalCode;
-    private String depature_city;
-    private int depature_idsite = 0;
+    protected Date depature_date;
+    protected String depature_adress;
+    protected String depature_postalCode;
+    protected String depature_city;
+    protected int depature_idsite = 0;
 
     //Arrivée
-    private Date arrival_date;
-    private String arrival_adress;
-    private String arrival_postalCode;
-    private String arrival_city;
-    private int arrival_idsite = 0;
+    protected Date arrival_date;
+    protected String arrival_adress;
+    protected String arrival_postalCode;
+    protected String arrival_city;
+    protected int arrival_idsite = 0;
 
     //Conducteur
     private User driver;

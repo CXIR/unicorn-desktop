@@ -39,7 +39,7 @@ public class Table_site implements Initializable {
     private TableColumn<Site, String> adress;
 
     @FXML
-    private TableColumn<Site, Integer> postal;
+    private TableColumn<Site, String> postalCode;
 
     @FXML
     private TableColumn<Site, String> city;
@@ -53,8 +53,8 @@ public class Table_site implements Initializable {
 
     public void setTable(){
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        adress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        postal.setCellValueFactory(new PropertyValueFactory<>("postal"));
+        adress.setCellValueFactory(new PropertyValueFactory<>("adress"));
+        postalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         city.setCellValueFactory(new PropertyValueFactory<>("city"));
 
         if(this.sites != null){
