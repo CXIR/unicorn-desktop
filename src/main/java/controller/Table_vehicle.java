@@ -62,7 +62,7 @@ public class Table_vehicle implements Initializable {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Vehicle, String> param) {
                 if (param.getValue() != null){
-                    return new SimpleStringProperty(param.getValue().getDriver().getFirstname() + " " + param.getValue().getDriver().getLastname());
+                    return new SimpleStringProperty(param.getValue().getUser().getFirstname() + " " + param.getValue().getUser().getLastname());
                 }
                 return null;
             }
@@ -94,11 +94,12 @@ public class Table_vehicle implements Initializable {
                                 Vehicle vehicle = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
                                     vehicle.setVehicleValid(true);
+                                    System.out.println(vehicle.isVehicleOK());
                                     vehicle.validateVehicle();
                                 }
                                 else{
                                     vehicle.setVehicleValid(false);
-                                    vehicle.validateVehicle();
+                                    vehicle.unvalidateVehicle();
                                 }
                             }
                         }

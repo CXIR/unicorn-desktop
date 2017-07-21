@@ -10,10 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import model.Main;
 import model.User;
+import model.Verifications;
+import sun.misc.BASE64Encoder;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Base64;
 import java.util.ResourceBundle;
 
 
@@ -48,23 +49,29 @@ public class Connection implements Initializable {
 
     @FXML
     private void buttonConn(ActionEvent event) throws IOException {
-        if(login.getText()!= null && pass.getText() != null){
-            //String passEncode = Base64.getEncoder().encode(pass.getText().getBytes()).toString();
-            for (User user : new User().getUsers()){
-                if (login.getText().equals(user.getMailAdress()) && pass.getText().equals(user.getPassword())){
+        Verifications verif = new Verifications();
+        if(verif.isNotEmpty(login.getText()) && verif.isNotEmpty(pass.getText())){
+            if (verif.isValidEmail(login.getText())) {
+                BASE64Encoder encoder = new BASE64Encoder();
+                String passEncode = encoder.encode(pass.getText().getBytes()).toString();
+                for (User user : new User().getUsers()) {
+                    if (login.getText().equals(user.getMailAdress()) && passEncode.equals(user.getPassword())) {
 
-                    if (user.getStatus().getId() == 2 || user.getStatus().getId() == 3){
-                        account = user;
-                        main.sample();
+                        if (user.getStatus().getId() == 2 || user.getStatus().getId() == 3) {
+                            account = user;
+                            main.sample();
+                        } else {
+                            error("L'utilisateur n'a pas les droits pour accéder à l'application");
+                        }
+                        logs = true;
                     }
-                    else {
-                        error("L'utilisateur n'a pas les droits pour accéder à l'application");
-                    }
-                    logs = true;
+                }
+                if (!logs) {
+                    error("Les identifiants ne sont pas valides");
                 }
             }
-            if (!logs) {
-                error("Les identifiants ne sont pas valides");
+            else{
+                error("L'identifiant ne correspond pas à un mail valide");
             }
         }
         else{
@@ -73,10 +80,7 @@ public class Connection implements Initializable {
     }
 
     public void error(String message){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setContentText(message);
-        alert.showAndWait();
+        new Message(message);
         login.setText("");
         pass.setText("");
         login.requestFocus();

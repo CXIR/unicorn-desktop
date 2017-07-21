@@ -98,8 +98,11 @@ public class Site {
         String page = "/site/" + id;
         Request req = new Request(method, page);
         try {
+            //return (Site) req.getSingleResult("Site");
             return (Site) req.getSingleResult("Site");
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
             e.printStackTrace();
         }
         return null;
@@ -112,10 +115,13 @@ public class Site {
         Request req = new Request(method, page);
         ArrayList<Site> sites = new ArrayList<>();
         try {
+            //req.get("Site");
             for (Object obj : req.getMultipleResults("Site")){
                 sites.add((Site) obj);
             }
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
             e.printStackTrace();
         }
         return sites;
@@ -143,7 +149,7 @@ public class Site {
         json.put("name", name);
         json.put("adress", adress);
         json.put("city", city);
-        json.put("postalCode", postalCode);
+        json.put("postal", postalCode);
         return json;
     }
 

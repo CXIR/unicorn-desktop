@@ -9,6 +9,8 @@ import javafx.util.StringConverter;
 import model.Request;
 import model.Site;
 import model.User;
+import model.Verifications;
+
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -114,28 +116,33 @@ public class SetUser implements Initializable {
 
     @FXML
     private void validate(ActionEvent event) {
-        if (edit == edit.ADD || edit == edit.CHANGE){
-            user.setLastname(nameAd.getText());
-            user.setFirstname(firstAd.getText());
-            Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            user.setBirthdate(date);
-            user.setMailAdress(mailAd.getText());
-            user.setSite(siteAd.getSelectionModel().getSelectedItem());
+        Verifications verif = new Verifications();
+        if (edit == edit.ADD || edit == edit.CHANGE) {
+            if (verif.isNotEmpty(nameAd.getText()) && verif.isNotEmpty(firstAd.getText()) && verif.isNotEmpty(dateAd.getValue().toString()) && verif.isNotEmpty(mailAd.getText()) && verif.isNotEmpty(siteAd.getSelectionModel().getSelectedItem().toString())) {
+
+                user.setLastname(nameAd.getText());
+                user.setFirstname(firstAd.getText());
+                Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                user.setBirthdate(date);
+                user.setMailAdress(mailAd.getText());
+                user.setSite(siteAd.getSelectionModel().getSelectedItem());
 
 
-            if (edit == edit.ADD){
-                user.createUser();
-                user.updateSite();
+                if (edit == edit.ADD) {
+                    user.createUser();
+                } else {
+                    System.out.println(user.getFirstname());
+                    user.updateUser();
+                    user.updateSite();
+                }
+                setEdit(edit.DISPLAY);
+                display();
             }
-            else{
-                System.out.println(user.getFirstname());
-                user.updateUser();
-                user.updateSite();
+            else {
+                new Message("L'un des champs est vide");
             }
-            setEdit(edit.DISPLAY);
-            display();
         }
-        else{
+        else {
             setEdit(edit.CHANGE);
             change();
         }

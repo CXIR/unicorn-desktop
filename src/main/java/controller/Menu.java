@@ -4,6 +4,7 @@ import PluginManager.PluginLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -94,7 +95,12 @@ public class Menu implements Initializable {
 
     @FXML
     private void labelAdmins(MouseEvent event) {
-        new Loader("/view/AddAdmin.fxml", "GESTION DES ADMINISTRATEURS");
+        if (Connection.account.getStatus().getId() == 3) {
+            new Loader("/view/AddAdmin.fxml", "GESTION DES ADMINISTRATEURS");
+        }
+        else{
+            new Message("Vous n'avez pas les droits nécessaires");
+        }
     }
 
     @FXML

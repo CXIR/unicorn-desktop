@@ -88,14 +88,18 @@ public class Table_report implements Initializable {
                             if (row != null) {
                                 Report report = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
-                                    report.setBloqued(true);
-                                    report.getReported().updateStatus(4);
+                                    if (report.getReported().getId() == Connection.account.getId()){
+                                        new Message("Cet utilisateur ne peut être bloqué par vous");
+                                    }
+                                    else {
+                                        report.setBloqued(true);
+                                        report.getReported().updateStatus(4);
+                                    }
                                 }
                                 else{
                                     report.setBloqued(false);
                                     report.getReported().updateStatus(1);
                                 }
-                                //Request req = new Request("post", "/users/modify/" + param.getTableView().getItems().get(rowNo).getId());
                             }
                         }
                     }

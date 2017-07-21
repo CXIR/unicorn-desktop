@@ -30,11 +30,11 @@ public class Vehicle {
     protected String vehicleType;
     protected boolean isVehicleOK;
     protected BooleanProperty vehicleValid = new SimpleBooleanProperty();
-    protected User driver;
+    protected User user;
 
     public Vehicle(){}
 
-    public Vehicle(int id, String brand, String model, String registrationNumber, int placesNumber, String vehicleType, boolean isVehicleOK, User driver){
+    public Vehicle(int id, String brand, String model, String registrationNumber, int placesNumber, String vehicleType, boolean isVehicleOK, User user){
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -42,7 +42,7 @@ public class Vehicle {
         this.placesNumber = placesNumber;
         this.vehicleType = vehicleType;
         setVehicleValid(isVehicleOK);
-        this.driver = driver;
+        this.user = user;
     }
 
     /** HashMap which contains this Class properties with types */
@@ -56,7 +56,7 @@ public class Vehicle {
         map.put("placesNumber","int");
         map.put("vehicleType","String");
         map.put("isVehicleOK","boolean");
-        map.put("driver","User");
+        map.put("user","User");
 
         return map;
     }
@@ -126,16 +126,16 @@ public class Vehicle {
     }
 
     public void setVehicleValid(boolean vehicleValid) {
-
+        setVehicleOK(vehicleValid);
         this.vehicleValid.set(vehicleValid);
     }
 
-    public User getDriver() {
-        return driver;
+    public User getUser() {
+        return user;
     }
 
-    public void setDriver(User user) {
-        this.driver = driver;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Vehicle getVehicle(String id) {
@@ -150,6 +150,8 @@ public class Vehicle {
                 return vehicle;
             }
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
             e.printStackTrace();
         }
         return null;
@@ -170,19 +172,22 @@ public class Vehicle {
             }
         } catch (ParseException e) {
             e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return vehicles;
     }
 
     public void validateVehicle(){
         String method = "GET";
-        String page = "/users/vehicle/validate/" + id;
+        String page = "/vehicle/validate/" + id;
         new Request(method, page);
     }
 
     public void unvalidateVehicle(){
+        System.out.println(id);
         String method = "GET";
-        String page = "/users/vehicle/unvalidate/" + id;
+        String page = "/vehicle/unvalidate/" + id;
         new Request(method, page);
     }
 }

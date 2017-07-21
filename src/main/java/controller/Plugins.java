@@ -76,10 +76,7 @@ public class Plugins implements Initializable {
                 list.add(newFile);
                 table.refresh();
             } catch (IOException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setContentText("Le plugin a déjà été ajouté!");
-                alert.showAndWait();
+                new Message("Le plugin a déjà été ajouté!");
             }
 
         }
@@ -102,10 +99,7 @@ public class Plugins implements Initializable {
     }
 
     public void logout(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setContentText("L'application doit redémarrer pour prendre en compte les modifications");
-        alert.showAndWait();
+        new Message("L'application doit redémarrer pour prendre en compte les modifications");
         Menu.menu.logout();
     }
 

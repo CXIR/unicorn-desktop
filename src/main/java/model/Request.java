@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
 
+import controller.Message;
 import javafx.scene.control.Alert;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -54,10 +55,7 @@ public class Request {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setContentText("La connexion au serveur a échoué.");
-            alert.showAndWait();
+            new Message("La connexion au serveur a échoué.");
         }
 
     }
@@ -66,6 +64,7 @@ public class Request {
         OutputStreamWriter writer = null;
         try {
             writer = new OutputStreamWriter(conn.getOutputStream());
+            System.out.println(json);
             json.writeJSONString(writer);
             writer.flush();
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -79,7 +78,7 @@ public class Request {
         }
     }
 
-    public Object getSingleResult(String className) throws ParseException {
+    public Object getSingleResult(String className) throws ParseException, RequestException {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(this.conn.getInputStream()));
             String line = in.readLine();
@@ -88,9 +87,24 @@ public class Request {
 
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(line);
-                JSONObject single = (JSONObject)obj;
-
-                return createObject(className,single);
+                if (obj instanceof JSONObject){
+                    JSONObject jsonObject = (JSONObject) obj;
+                    if (jsonObject.get("result") != null){
+                        if (jsonObject.get("result") instanceof JSONObject){
+                            if (Integer.parseInt(jsonObject.get("result").toString()) == 0){
+                                new RequestException(jsonObject.get("message").toString());
+                            }
+                        }
+                    }
+                    if (jsonObject.get("content") != null){
+                        if (jsonObject.get("content") instanceof JSONObject){
+                            JSONObject single = (JSONObject) jsonObject.get("content");
+                            return createObject(className,single);
+                        }
+                    }
+                }
+                return null;
+                //return createObject(className,single);
             }
         }
         catch (IOException e) {
@@ -99,23 +113,35 @@ public class Request {
         return null;
     }
 
-    public ArrayList<Object> getMultipleResults(String className) throws ParseException{
+    public ArrayList<Object> getMultipleResults(String className) throws ParseException, RequestException {
         ArrayList<Object> results = new ArrayList<>();
 
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(this.conn.getInputStream()));
+        try(BufferedReader in = new BufferedReader(new InputStreamReader(this.conn.getInputStream()))) {
             String line = in.readLine();
 
             if(line != null){
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(line);
-                JSONArray array = (JSONArray)obj;
+                if (obj instanceof JSONObject){
+                    JSONObject jsonObject = (JSONObject) obj;
+                    if (jsonObject.get("result") != null){
+                        if (jsonObject.get("result") instanceof JSONObject){
+                            if (Integer.parseInt(jsonObject.get("result").toString()) == 0){
+                                new RequestException(jsonObject.get("message").toString());
+                            }
+                        }
+                    }
 
-                for(int i = 0; i < array.size(); i++){
-                    JSONObject elem = (JSONObject)array.get(i);
-                    results.add(createObject(className,elem));
+                    if (jsonObject.get("content") != null){
+                        if (jsonObject.get("content") instanceof JSONArray){
+                            JSONArray array = (JSONArray) jsonObject.get("content");
+                            for (int i = 0; i < array.size(); i++) {
+                                JSONObject elem = (JSONObject) array.get(i);
+                                results.add(createObject(className, elem));
+                            }
+                        }
+                    }
                 }
-
                 return results;
             }
         }
@@ -138,29 +164,35 @@ public class Request {
 
             for(HashMap.Entry<String,String> entry : properties.entrySet()){
                 String attribute = entry.getKey();
+                String majAttribute = entry.getKey().substring(0, 1).toUpperCase() + entry.getKey().substring(1);
                 String type = entry.getValue();
+                String nameField = attribute;
 
-                /*if(elem.get(entry.getKey()) instanceof JSONArray){
+                if (elem.get(attribute) == null && elem.get(majAttribute) != null){
+                    attribute = majAttribute;
+                }
+
+                if(elem.get(attribute) instanceof JSONArray){
                     ArrayList<Object> list = new ArrayList<>();
-                    JSONArray array = (JSONArray)elem.get(entry.getKey());
+                    JSONArray array = (JSONArray)elem.get(attribute);
                     for(int i = 0; i < array.size(); i++){
                         JSONObject array_elem = (JSONObject)array.get(i);
                         Object current = createObject(type,array_elem);
                         list.add(current);
                     }
-                    Field f = _class.getDeclaredField(attribute);
+                    Field f = _class.getDeclaredField(nameField);
                     f.set(obj,list);
                 }
-                else*/ if(elem.get(entry.getKey()) instanceof JSONObject){
-                    JSONObject object = (JSONObject)elem.get(entry.getKey());
+                else if(elem.get(attribute) instanceof JSONObject){
+                    JSONObject object = (JSONObject)elem.get(attribute);
                     Object association = createObject(type,object);
 
-                    Field f = _class.getDeclaredField(attribute);
+                    Field f = _class.getDeclaredField(nameField);
                     f.set(obj,association);
                 }
-                else if(elem.get(entry.getKey()) instanceof String){
-                    String value = (String)elem.get(entry.getKey());
-                    Field f = _class.getDeclaredField(attribute);
+                else if(elem.get(attribute) instanceof String){
+                    String value = (String)elem.get(attribute);
+                    Field f = _class.getDeclaredField(nameField);
                     if(type == "String"){
                         Class cls = type.getClass();
                         Object param = Class.forName(cls.getName()).getConstructor(new Class[]{String.class}).newInstance(value);
@@ -171,14 +203,14 @@ public class Request {
                         f.set(obj,date);
                     }
                 }
-                else if (elem.get(entry.getKey()) instanceof Boolean){
-                    boolean value = (Boolean) elem.get(entry.getKey());
-                    Field f = _class.getDeclaredField(attribute);
+                else if (elem.get(attribute) instanceof Boolean){
+                    boolean value = (Boolean) elem.get(attribute);
+                    Field f = _class.getDeclaredField(nameField);
                     f.setBoolean(obj, value);
                 }
-                else if(elem.get(entry.getKey()) instanceof Long){
-                    Long value = (Long)elem.get(entry.getKey());
-                    Field f = _class.getDeclaredField(attribute);
+                else if(elem.get(attribute) instanceof Long){
+                    Long value = (Long)elem.get(attribute);
+                    Field f = _class.getDeclaredField(nameField);
 
                     if(type == "int"){
                         f.setInt(obj,Integer.parseInt(value.toString()));

@@ -95,11 +95,12 @@ public class Report {
         String page = "/report/";
         Request req = new Request(method, page);
         ArrayList<Report> reports = new ArrayList<>();
+        System.out.println();
         try {
             for(Object obj : req.getMultipleResults("Report")){
                 if(obj instanceof Report){
                     Report report = (Report) obj;
-                    System.out.println(report.getReported().getLastname());
+                    System.out.println(report.getReported());
                     if (report.getReported().getStatus().getId() == 4){
                         report.setBloqued(true);
                     }
@@ -107,6 +108,8 @@ public class Report {
                 }
             }
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
             e.printStackTrace();
         }
         return reports;

@@ -76,8 +76,6 @@ public class SetSite implements Initializable {
                 site.createSite();
             }
             else{
-                //Request req = new Request("post", "/site/modify/" + site.getId());
-                //req.putSite(site);
                 site.changeSite();
             }
             setEdit(edit.DISPLAY);

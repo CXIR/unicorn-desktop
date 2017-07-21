@@ -56,8 +56,11 @@ public class Status {
         String page = "/status/";
         Request req = new Request(method, page);
         try {
+            //return (Status) req.getSingleResult("Status");
             return (Status) req.getSingleResult("Status");
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
             e.printStackTrace();
         }
         return null;
@@ -74,6 +77,8 @@ public class Status {
                 status.add((Status) obj);
             }
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
             e.printStackTrace();
         }
         return status;

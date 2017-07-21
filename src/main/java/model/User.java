@@ -234,9 +234,9 @@ public class User {
     }
 
     /**
-     * GET ALL USERS
+     * GET A USER
      * Call the method get to have a Json Object
-     * @return a list of users
+     * @return a user
      */
     public User getUser(String id){
         String method = "GET";
@@ -255,6 +255,8 @@ public class User {
                 return user;
             }
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
             e.printStackTrace();
         }
         return null;
@@ -285,10 +287,35 @@ public class User {
             }
         } catch (ParseException e) {
             e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return users;
     }
 
+    public User findUser(String mail){
+        String method = "GET";
+        String page = "/users/mail/" + mail;
+        Request req = new Request(method, page);
+        try {
+            Object obj = req.getSingleResult("User");
+            if(obj instanceof User){
+                User user = (User) obj;
+                if (user.getStatus().getId() == 2){
+                    user.setAdmin(true);
+                }
+                else if (user.getStatus().getId() == 2) {
+                    user.setSuperAd(true);
+                }
+                return user;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * CREATE USER
@@ -322,6 +349,10 @@ public class User {
         json.put("birth", birthdate.toInstant().toString());
         json.put("mail", mailAdress);
         json.put("pass", password);
+        if (update == false){
+            json.put("site", getSite().getId());
+            json.put("status", 1);
+        }
         return json;
     }
 
