@@ -6,5 +6,5 @@ package PluginManager;
 public interface IPlugin {
     String getName();
     void init();
-
+    void exit();
 }

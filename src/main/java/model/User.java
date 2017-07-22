@@ -249,7 +249,7 @@ public class User {
                 if (user.getStatus().getId() == 2){
                     user.setAdmin(true);
                 }
-                else if (user.getStatus().getId() == 2) {
+                else if (user.getStatus().getId() == 3) {
                     user.setSuperAd(true);
                 }
                 return user;
@@ -279,7 +279,7 @@ public class User {
                     if (user.getStatus().getId() == 2){
                         user.setAdmin(true);
                     }
-                    else if (user.getStatus().getId() == 2) {
+                    else if (user.getStatus().getId() == 3) {
                         user.setSuperAd(true);
                     }
                     users.add(user);
@@ -304,7 +304,7 @@ public class User {
                 if (user.getStatus().getId() == 2){
                     user.setAdmin(true);
                 }
-                else if (user.getStatus().getId() == 2) {
+                else if (user.getStatus().getId() == 3) {
                     user.setSuperAd(true);
                 }
                 return user;

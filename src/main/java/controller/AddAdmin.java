@@ -44,11 +44,11 @@ public class AddAdmin implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         users = new User().getUsers();
-        for (User user : users){
-            if (user.getId() == Connection.account.getId()){
+        /*for (User user : users){
+            /*if (user.getId() == Connection.account.getId()){
                 users.remove(user);
             }
-        }
+        }*/
         setTable();
     }
 

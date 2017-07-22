@@ -69,13 +69,18 @@ public class Menu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         menu = this;
+        home();
         PluginLoader loader = new PluginLoader();
         loader.LoadPlugins();
     }
 
+    public void home(){
+        new Loader("/view/Home.fxml", "PARTAGE TA CAISSE");
+    }
+
     @FXML
     private void labelHome(MouseEvent event) {
-        new Loader("/view/Home.fxml", "PARTAGE TA CAISSE");
+        home();
     }
 
     @FXML

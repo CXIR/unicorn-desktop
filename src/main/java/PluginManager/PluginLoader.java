@@ -1,19 +1,13 @@
 package PluginManager;
 
-import controller.Loader;
-import controller.Menu;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
+import javafx.application.Platform;
+import javafx.stage.Stage;
+import model.Main;
 
-import javax.xml.soap.SOAPPart;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.SocketPermission;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.net.*;
 import java.util.*;
 import java.util.jar.*;
 
@@ -24,6 +18,7 @@ public class PluginLoader {
 
     private List plugins;
     private String directoryPath = "./plugin";
+    private static URLClassLoader ucl;
 
     public void LoadPlugins() {
 
@@ -46,19 +41,23 @@ public class PluginLoader {
             }
         }
 
-        URLClassLoader ucl = new URLClassLoader(urls);
-
+        ucl = new URLClassLoader(urls);
         ServiceLoader<IPlugin> sl = ServiceLoader.load(IPlugin.class, ucl);
-
         Iterator<IPlugin> apit = sl.iterator();
 
         while (apit.hasNext()) {
             IPlugin plugin = apit.next();
-            System.out.println(plugin.getName());
             plugin.init();
+            //System.out.println(plugin.getName());
         }
-
     }
 
+    public static void closeFile(){
+        try {
+            ucl.close();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

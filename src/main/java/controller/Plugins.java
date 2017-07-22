@@ -1,6 +1,7 @@
 package controller;
 
 import PluginManager.PluginLoader;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,15 +12,21 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Main;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.jar.JarFile;
 
 /**
  * Created by Micka on 13/07/2017.
@@ -89,6 +96,21 @@ public class Plugins implements Initializable {
     public void del(){
         Object obj = table.getSelectionModel().getSelectedItem();
         File file = (File) obj;
+        PluginLoader.closeFile();
+        /*Platform.runLater(() -> {
+            try {
+                Main.primaryStage.close();
+                new Main().start(new Stage());
+                if(file.delete()){
+                    System.out.println(file.getName() + " is deleted!");
+                }else{
+                    System.out.println("Delete operation is failed.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+*/
         if(file.delete()){
             System.out.println(file.getName() + " is deleted!");
         }else{

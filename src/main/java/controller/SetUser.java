@@ -1,5 +1,6 @@
 package controller;
 
+import PluginManager.PluginLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -89,6 +90,7 @@ public class SetUser implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle re){
+        PluginLoader.closeFile();
         user = new User();
         if(edit != null){
             choice();

@@ -33,6 +33,7 @@ public class Request {
 
     public Request(String meth, String page){
         link = site + page;
+        System.out.println(link);
         try {
             URL url = new URL(link);
             conn = (HttpURLConnection) url.openConnection();
@@ -90,9 +91,12 @@ public class Request {
                 if (obj instanceof JSONObject){
                     JSONObject jsonObject = (JSONObject) obj;
                     if (jsonObject.get("result") != null){
-                        if (jsonObject.get("result") instanceof JSONObject){
+                        if (jsonObject.get("result") instanceof Long){
                             if (Integer.parseInt(jsonObject.get("result").toString()) == 0){
                                 new RequestException(jsonObject.get("message").toString());
+                            }
+                            else if (jsonObject.get("message") != null){
+                                System.out.println(jsonObject.get("message").toString());
                             }
                         }
                     }
