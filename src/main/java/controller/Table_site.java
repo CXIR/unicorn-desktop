@@ -47,7 +47,7 @@ public class Table_site implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Site sites = new Site();
-        //this.sites = sites.getSites();
+        this.sites = sites.getSites();
         setTable();
     }
 

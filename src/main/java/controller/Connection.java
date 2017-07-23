@@ -48,7 +48,7 @@ public class Connection implements Initializable {
     @FXML
     private void buttonConn(ActionEvent event) throws IOException {
         if(login.getText()!= null && pass.getText() != null){
-            /*for (User user : new User().getUsers()){
+            for (User user : new User().getUsers()){
                 if (login.getText().equals(user.getMailAdress()) && pass.getText().equals(user.getPassword())){
 
                     if (user.getStatus().getId() == 2 || user.getStatus().getId() == 3){
@@ -60,7 +60,7 @@ public class Connection implements Initializable {
                         error("L'utilisateur n'a pas les droits pour accéder à l'application");
                     }
                 }
-            }*/
+            }
             if (!logs) {
                 error("Les identifiants ne sont pas valides");
             }

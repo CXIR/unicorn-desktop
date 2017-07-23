@@ -1,14 +1,11 @@
 package model;
 
-import com.sun.org.apache.regexp.internal.RE;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static java.lang.Integer.parseInt;
 
@@ -35,18 +32,6 @@ public class Report {
                 setBloqued(true);
             }
         }
-    }
-
-    /** HashMap which contains this Class properties with types */
-    public HashMap<String,String> getProperties(){
-        HashMap<String,String> map = new HashMap<>();
-
-        map.put("id","int");
-        map.put("message","String");
-        map.put("plaintiff","User");
-        map.put("reported","User");
-
-        return map;
     }
 
     public int getId() {
@@ -107,24 +92,35 @@ public class Report {
         }*/
     }
 
-    /** GET SINGLE REPORT */
-    public Report getReport(int id) throws ParseException{
-        Request request = new Request("GET","/report/"+id);
-        Object report = request.getSingleResult("Report");
-
-        if(report instanceof Report) return (Report)report;
-        return null;
+    public ArrayList<Report> getReports(){
+        String method = "GET";
+        String page = "/report/";
+        Request req = new Request(method, page);
+        return getReports(req.get());
     }
 
-    /** GET ALL REPORTS */
-    public ArrayList<Report> getReports() throws ParseException{
-        Request request = new Request("GET","/report/");
-        ArrayList<Object> raw = request.getMultipleResults("Report");
+    public ArrayList<Report> getReports(Object object){
         ArrayList<Report> reports = new ArrayList<>();
+        if (object != null){
+            JSONArray array = (JSONArray) object;
+            for(Object obj : array){
+                JSONObject jsonObject = (JSONObject) obj;
 
-        for(Object elem : raw){
-            if(elem instanceof Report){
-                reports.add((Report)elem);
+                //On récupère les champs
+                int idReport = parseInt(jsonObject.get("id").toString());
+                String message = jsonObject.get("message").toString();
+
+                User plaintiff = new User();
+                if (jsonObject.get("Plaintiff") != null){
+                    plaintiff = plaintiff.getUser(jsonObject.get("Plaintiff"));
+                }
+
+                User reported = new User();
+                if (jsonObject.get("Reported") != null){
+                    reported = plaintiff.getUser(jsonObject.get("Reported"));
+                }
+
+                reports.add(new Report(idReport, message, plaintiff, reported));
             }
         }
         return reports;

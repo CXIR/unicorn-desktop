@@ -2,18 +2,17 @@ package model;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * Created by Micka on 29/06/2017.
  */
-
 public class Status {
-    protected int id;
-    protected String label;
+    private int id;
+    private String label;
 
     public Status(){
     }
@@ -21,16 +20,6 @@ public class Status {
     public Status(int id, String label){
         this.id = id;
         this.label = label;
-    }
-
-    /** HashMap which contains this Class properties with types */
-    public HashMap<String,String> getProperties(){
-        HashMap<String,String> map = new HashMap<>();
-
-        map.put("id","int");
-        map.put("label","String");
-
-        return map;
     }
 
     public int getId() {
@@ -49,27 +38,57 @@ public class Status {
         this.label = label;
     }
 
+    //GET STATUS
+    public Status getStatus(){
+        String method = "GET";
+        String page = "/status/";
+        Request req = new Request(method, page);
+        return getStatus(req.get());
+    }
 
-    public Status getStatus(int id) throws ParseException{
-        Request request = new Request("GET","/status/"+id);
-        Object status = request.getSingleResult("Status");
+    public Status getStatus(Object object){
+        if (object != null) {
+            JSONObject jsonObject = (JSONObject) object;
 
-        if(status instanceof Status) return (Status)status;
+            //On récupère les champs
+            int idStatus = parseInt(jsonObject.get("id").toString());
+            String label = jsonObject.get("label").toString();
+
+            //Création de l'objet status
+            Status status = new Status(idStatus, label);
+
+            //on retourne status
+            return status;
+        }
         return null;
     }
 
-    public ArrayList<Status> getStatuses() throws ParseException{
-        Request request = new Request("GET","/status/");
-        ArrayList<Object> raw = request.getMultipleResults("Status");
-        ArrayList<Status> statuses = new ArrayList<>();
+    //GET STATUS
+    public ArrayList<Status> getAllStatus(){
+        String method = "GET";
+        String page = "/status/";
+        Request req = new Request(method, page);
+        return getAllStatus(req.get());
+    }
 
-        for(Object elem : raw){
-            if(elem instanceof Status){
-                statuses.add((Status)elem);
+    public ArrayList<Status> getAllStatus(Object object){
+        ArrayList<Status> status = new ArrayList<>();
+        if (object != null) {
+            JSONArray array = (JSONArray) object;
+            for (Object obj : array) {
+                JSONObject jsonObject = (JSONObject) obj;
+
+                //On récupère les champs
+                int idStatus = parseInt(jsonObject.get("id").toString());
+                String label = jsonObject.get("label").toString();
+
+                //Création de l'objet status
+                status.add(new Status(idStatus, label));
+
+                //on retourne status
             }
         }
-
-        return statuses;
+        return status;
     }
 
     public void createStatus(){
@@ -93,10 +112,6 @@ public class Status {
         }
         json.put("label", label);
         return json;
-    }
-
-    public String toString(){
-        return this.id+" "+this.label;
     }
 
 }

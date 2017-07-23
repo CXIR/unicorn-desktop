@@ -13,7 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import model.Report;
 import model.User;
-import org.json.simple.parser.ParseException;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,11 +45,7 @@ public class Table_report implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Report reports = new Report();
-        try {
-            this.reports = reports.getReports();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        this.reports = reports.getReports();
         setTable();
     }
 

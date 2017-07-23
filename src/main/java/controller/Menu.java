@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
 /**
  * Created by Micka on 07/03/2017.
  */
-
 public class Menu implements Initializable {
     protected Main main;
     public static Menu menu;
