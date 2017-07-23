@@ -6,11 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-<<<<<<< HEAD
         <module name="project" />
-=======
-        <module name="Partage_ta_caisse" />
->>>>>>> master
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
