@@ -1,5 +1,8 @@
 package controller;
 
+import annotation.Method;
+import annotation.Modification;
+import annotation.Parameter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -45,6 +48,30 @@ public class Connection implements Initializable {
     public void initialize(URL url, ResourceBundle re){
     }
 
+    @Method(
+            auteur = "MA",
+            date = "07/03/2017",
+            nomDeLaMethode = "buttonConn",
+            portee = "private",
+            typeRetour = "Void",
+            description = "Boutton de connexion - Permet à l'utilisateur de se connecter",
+            parametres =
+                    {
+                            @Parameter(
+                                    type = "ActionEvent",
+                                    nom = "event",
+                                    description = "Evenement"
+                            )
+                    },
+            modifications =
+                    {
+                            @Modification(
+                                    auteur = "AED",
+                                    dateModification = "27/05/2017",
+                                    descriptionModification = "Ajout de l'annotation"
+                            )
+                    }
+    )
     @FXML
     private void buttonConn(ActionEvent event) throws IOException {
         Verifications verif = new Verifications();

@@ -88,7 +88,7 @@ public class Plugins implements Initializable {
             } catch (IOException e) {
                 new Message("Le plugin a déjà été ajouté!");
             }
-
+            logout();
         }
     }
 
