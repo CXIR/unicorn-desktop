@@ -7,54 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ca45c35-b714-4682-8dc7-712d9cb12446" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/controller/Admin_menu.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/controller/Table.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/model/Ride.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/view/Admin.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/view/Table.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/view/profile.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/model/Ride.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin/plugin_DAD.jar" afterPath="$PROJECT_DIR$/plugin/plugin_DAD.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/PluginManager/IPlugin.class" afterPath="$PROJECT_DIR$/target/classes/PluginManager/IPlugin.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/PluginManager/PluginLoader.class" afterPath="$PROJECT_DIR$/target/classes/PluginManager/PluginLoader.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controller/Plugins$1.class" afterPath="$PROJECT_DIR$/target/classes/controller/Plugins$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controller/Plugins.class" afterPath="$PROJECT_DIR$/target/classes/controller/Plugins.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controller/SetSite$1.class" afterPath="$PROJECT_DIR$/target/classes/controller/SetSite$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controller/SetSite.class" afterPath="$PROJECT_DIR$/target/classes/controller/SetSite.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controller/SetStatus$1.class" afterPath="$PROJECT_DIR$/target/classes/controller/SetStatus$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controller/SetStatus.class" afterPath="$PROJECT_DIR$/target/classes/controller/SetStatus.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controller/SetUser$2.class" afterPath="$PROJECT_DIR$/target/classes/controller/SetUser$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controller/SetUser.class" afterPath="$PROJECT_DIR$/target/classes/controller/SetUser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/model/Report.class" afterPath="$PROJECT_DIR$/target/classes/model/Report.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/model/Request.class" afterPath="$PROJECT_DIR$/target/classes/model/Request.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/model/Site.class" afterPath="$PROJECT_DIR$/target/classes/model/Site.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/model/Status.class" afterPath="$PROJECT_DIR$/target/classes/model/Status.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/model/User.class" afterPath="$PROJECT_DIR$/target/classes/model/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/model/Vehicle.class" afterPath="$PROJECT_DIR$/target/classes/model/Vehicle.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin_DAD.zip" afterPath="$PROJECT_DIR$/plugin_DAD.zip" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.jar" afterPath="$PROJECT_DIR$/settings.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/PluginManager/IPlugin.java" afterPath="$PROJECT_DIR$/src/main/java/PluginManager/IPlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/PluginManager/PluginLoader.java" afterPath="$PROJECT_DIR$/src/main/java/PluginManager/PluginLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controller/AddAdmin.java" afterPath="$PROJECT_DIR$/src/main/java/controller/AddAdmin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controller/Connection.java" afterPath="$PROJECT_DIR$/src/main/java/controller/Connection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controller/Plugins.java" afterPath="$PROJECT_DIR$/src/main/java/controller/Plugins.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controller/SetSite.java" afterPath="$PROJECT_DIR$/src/main/java/controller/SetSite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controller/SetStatus.java" afterPath="$PROJECT_DIR$/src/main/java/controller/SetStatus.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controller/SetUser.java" afterPath="$PROJECT_DIR$/src/main/java/controller/SetUser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controller/Table_user.java" afterPath="$PROJECT_DIR$/src/main/java/controller/Table_user.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controller/Table_vehicle.java" afterPath="$PROJECT_DIR$/src/main/java/controller/Table_vehicle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Report.java" afterPath="$PROJECT_DIR$/src/main/java/model/Report.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Request.java" afterPath="$PROJECT_DIR$/src/main/java/model/Request.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Site.java" afterPath="$PROJECT_DIR$/src/main/java/model/Site.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Status.java" afterPath="$PROJECT_DIR$/src/main/java/model/Status.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/User.java" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Vehicle.java" afterPath="$PROJECT_DIR$/src/main/java/model/Vehicle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Verifications.java" afterPath="$PROJECT_DIR$/src/main/java/model/Verifications.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/view/SetSite.fxml" afterPath="$PROJECT_DIR$/src/main/resources/view/SetSite.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/view/SetStatus.fxml" afterPath="$PROJECT_DIR$/src/main/resources/view/SetStatus.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/view/SetSite.fxml" afterPath="$PROJECT_DIR$/target/classes/view/SetSite.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/view/SetStatus.fxml" afterPath="$PROJECT_DIR$/target/classes/view/SetStatus.fxml" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -984,7 +939,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="446091000" />
+    <option name="totallyTimeSpent" value="446827000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
