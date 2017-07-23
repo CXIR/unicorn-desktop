@@ -2,8 +2,10 @@ package model;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static java.lang.Integer.parseInt;
 
@@ -11,8 +13,9 @@ import static java.lang.Integer.parseInt;
  * Created by Micka on 29/06/2017.
  */
 public class Status {
-    private int id;
-    private String label;
+    protected int id;
+    protected String label;
+    protected boolean invalid;
 
     public Status(){
     }
@@ -20,6 +23,16 @@ public class Status {
     public Status(int id, String label){
         this.id = id;
         this.label = label;
+    }
+
+    /** HashMap which contains this Class properties with types */
+    public HashMap<String,String> getProperties(){
+        HashMap<String,String> map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("label","String");
+
+        return map;
     }
 
     public int getId() {
@@ -38,71 +51,88 @@ public class Status {
         this.label = label;
     }
 
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
+    }
+
     //GET STATUS
+
+    /**
+     * Get a status
+     * @return
+     */
     public Status getStatus(){
         String method = "GET";
         String page = "/status/";
         Request req = new Request(method, page);
-        return getStatus(req.get());
-    }
-
-    public Status getStatus(Object object){
-        if (object != null) {
-            JSONObject jsonObject = (JSONObject) object;
-
-            //On récupère les champs
-            int idStatus = parseInt(jsonObject.get("id").toString());
-            String label = jsonObject.get("label").toString();
-
-            //Création de l'objet status
-            Status status = new Status(idStatus, label);
-
-            //on retourne status
-            return status;
+        try {
+            //return (Status) req.getSingleResult("Status");
+            return (Status) req.getSingleResult("Status");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     //GET STATUS
+
+    /**
+     * Get a list of status
+     * @return
+     */
     public ArrayList<Status> getAllStatus(){
         String method = "GET";
         String page = "/status/";
         Request req = new Request(method, page);
-        return getAllStatus(req.get());
-    }
-
-    public ArrayList<Status> getAllStatus(Object object){
         ArrayList<Status> status = new ArrayList<>();
-        if (object != null) {
-            JSONArray array = (JSONArray) object;
-            for (Object obj : array) {
-                JSONObject jsonObject = (JSONObject) obj;
-
-                //On récupère les champs
-                int idStatus = parseInt(jsonObject.get("id").toString());
-                String label = jsonObject.get("label").toString();
-
-                //Création de l'objet status
-                status.add(new Status(idStatus, label));
-
-                //on retourne status
+        try {
+            for (Object obj : req.getMultipleResults("Status")){
+                status.add((Status) obj);
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return status;
     }
 
+    /**
+     * Create a status
+     */
     public void createStatus(){
         String method = "POST";
         String page = "/status/new";
         Request req = new Request(method, page);
         req.post(jsonStatus(false));
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
+    /**
+     * Uptade a status
+     */
     public void updateStatus(){
         String method = "POST";
-        String page = "/users/edit";
+        String page = "/status/edit";
         Request req = new Request(method, page);
         req.post(jsonStatus(true));
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     public JSONObject jsonStatus(boolean update){
@@ -114,4 +144,26 @@ public class Status {
         return json;
     }
 
+    /**
+     * DELETE STATUS
+     * Call the request DELETE with the status id
+     */
+    public void deleteStatus(){
+        String method = "DELETE";
+        String page = "/status/" + id;
+        Request req = new Request(method, page);
+        try {
+            req.getSingleResult("Status");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
+    }
 }

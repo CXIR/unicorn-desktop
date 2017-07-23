@@ -30,7 +30,7 @@
                <children>
                      <ImageView fitHeight="59.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                           <Image url="/images/Logo_TV_2015.png" />
+                           <Image url="/images/logo.png" />
                         </image>
                      <VBox.margin>
                         <Insets bottom="30.0" top="10.0" />
@@ -74,6 +74,14 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      </Label>
+                   <Label id="status" fx:id="status" onMouseClicked="#labelStatus" text="Gestion des status">
+                       <font>
+                           <Font name="System Bold" size="12.0" />
+                       </font>
+                       <cursor>
+                           <Cursor fx:constant="HAND" />
+                       </cursor>
+                   </Label>
                    <Label id="vehicles" fx:id="vehicles" onMouseClicked="#labelVehicles" text="Gestion des Véhicules">
                        <font>
                            <Font name="System Bold" size="12.0" />
@@ -90,6 +98,14 @@
                           <Cursor fx:constant="HAND" />
                       </cursor>
                   </Label>
+                   <Label id="plugins" fx:id="plugins" onMouseClicked="#labelPlugins" text="Plugins">
+                       <font>
+                           <Font name="System Bold" size="12.0" />
+                       </font>
+                       <cursor>
+                           <Cursor fx:constant="HAND" />
+                       </cursor>
+                   </Label>
                      <Label id="param" fx:id="param" onMouseClicked="#labelParam" text="Paramètres">
                         <font>
                            <Font name="System Bold" size="12.0" />

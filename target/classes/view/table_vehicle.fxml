@@ -12,27 +12,33 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.geometry.Insets?>
 <Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Table_vehicle">
     <children>
-        <VBox maxHeight="550.0" maxWidth="750.0" spacing="30.0">
+        <VBox maxHeight="500.0" maxWidth="750.0" spacing="30.0">
             <children>
-                <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                <HBox spacing="30.0">
                     <children>
                         <TextField />
                         <Button mnemonicParsing="false" text="Rechercher" />
                     </children>
+                    <padding>
+                        <Insets left="5.0" top="30.0" />
+                    </padding>
                 </HBox>
-                <TableView fx:id="table">
+                <TableView fx:id="table" prefWidth="750">
                     <columns>
-                        <TableColumn fx:id="user" editable="false" minWidth="40.0" prefWidth="-1.0" text="Nom" />
-                        <TableColumn id="col" fx:id="brand" editable="false" minWidth="50.0" prefWidth="-1.0" text="Marque" />
-                        <TableColumn id="col" fx:id="model" editable="false" minWidth="50.0" prefWidth="-1.0" text="Modèle" />
-                        <TableColumn id="col" fx:id="registr" editable="false" minWidth="120.0" prefWidth="-1.0" text="N° d'enregistrement" />
-                        <TableColumn id="col" fx:id="place" editable="false" minWidth="110.0" prefWidth="-1.0" text="Nombre de places" />
-                        <TableColumn id="col" fx:id="type" editable="false" minWidth="110.0" prefWidth="-1.0" text="Type de Véhicule" />
-                        <TableColumn id="col" fx:id="valid" editable="true" minWidth="40.0" prefWidth="-1.0" text="Validé" />
-                  <TableColumn minWidth="40.0" prefWidth="-1.0" text="Validé" />
+                        <TableColumn fx:id="user" prefWidth="-1" text="Nom" />
+                        <TableColumn id="col" fx:id="brand" editable="false"  prefWidth="-1.0" text="Marque" />
+                        <TableColumn id="col" fx:id="model" editable="false" prefWidth="-1.0" text="Modèle" />
+                        <TableColumn id="col" fx:id="registr" editable="false" minWidth="30" prefWidth="-1.0" text="N° d'enregistrement" />
+                        <TableColumn id="col" fx:id="place" editable="false" minWidth="20" prefWidth="-1.0" text="Nombre de places" />
+                        <TableColumn id="col" fx:id="type" editable="false" prefWidth="-1.0" text="Type de Véhicule" />
+                        <TableColumn id="col" fx:id="valid" editable="true" prefWidth="-1.0" text="Validé" />
                     </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
                 </TableView>
             </children>
         </VBox>

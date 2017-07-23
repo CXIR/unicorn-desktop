@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Table_status">
+    <children>
+        <VBox maxHeight="500.0" maxWidth="750.0" spacing="30.0">
+            <children>
+                <HBox spacing="30.0">
+                    <children>
+                        <TextField fx:id="txt" />
+                        <Button mnemonicParsing="false" onAction="#search" text="Rechercher" />
+                        <Button mnemonicParsing="false" onAction="#cancel" text="Annuler" />
+                    </children>
+                    <padding>
+                        <Insets left="5.0" top="30.0" />
+                    </padding>
+                </HBox>
+                <TableView fx:id="table" prefWidth="750.0">
+                    <columns>
+                        <TableColumn fx:id="name" prefWidth="168.0" text="Nom" />
+                    </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+                </TableView>
+            </children>
+        </VBox>
+    </children>
+</Group>

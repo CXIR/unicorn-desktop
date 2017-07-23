@@ -20,22 +20,37 @@ import static java.lang.Integer.parseInt;
  * Created by mickael.afonso on 18/05/2017.
  */
 public class Site {
-    private int id;
-    private String name;
-    private String address;
-    private String city;
-    private int postal;
+    public HashMap<String, String> map;
+    protected int id;
+    protected String name;
+    protected String adress;
+    protected String city;
+    protected String postalCode;
+    protected boolean invalid;
 
     public Site(){
 
     }
 
-    public Site(int id, String name, String address, String city, int postal){
+    public Site(int id, String name, String adress, String city, String postalCode){
         this.id = id;
         this.name = name;
-        this.address = address;
+        this.adress = adress;
         this.city = city;
-        this.postal = postal;
+        this.postalCode = postalCode;
+    }
+
+    /** HashMap which contains this Class properties with types */
+    public HashMap<String,String> getProperties(){
+        map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("name","String");
+        map.put("adress","String");
+        map.put("city","String");
+        map.put("postalCode","String");
+
+        return map;
     }
 
     public int getId() {
@@ -54,12 +69,12 @@ public class Site {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
     public String getCity() {
@@ -70,99 +85,136 @@ public class Site {
         this.city = city;
     }
 
-    public int getPostal() {
-        return postal;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setPostal(int postal) {
-        this.postal = postal;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
     }
 
     //GET SITE
+
+    /**
+     * Get a site
+     * @return
+     */
     public Site getSite(){
         String method = "GET";
-        String page = "/users/" + id;
+        String page = "/site/" + id;
         Request req = new Request(method, page);
-        return getSite(req.get());
-    }
-
-    public Site getSite(Object object){
-        if (object != null) {
-            JSONObject jsonObject = (JSONObject) object;
-
-            //On récupère les champs
-            int idSite = parseInt(jsonObject.get("id").toString());
-            String name = jsonObject.get("name").toString();
-            String adress = jsonObject.get("adress").toString();
-            String city = jsonObject.get("city").toString();
-            int postal = parseInt(jsonObject.get("postalCode").toString());
-
-            //Création de l'objet site
-            Site site = new Site(idSite, name, adress, city, postal);
-
-            //on retourne site
-            return site;
+        try {
+            //return (Site) req.getSingleResult("Site");
+            return (Site) req.getSingleResult("Site");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     //GET ALL SITE
+
+    /**
+     * Get a list of site
+     * @return
+     */
     public ArrayList<Site> getSites(){
         String method = "GET";
         String page = "/site/";
         Request req = new Request(method, page);
-        return getSites(req.get());
-    }
-
-    public ArrayList<Site> getSites(Object object){
         ArrayList<Site> sites = new ArrayList<>();
-        if (object != null){
-            JSONArray array = (JSONArray) object;
-            for(Object obj : array){
-                JSONObject jsonObject = (JSONObject) obj;
-
-                //On récupère les champs
-                int idSite = parseInt(jsonObject.get("id").toString());
-                String name = jsonObject.get("name").toString();
-                String adress = jsonObject.get("adress").toString();
-                String city = jsonObject.get("city").toString();
-                int postal = parseInt(jsonObject.get("postalCode").toString());
-
-                //Ajout de l'objet site
-                sites.add(new Site(idSite, name, adress, city, postal));
+        try {
+            //req.get("Site");
+            for (Object obj : req.getMultipleResults("Site")){
+                sites.add((Site) obj);
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return sites;
     }
 
     //AJOUT SITE
+
+    /**
+     * Create a site
+     */
     public void createSite(){
         String method = "POST";
         String page = "/site/new";
         Request req = new Request(method, page);
         req.post(jsonSite());
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     //MODIF SITE
+
+    /**
+     * Change a site
+     */
     public void changeSite(){
         String method = "POST";
         String page = "/site/edit";
         Request req = new Request(method, page);
         req.post(jsonSite());
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     public JSONObject jsonSite(){
         JSONObject json = new JSONObject();
         json.put("id", String.valueOf(id));
         json.put("name", name);
-        json.put("adress", address);
+        json.put("adress", adress);
         json.put("city", city);
-        json.put("postalCode", String.valueOf(postal));
+        json.put("postal", postalCode);
         return json;
     }
 
     //DELETE SITE
-
+    /**
+     * DELETE SITE
+     * Call the request DELETE with the site id
+     */
+    public void deleteSite(){
+        String method = "DELETE";
+        String page = "/site/" + id;
+        Request req = new Request(method, page);
+        try {
+            req.getSingleResult("Site");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
+    }
 
 
 }

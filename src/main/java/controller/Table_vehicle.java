@@ -11,9 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import model.Report;
 import model.Vehicle;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -56,6 +54,7 @@ public class Table_vehicle implements Initializable {
         Vehicle vehicles = new Vehicle();
         this.vehicles = vehicles.getVehicles();
         setTable();
+
     }
 
     public void setTable(){
@@ -79,7 +78,7 @@ public class Table_vehicle implements Initializable {
 
         type.setCellValueFactory(new PropertyValueFactory<>("vehicleType"));
 
-        valid.setCellValueFactory(new PropertyValueFactory<>("isOK"));
+        valid.setCellValueFactory(new PropertyValueFactory<>("vehicleValid"));
 
         valid.setCellFactory( new Callback<TableColumn<Vehicle,Boolean>, TableCell<Vehicle,Boolean>>() {
             @Override
@@ -88,18 +87,18 @@ public class Table_vehicle implements Initializable {
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (!empty) {
+                        if (item != null && !empty) {
                             TableRow  row = getTableRow();
 
                             if (row != null) {
                                 Vehicle vehicle = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
-                                    vehicle.setIsOK(true);
-                                    //vehicle.updateValid();
+                                    vehicle.setVehicleValid(true);
+                                    vehicle.validateVehicle();
                                 }
                                 else{
-                                    vehicle.setIsOK(false);
-                                    //vehicle.updateValid();
+                                    vehicle.setVehicleValid(false);
+                                    vehicle.unvalidateVehicle();
                                 }
                             }
                         }
@@ -114,10 +113,12 @@ public class Table_vehicle implements Initializable {
         }
 
         table.setEditable(true);
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
     }
 
+    /**
+     * Search a vehicle in the table
+     * @param event
+     */
     @FXML
     public void search(ActionEvent event){
         if (vehicles != null && txt != null) {
@@ -129,6 +130,10 @@ public class Table_vehicle implements Initializable {
         }
     }
 
+    /**
+     * Cancel the search
+     * @param event
+     */
     @FXML
     public void cancel(ActionEvent event){
         if (vehicles != null){

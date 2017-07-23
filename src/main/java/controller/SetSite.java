@@ -51,6 +51,9 @@ public class SetSite implements Initializable {
     @FXML
     private Button cancel;
 
+    @FXML
+    private Button suppr;
+
     public void setEdit(Enumeration edit){
         this.edit = edit;
     }
@@ -68,20 +71,20 @@ public class SetSite implements Initializable {
     public void validate(ActionEvent event){
         if (edit == edit.ADD || edit == edit.CHANGE){
             site.setName(nameAd.getText());
-            site.setAddress(addAd.getText());
-            site.setPostal(parseInt(postAd.getText()));
+            site.setAdress(addAd.getText());
+            site.setPostalCode(postAd.getText());
             site.setCity(cityAd.getText());
 
             if (edit == edit.ADD){
                 site.createSite();
             }
             else{
-                Request req = new Request("post", "/site/modify/" + site.getId());
-                //req.putSite(site);
                 site.changeSite();
             }
-            setEdit(edit.DISPLAY);
-            display();
+            if (!site.isInvalid()) {
+                setEdit(edit.DISPLAY);
+                display();
+            }
         }
         else{
             setEdit(edit.CHANGE);
@@ -109,20 +112,21 @@ public class SetSite implements Initializable {
 
     public void change(){
         nameAd.setText(site.getName());
-        addAd.setText(site.getAddress());
-        postAd.setText(String.valueOf(site.getPostal()));
+        addAd.setText(site.getAdress());
+        postAd.setText(site.getPostalCode());
         cityAd.setText(site.getCity());
 
         setForm(true);
         setDisp(false);
         valid.setText("Valider");
         cancel.setText("Annuler");
+        suppr.setVisible(false);
     }
 
     public void display(){
         nameDi.setText(site.getName());
-        addDi.setText(site.getAddress());
-        postDi.setText(String.valueOf(site.getPostal()));
+        addDi.setText(site.getAdress());
+        postDi.setText(site.getPostalCode());
         cityDi.setText(site.getCity());
 
         setForm(false);
@@ -130,6 +134,7 @@ public class SetSite implements Initializable {
 
         valid.setText("Modifier");
         cancel.setText("Précédent");
+        suppr.setVisible(true);
     }
 
     public void setForm(boolean b){
@@ -144,6 +149,14 @@ public class SetSite implements Initializable {
         addDi.setVisible(b);
         postDi.setVisible(b);
         cityDi.setVisible(b);
+    }
+
+    @FXML
+    public void delete(ActionEvent event){
+        site.deleteSite();
+        if (!site.isInvalid()){
+            new Loader("/view/Site.fxml", "GESTION DES SITES");
+        }
     }
 
     public Site getSite() {

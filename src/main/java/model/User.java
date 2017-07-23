@@ -2,48 +2,33 @@ package model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.StringProperty;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static java.lang.Integer.parseInt;
 
 /**
  * Created by mickael.afonso on 15/05/2017.
  */
 public class User {
-    private int id;
-    private String firstname;
-    private String lastname;
-    private Date birthdate;
-    private String strDate;
-    private String mailAdress;
-    private String password;
-    private String phoneNumber;
-    private String description;
-    private int positiveRating;
-    private int negativeRating;
-    private Site site;
-    private Status status;
-    private String nameStatus;
-    private BooleanProperty admin = new SimpleBooleanProperty();
-    private BooleanProperty superAd = new SimpleBooleanProperty();
-    private Ride[] rides;
+    protected int id;
+    protected String firstname;
+    protected String lastname;
+    protected Date birthdate;
+    protected String strDate;
+    protected String mailAdress;
+    protected String password;
+    protected String phoneNumber;
+    protected String description;
+    protected int positiveRating;
+    protected int negativeRating;
+    protected Site site;
+    protected Status status;
+    protected BooleanProperty admin = new SimpleBooleanProperty();
+    protected BooleanProperty superAd = new SimpleBooleanProperty();
+    //protected Ride[] rides;
+    protected boolean invalid;
+    public HashMap<String, String> map;
 
     public User(){
     }
@@ -64,11 +49,13 @@ public class User {
         this.positiveRating = positiveRating;
         this.negativeRating = negativeRating;
         this.site = site;
+        if (site != null){
+            System.out.println(site.getName());
+        }
         this.status = status;
 
         if (status != null) {
             if (status.getId() != 0) {
-                this.nameStatus = status.getLabel();
                 if (status.getId() == 2) {
                     setAdmin(true);
                 } else if (status.getId() == 3) {
@@ -76,6 +63,26 @@ public class User {
                 }
             }
         }
+    }
+
+    public HashMap<String,String> getProperties(){
+        map = new HashMap<>();
+
+        map.put("id","int");
+        map.put("firstname","String");
+        map.put("lastname","String");
+        map.put("birthdate","Date");
+        map.put("mailAdress","String");
+        map.put("password","String");
+        map.put("phoneNumber","String");
+        map.put("description","String");
+        map.put("positiveRating","int");
+        map.put("negativeRating","int");
+        map.put("site","Site");
+        map.put("status","Status");
+        map.put("vehicle","Vehicle");
+
+        return map;
     }
 
     public int getId() {
@@ -134,10 +141,6 @@ public class User {
         this.mailAdress = mailAdress;
     }
 
-    public String getNameSite() {
-        return site.getName();
-    }
-
     public String getPassword() {
         return password;
     }
@@ -150,32 +153,8 @@ public class User {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getPositiveRating() {
-        return positiveRating;
-    }
-
-    public void setPositiveRating(int positiveRating) {
-        this.positiveRating = positiveRating;
-    }
-
-    public int getNegativeRating() {
-        return negativeRating;
-    }
-
-    public void setNegativeRating(int negativeRating) {
-        this.negativeRating = negativeRating;
     }
 
     public Site getSite() {
@@ -218,87 +197,52 @@ public class User {
         this.superAd.set(superAd);
     }
 
-    public Ride[] getRides() {
+    /*ublic Ride[] getRides() {
         return rides;
     }
 
     public void setRides(Ride[] rides) {
         this.rides = rides;
-    }
+    }*/
 
     public String convertDate(){
         SimpleDateFormat form = new SimpleDateFormat("dd/MM/yyyy");
         return form.format(birthdate);
     }
 
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
+    }
+
     /**
-     * GET ALL USERS
+     * GET A USER
      * Call the method get to have a Json Object
-     * @return a list of users
+     * @return a user
      */
     public User getUser(String id){
         String method = "GET";
         String page = "/users/" + id;
         Request req = new Request(method, page);
-        return getUser(req.get());
-    }
-
-    /**
-     * GET USER
-     * split the json object to get user informations
-     * @param object who will be cast to a json
-     * @return
-     */
-    public User getUser(Object object){
-        if (object != null){
-            JSONObject jsonObject = (JSONObject) object;
-
-            //On récupère les champs
-            int idUser = parseInt(jsonObject.get("id").toString());
-            String firstname = jsonObject.get("firstname").toString();
-            String lastname = jsonObject.get("lastname").toString();
-            String birth_date = jsonObject.get("birthdate").toString();
-            String mailAdress = jsonObject.get("mailAdress").toString();
-            String password = jsonObject.get("password").toString();
-
-            String phoneNumber;
-            if (jsonObject.get("phoneNumber") != null){
-                phoneNumber = jsonObject.get("phoneNumber").toString();
+        try {
+            Object obj = req.getSingleResult("User");
+            if(obj instanceof User){
+                User user = (User) obj;
+                if (user.getStatus().getId() == 2){
+                    user.setAdmin(true);
+                }
+                else if (user.getStatus().getId() == 3) {
+                    user.setSuperAd(true);
+                }
+                return user;
             }
-            else{
-                phoneNumber = "";
-            }
-
-            String description;
-            if (jsonObject.get("description") != null){
-                description = jsonObject.get("desciption").toString();
-            }
-            else{
-                description = "";
-            }
-
-            int positiveRating = parseInt(jsonObject.get("positiveRating").toString());
-            int negativeRating = parseInt(jsonObject.get("negativeRating").toString());
-
-            //On récupère le site et le status
-            Site site = null;
-            if (jsonObject.get("site") != null){
-                site = site.getSite(jsonObject.get("site"));
-            }
-
-            Status status = null;
-            if (jsonObject.get("status") != null){
-                status = status.getStatus(jsonObject.get("status"));
-            }
-
-            //convertion de la date de naissance
-            Date birthdate = Date.from(Instant.parse(birth_date));
-
-            //Création de l'objet user
-            User user = new User(idUser, firstname, lastname, birthdate, mailAdress, password, phoneNumber, description, positiveRating, negativeRating, site, status);
-
-            //on retourne user
-            return user;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -312,67 +256,50 @@ public class User {
         String method = "GET";
         String page = "/users/all";
         Request req = new Request(method, page);
-        return getUsers(req.get());
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            for (Object obj : req.getMultipleResults("User")){
+                if(obj instanceof User){
+                    User user = (User) obj;
+                    if (user.getStatus().getId() == 2){
+                        user.setAdmin(true);
+                    }
+                    else if (user.getStatus().getId() == 3) {
+                        user.setSuperAd(true);
+                    }
+                    users.add(user);
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
-    /**
-     * split the json object to get user informations
-     * @param object who will be cast to a json
-     * @return return a list of users to the getUsers method
-     */
-    public ArrayList<User> getUsers(Object object){
-        ArrayList<User> users = new ArrayList<>();
-
-        if (object != null) {
-            JSONArray array = (JSONArray) object;
-            for (Object obj : array) {
-                JSONObject jsonObject = (JSONObject) obj;
-
-                //On récupère les champs
-                int idUser = parseInt(jsonObject.get("id").toString());
-                String firstname = jsonObject.get("firstname").toString();
-                String lastname = jsonObject.get("lastname").toString();
-                String birth_date = jsonObject.get("birthdate").toString();
-                String mailAdress = jsonObject.get("mailAdress").toString();
-                String password = jsonObject.get("password").toString();
-
-                String phoneNumber;
-                if (jsonObject.get("phoneNumber") != null) {
-                    phoneNumber = jsonObject.get("phoneNumber").toString();
-                } else {
-                    phoneNumber = "";
+    public User findUser(String mail){
+        String method = "GET";
+        String page = "/users/mail/" + mail;
+        Request req = new Request(method, page);
+        try {
+            Object obj = req.getSingleResult("User");
+            if(obj instanceof User){
+                User user = (User) obj;
+                if (user.getStatus().getId() == 2){
+                    user.setAdmin(true);
                 }
-
-                String description;
-                if (jsonObject.get("description") != null) {
-                    description = jsonObject.get("desciption").toString();
-                } else {
-                    description = "";
+                else if (user.getStatus().getId() == 3) {
+                    user.setSuperAd(true);
                 }
-                int positiveRating = parseInt(jsonObject.get("positiveRating").toString());
-                int negativeRating = parseInt(jsonObject.get("negativeRating").toString());
-
-                //On récupère le site et le status
-                Site site = new Site();
-                if (jsonObject.get("site") != null) {
-                    site = site.getSite(jsonObject.get("site"));
-                }
-
-                Status status = new Status();
-                if (jsonObject.get("status") != null) {
-                    status = status.getStatus(jsonObject.get("status"));
-                }
-
-                //convertion de la date de naissance
-                Date birthdate = Date.from(Instant.parse(birth_date));
-
-                //Ajout de l'objet user
-                users.add(new User(idUser, firstname, lastname, birthdate, mailAdress, password, phoneNumber, description, positiveRating, negativeRating, site, status));
-
+                return user;
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
         }
-        //on retourne la liste de users
-        return users;
+        return null;
     }
 
     /**
@@ -384,6 +311,12 @@ public class User {
         String page = "/users/new";
         Request req = new Request(method, page);
         req.post(jsonUser(false));
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     /**
@@ -395,6 +328,12 @@ public class User {
         String page = "/users/edit/";
         Request req = new Request(method, page);
         req.post(jsonUser(true));
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     public JSONObject jsonUser(boolean update){
@@ -407,8 +346,10 @@ public class User {
         json.put("birth", birthdate.toInstant().toString());
         json.put("mail", mailAdress);
         json.put("pass", password);
-        json.put("site", getStatus().getId());
-        json.put("status", getSite().getId());
+        if (update == false){
+            json.put("site", getSite().getId());
+            json.put("status", 1);
+        }
         return json;
     }
 
@@ -424,6 +365,12 @@ public class User {
         json.put("user", String.valueOf(id));
         json.put("site", String.valueOf(site.getId()));
         req.post(json);
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     /**
@@ -438,6 +385,12 @@ public class User {
         json.put("user", String.valueOf(id));
         json.put("status", String.valueOf(status));
         req.post(json);
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     /**
@@ -447,7 +400,20 @@ public class User {
     public void deleteUser(){
         String method = "DELETE";
         String page = "/users/" + id;
-        new Request(method, page);
+        Request req = new Request(method, page);
+        try {
+            req.getSingleResult("User");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     //LOCK USER ACCOUNT

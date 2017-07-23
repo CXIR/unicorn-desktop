@@ -1,8 +1,11 @@
 package controller;
 
+import PluginManager.PluginLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
@@ -37,6 +40,9 @@ public class Menu implements Initializable {
     protected Label sites;
 
     @FXML
+    protected Label status;
+
+    @FXML
     protected Label vehicles;
 
     @FXML
@@ -63,26 +69,53 @@ public class Menu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
         menu = this;
+        home();
+        PluginLoader loader = new PluginLoader();
+        loader.LoadPlugins();
     }
 
-    @FXML
-    private void labelHome(MouseEvent event) {
+    public void home(){
         new Loader("/view/Home.fxml", "PARTAGE TA CAISSE");
     }
 
     @FXML
+    private void labelHome(MouseEvent event) {
+        home();
+    }
+
+    @FXML
     private void labelUsers(MouseEvent event) {
-        new Loader("/view/User.fxml","GESTION DES UTILISATEURS");
+        User_menu user_menu = User_menu.user_menu;
+        Loader loader = new Loader("/view/User.fxml","GESTION DES UTILISATEURS");
+        User_menu user_m = loader.getLoader().getController();
+
+        if (user_menu != null){
+            if (user_menu.getButtons() != null) {
+                for (Button button : user_menu.getButtons()) {
+                    user_m.addButton(button);
+                }
+            }
+        }
     }
 
     @FXML
     private void labelAdmins(MouseEvent event) {
-        new Loader("/view/AddAdmin.fxml", "GESTION DES ADMINISTRATEURS");
+        if (Connection.account.getStatus().getId() == 3) {
+            new Loader("/view/AddAdmin.fxml", "GESTION DES ADMINISTRATEURS");
+        }
+        else{
+            new Message("Vous n'avez pas les droits nécessaires");
+        }
     }
 
     @FXML
     private void labelSites(MouseEvent event) {
         new Loader("/view/Site.fxml", "GESTION DES SITES");
+    }
+
+    @FXML
+    private void labelStatus(MouseEvent event) {
+        new Loader("/view/Status.fxml", "GESTION DES STATUS");
     }
 
     @FXML
@@ -96,12 +129,21 @@ public class Menu implements Initializable {
     }
 
     @FXML
+    private void labelPlugins(MouseEvent event) {
+        new Loader("/view/plugins.fxml", "GESTION DES PLUGINS");
+    }
+
+    @FXML
     private void labelParam(MouseEvent event) {
         new Loader("/view/Logins.fxml", "PARAMÈTRE");
     }
 
     @FXML
     private void labelOff(MouseEvent event) {
+        logout();
+    }
+
+    public void logout(){
         main.connection();
         Connection.account = null;
     }

@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +14,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import model.User;
 import java.io.IOException;
 import java.net.URL;
@@ -57,8 +60,23 @@ public class Table_user implements Initializable {
         name.setCellValueFactory(new PropertyValueFactory<>("lastname"));
         birth.setCellValueFactory(new PropertyValueFactory<>("strDate"));
         mail.setCellValueFactory(new PropertyValueFactory<>("mailAdress"));
-        site.setCellValueFactory(new PropertyValueFactory<>("nameSite"));
 
+        /**
+         * Get the site name
+         */
+        site.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
+                if (param.getValue().getSite() != null){
+                    return new SimpleStringProperty(param.getValue().getSite().getName());
+                }
+                return null;
+            }
+        });
+
+        /**
+         * Put the users list on the table
+         */
         if(this.users != null){
             ObservableList<User> list = FXCollections.observableArrayList(users);
             table.setItems(list);
@@ -66,6 +84,9 @@ public class Table_user implements Initializable {
 
         table.setEditable(false);
 
+        /**
+         * Make action when double click on a row
+         */
         table.setRowFactory(tableView -> {
             TableRow<User> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -81,6 +102,10 @@ public class Table_user implements Initializable {
         });
     }
 
+    /**
+     * Search a vehicle in the table
+     * @param event
+     */
     @FXML
     public void search(ActionEvent event){
         if (users != null && txt != null) {
@@ -92,6 +117,10 @@ public class Table_user implements Initializable {
         }
     }
 
+    /**
+     * Cancel the search
+     * @param event
+     */
     @FXML
     public void cancel(ActionEvent event){
         if (users != null){

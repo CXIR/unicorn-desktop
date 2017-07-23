@@ -4,6 +4,7 @@
 }
 
 .button{
+    -fx-pref-height: 35px;
     -fx-font-weight: bold;
     -fx-background-color: azure;
     -fx-background-radius: 5,5,4;

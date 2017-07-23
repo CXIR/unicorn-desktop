@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import model.Verifications;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,26 +56,21 @@ public class Logins implements Initializable {
             passAd.setVisible(true);
             valid.setText("Valider");
         }
-        else{
-            if(logAd.getText() != null && passAd.getText() != null){
+        else {
+            Verifications verif = new Verifications();
+            if (verif.isNotEmpty(logAd.getText()) && verif.isNotEmpty(passAd.getText())) {
+                new Message("Un des champs est vide.");
+            } else if (verif.isValidEmail(logAd.getText())) {
+                new Message("Le mail n'est pas valide.");
+            } else {
                 Connection.account.setMailAdress(logAd.getText());
                 Connection.account.setPassword(passAd.getText());
                 Connection.account.updateUser();
-
 
                 logDi.setText(logAd.getText());
                 crypt(passAd.getText());
                 backContent();
             }
-
-            /*try {
-            FXMLLoader loader  = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/controller.Table.fxml"));
-            Group add = (Group) loader.load();
-            menu.fillPane(add, "RECHERCHER UN UTILISATEUR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
         }
     }
 

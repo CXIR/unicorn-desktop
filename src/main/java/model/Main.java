@@ -58,10 +58,6 @@ public class Main extends Application {
             primaryStage.setScene(scene);
             primaryStage.setMinHeight(650);
             primaryStage.setMinWidth(1000);
-            /*primaryStage.setResizable(false);
-            primaryStage.setFullScreen(true);
-            primaryStage.minWidthProperty().bind(scene.widthProperty());
-            primaryStage.minHeightProperty().bind(scene.heightProperty());*/
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
