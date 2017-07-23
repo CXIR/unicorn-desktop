@@ -94,7 +94,6 @@ public class Table_vehicle implements Initializable {
                                 Vehicle vehicle = param.getTableView().getItems().get(row.getIndex());
                                 if (item){
                                     vehicle.setVehicleValid(true);
-                                    System.out.println(vehicle.isVehicleOK());
                                     vehicle.validateVehicle();
                                 }
                                 else{

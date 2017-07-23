@@ -30,7 +30,7 @@
                <children>
                      <ImageView fitHeight="59.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                           <Image url="/images/Logo_TV_2015.png" />
+                           <Image url="/images/logo.png" />
                         </image>
                      <VBox.margin>
                         <Insets bottom="30.0" top="10.0" />

@@ -126,7 +126,7 @@ public class Vehicle {
     }
 
     public void setVehicleValid(boolean vehicleValid) {
-        setVehicleOK(vehicleValid);
+        this.setVehicleOK(vehicleValid);
         this.vehicleValid.set(vehicleValid);
     }
 
@@ -138,7 +138,7 @@ public class Vehicle {
         this.user = user;
     }
 
-    public Vehicle getVehicle(String id) {
+    public Vehicle getVehicle(int id) {
         String method = "GET";
         String page = "/vehicle/" + id;
         Request req = new Request(method, page);
@@ -181,13 +181,26 @@ public class Vehicle {
     public void validateVehicle(){
         String method = "GET";
         String page = "/vehicle/validate/" + id;
-        new Request(method, page);
+        Request req = new Request(method, page);
+        try {
+            req.getSingleResult("Vehicle");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
     }
 
     public void unvalidateVehicle(){
-        System.out.println(id);
         String method = "GET";
         String page = "/vehicle/unvalidate/" + id;
-        new Request(method, page);
+        Request req = new Request(method, page);
+        try {
+            req.getSingleResult("Vehicle");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -21,7 +21,7 @@
             <HBox spacing="30.0">
                <children>
                       <Button fx:id="btn1" mnemonicParsing="false" onAction="#add" prefHeight="40.0" text="Ajouter un plugin" />
-                      <Button fx:id="btn2" mnemonicParsing="false" onAction="#del" prefHeight="40.0" text="Supprmer un plugin" />
+                      <Button fx:id="btn2" mnemonicParsing="false" onAction="#del" prefHeight="40.0" text="Supprimer un plugin" />
                </children>
             </HBox>
             </children>

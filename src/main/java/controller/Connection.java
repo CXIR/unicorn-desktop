@@ -54,17 +54,16 @@ public class Connection implements Initializable {
             if (verif.isValidEmail(login.getText())) {
                 BASE64Encoder encoder = new BASE64Encoder();
                 String passEncode = encoder.encode(pass.getText().getBytes()).toString();
-                for (User user : new User().getUsers()) {
-                    if (login.getText().equals(user.getMailAdress()) && passEncode.equals(user.getPassword())) {
+                User user = new User().findUser(login.getText());
+                if (login.getText().equals(user.getMailAdress()) && passEncode.equals(user.getPassword())) {
 
-                        if (user.getStatus().getId() == 2 || user.getStatus().getId() == 3) {
-                            account = user;
-                            main.sample();
-                        } else {
-                            error("L'utilisateur n'a pas les droits pour accéder à l'application");
-                        }
-                        logs = true;
+                    if (user.getStatus().getId() == 2 || user.getStatus().getId() == 3) {
+                        account = user;
+                        main.sample();
+                    } else {
+                        error("L'utilisateur n'a pas les droits pour accéder à l'application");
                     }
+                    logs = true;
                 }
                 if (!logs) {
                     error("Les identifiants ne sont pas valides");
