@@ -34,10 +34,6 @@ public class Main extends Application {
 
             scene = new Scene(pane);
             primaryStage.setScene(scene);
-            //primaryStage.setFullScreen(true);
-            //primaryStage.setResizable(false);
-            //primaryStage.minWidthProperty().bind(scene.widthProperty());
-            //primaryStage.minHeightProperty().bind(scene.heightProperty());
             primaryStage.setMinHeight(650);
             primaryStage.setMinWidth(1000);
             primaryStage.show();

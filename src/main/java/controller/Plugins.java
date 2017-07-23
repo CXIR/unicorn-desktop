@@ -115,7 +115,12 @@ public class Plugins implements Initializable {
         new Message("L'application doit redémarrer pour prendre en compte les modifications");
         try {
             Runtime run = Runtime.getRuntime();
-            run.exec("cmd /c start launcher.bat");
+            if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0){
+                run.exec("cmd /c start launcher.bat");
+            }
+            else {
+                run.exec("launcher.sh");
+            }
             System.exit(0);
         } catch (IOException e) {
             e.printStackTrace();

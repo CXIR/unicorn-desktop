@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import model.User;
 import model.Verifications;
 
 import java.net.URL;
@@ -58,18 +59,24 @@ public class Logins implements Initializable {
         }
         else {
             Verifications verif = new Verifications();
-            if (verif.isNotEmpty(logAd.getText()) && verif.isNotEmpty(passAd.getText())) {
+            if (!verif.isNotEmpty(logAd.getText()) || !verif.isNotEmpty(passAd.getText())) {
                 new Message("Un des champs est vide.");
-            } else if (verif.isValidEmail(logAd.getText())) {
+            } else if (!verif.isValidEmail(logAd.getText())) {
                 new Message("Le mail n'est pas valide.");
             } else {
-                Connection.account.setMailAdress(logAd.getText());
-                Connection.account.setPassword(passAd.getText());
-                Connection.account.updateUser();
+                User user = Connection.account;
+               user.setMailAdress(logAd.getText());
+               user.setPassword(passAd.getText());
+               user.updateUser();
 
-                logDi.setText(logAd.getText());
-                crypt(passAd.getText());
-                backContent();
+                if (!user.isInvalid()) {
+                    Connection.account.setMailAdress(logAd.getText());
+                    Connection.account.setPassword(passAd.getText());
+                    logDi.setText(logAd.getText());
+                    crypt(passAd.getText());
+                    backContent();
+                }
+
             }
         }
     }
