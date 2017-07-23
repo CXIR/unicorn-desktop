@@ -58,16 +58,8 @@ public class Report {
         return Plaintiff;
     }
 
-    public void setPlaintiff(User plaintiff) {
-        this.Plaintiff = plaintiff;
-    }
-
     public User getReported() {
         return Reported;
-    }
-
-    public void setReported(User reported) {
-        this.Reported = reported;
     }
 
     public String getMessage() {
@@ -90,12 +82,15 @@ public class Report {
         this.bloqued.set(bloqued);
     }
 
+    /**
+     * Get report of a user
+     * @return an arraylist of reports
+     */
     public ArrayList<Report> getReports(){
         String method = "GET";
         String page = "/report/";
         Request req = new Request(method, page);
         ArrayList<Report> reports = new ArrayList<>();
-        System.out.println();
         try {
             for(Object obj : req.getMultipleResults("Report")){
                 if(obj instanceof Report){

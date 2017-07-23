@@ -115,6 +115,10 @@ public class Table_vehicle implements Initializable {
         table.setEditable(true);
     }
 
+    /**
+     * Search a vehicle in the table
+     * @param event
+     */
     @FXML
     public void search(ActionEvent event){
         if (vehicles != null && txt != null) {
@@ -126,6 +130,10 @@ public class Table_vehicle implements Initializable {
         }
     }
 
+    /**
+     * Cancel the search
+     * @param event
+     */
     @FXML
     public void cancel(ActionEvent event){
         if (vehicles != null){

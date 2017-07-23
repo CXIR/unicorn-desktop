@@ -51,6 +51,9 @@ public class SetSite implements Initializable {
     @FXML
     private Button cancel;
 
+    @FXML
+    private Button suppr;
+
     public void setEdit(Enumeration edit){
         this.edit = edit;
     }
@@ -78,8 +81,10 @@ public class SetSite implements Initializable {
             else{
                 site.changeSite();
             }
-            setEdit(edit.DISPLAY);
-            display();
+            if (!site.isInvalid()) {
+                setEdit(edit.DISPLAY);
+                display();
+            }
         }
         else{
             setEdit(edit.CHANGE);
@@ -115,6 +120,7 @@ public class SetSite implements Initializable {
         setDisp(false);
         valid.setText("Valider");
         cancel.setText("Annuler");
+        suppr.setVisible(false);
     }
 
     public void display(){
@@ -128,6 +134,7 @@ public class SetSite implements Initializable {
 
         valid.setText("Modifier");
         cancel.setText("Précédent");
+        suppr.setVisible(true);
     }
 
     public void setForm(boolean b){
@@ -142,6 +149,14 @@ public class SetSite implements Initializable {
         addDi.setVisible(b);
         postDi.setVisible(b);
         cityDi.setVisible(b);
+    }
+
+    @FXML
+    public void delete(ActionEvent event){
+        site.deleteSite();
+        if (!site.isInvalid()){
+            new Loader("/view/Site.fxml", "GESTION DES SITES");
+        }
     }
 
     public Site getSite() {

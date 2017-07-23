@@ -15,6 +15,7 @@ import static java.lang.Integer.parseInt;
 public class Status {
     protected int id;
     protected String label;
+    protected boolean invalid;
 
     public Status(){
     }
@@ -50,7 +51,20 @@ public class Status {
         this.label = label;
     }
 
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
+    }
+
     //GET STATUS
+
+    /**
+     * Get a status
+     * @return
+     */
     public Status getStatus(){
         String method = "GET";
         String page = "/status/";
@@ -67,6 +81,11 @@ public class Status {
     }
 
     //GET STATUS
+
+    /**
+     * Get a list of status
+     * @return
+     */
     public ArrayList<Status> getAllStatus(){
         String method = "GET";
         String page = "/status/";
@@ -84,18 +103,36 @@ public class Status {
         return status;
     }
 
+    /**
+     * Create a status
+     */
     public void createStatus(){
         String method = "POST";
         String page = "/status/new";
         Request req = new Request(method, page);
         req.post(jsonStatus(false));
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
+    /**
+     * Uptade a status
+     */
     public void updateStatus(){
         String method = "POST";
         String page = "/status/edit";
         Request req = new Request(method, page);
         req.post(jsonStatus(true));
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     public JSONObject jsonStatus(boolean update){
@@ -107,4 +144,26 @@ public class Status {
         return json;
     }
 
+    /**
+     * DELETE STATUS
+     * Call the request DELETE with the status id
+     */
+    public void deleteStatus(){
+        String method = "DELETE";
+        String page = "/status/" + id;
+        Request req = new Request(method, page);
+        try {
+            req.getSingleResult("Status");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
+    }
 }

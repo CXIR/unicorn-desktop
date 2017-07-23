@@ -121,24 +121,26 @@ public class SetUser implements Initializable {
         Verifications verif = new Verifications();
         if (edit == edit.ADD || edit == edit.CHANGE) {
             if (verif.isNotEmpty(nameAd.getText()) && verif.isNotEmpty(firstAd.getText()) && verif.isNotEmpty(dateAd.getValue().toString()) && verif.isNotEmpty(mailAd.getText()) && verif.isNotEmpty(siteAd.getSelectionModel().getSelectedItem().toString())) {
+                if (verif.isValidEmail(mailAd.getText())) {
+                    user.setLastname(nameAd.getText());
+                    user.setFirstname(firstAd.getText());
+                    Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    user.setBirthdate(date);
+                    user.setMailAdress(mailAd.getText());
+                    user.setSite(siteAd.getSelectionModel().getSelectedItem());
 
-                user.setLastname(nameAd.getText());
-                user.setFirstname(firstAd.getText());
-                Date date = Date.from(dateAd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                user.setBirthdate(date);
-                user.setMailAdress(mailAd.getText());
-                user.setSite(siteAd.getSelectionModel().getSelectedItem());
 
-
-                if (edit == edit.ADD) {
-                    user.createUser();
-                } else {
-                    System.out.println(user.getFirstname());
-                    user.updateUser();
-                    user.updateSite();
+                    if (edit == edit.ADD) {
+                        user.createUser();
+                    } else {
+                        user.updateUser();
+                        user.updateSite();
+                    }
+                    if (!user.isInvalid()) {
+                        setEdit(edit.DISPLAY);
+                        display();
+                    }
                 }
-                setEdit(edit.DISPLAY);
-                display();
             }
             else {
                 new Message("L'un des champs est vide");
@@ -167,7 +169,17 @@ public class SetUser implements Initializable {
 
     @FXML
     public void delete(ActionEvent event){
-        user.deleteUser();
+        User_menu user_menu = User_menu.user_menu;
+        Loader loader = new Loader("/view/User.fxml","GESTION DES UTILISATEURS");
+        User_menu user_m = loader.getLoader().getController();
+
+        if (user_menu != null){
+            if (user_menu.getButtons() != null) {
+                for (Button button : user_menu.getButtons()) {
+                    user_m.addButton(button);
+                }
+            }
+        }
     }
 
     public void choice(){
@@ -232,6 +244,7 @@ public class SetUser implements Initializable {
         siteAd.setVisible(b);
         desc.setVisible(b);
         phone.setVisible(b);
+        suppr.setVisible(b);
     }
 
     public void setDisp(boolean b){
@@ -243,6 +256,7 @@ public class SetUser implements Initializable {
         siteDi.setVisible(b);
         desc.setVisible(b);
         phone.setVisible(b);
+        suppr.setVisible(b);
     }
 
     public User getUser() {
