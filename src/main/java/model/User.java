@@ -26,7 +26,8 @@ public class User {
     protected Status status;
     protected BooleanProperty admin = new SimpleBooleanProperty();
     protected BooleanProperty superAd = new SimpleBooleanProperty();
-    protected Ride[] rides;
+    //protected Ride[] rides;
+    protected boolean invalid;
     public HashMap<String, String> map;
 
     public User(){
@@ -152,32 +153,8 @@ public class User {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getPositiveRating() {
-        return positiveRating;
-    }
-
-    public void setPositiveRating(int positiveRating) {
-        this.positiveRating = positiveRating;
-    }
-
-    public int getNegativeRating() {
-        return negativeRating;
-    }
-
-    public void setNegativeRating(int negativeRating) {
-        this.negativeRating = negativeRating;
     }
 
     public Site getSite() {
@@ -220,17 +197,25 @@ public class User {
         this.superAd.set(superAd);
     }
 
-    public Ride[] getRides() {
+    /*ublic Ride[] getRides() {
         return rides;
     }
 
     public void setRides(Ride[] rides) {
         this.rides = rides;
-    }
+    }*/
 
     public String convertDate(){
         SimpleDateFormat form = new SimpleDateFormat("dd/MM/yyyy");
         return form.format(birthdate);
+    }
+
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
     }
 
     /**
@@ -326,6 +311,12 @@ public class User {
         String page = "/users/new";
         Request req = new Request(method, page);
         req.post(jsonUser(false));
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     /**
@@ -337,6 +328,12 @@ public class User {
         String page = "/users/edit/";
         Request req = new Request(method, page);
         req.post(jsonUser(true));
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     public JSONObject jsonUser(boolean update){
@@ -368,6 +365,12 @@ public class User {
         json.put("user", String.valueOf(id));
         json.put("site", String.valueOf(site.getId()));
         req.post(json);
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     /**
@@ -382,6 +385,12 @@ public class User {
         json.put("user", String.valueOf(id));
         json.put("status", String.valueOf(status));
         req.post(json);
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     /**
@@ -391,7 +400,20 @@ public class User {
     public void deleteUser(){
         String method = "DELETE";
         String page = "/users/" + id;
-        new Request(method, page);
+        Request req = new Request(method, page);
+        try {
+            req.getSingleResult("User");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     //LOCK USER ACCOUNT

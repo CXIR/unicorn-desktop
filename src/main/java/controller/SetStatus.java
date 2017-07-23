@@ -28,6 +28,9 @@ public class SetStatus implements Initializable {
     @FXML
     private Button cancel;
 
+    @FXML
+    private Button suppr;
+
     public void setEdit(Enumeration edit){
         this.edit = edit;
     }
@@ -52,8 +55,10 @@ public class SetStatus implements Initializable {
             else{
                 status.updateStatus();
             }
-            setEdit(edit.DISPLAY);
-            display();
+            if (!status.isInvalid()) {
+                setEdit(edit.DISPLAY);
+                display();
+            }
         }
         else{
             setEdit(edit.CHANGE);
@@ -86,6 +91,7 @@ public class SetStatus implements Initializable {
         setDisp(false);
         valid.setText("Valider");
         cancel.setText("Annuler");
+        suppr.setVisible(false);
     }
 
     public void display(){
@@ -96,6 +102,15 @@ public class SetStatus implements Initializable {
 
         valid.setText("Modifier");
         cancel.setText("Précédent");
+        suppr.setVisible(true);
+    }
+
+    @FXML
+    public void delete(ActionEvent event){
+        status.deleteStatus();
+        if (!status.isInvalid()){
+            new Loader("/view/Status.fxml", "GESTION DES STATUS");
+        }
     }
 
     public void setForm(boolean b){

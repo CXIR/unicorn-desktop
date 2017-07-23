@@ -31,6 +31,7 @@ public class Vehicle {
     protected boolean isVehicleOK;
     protected BooleanProperty vehicleValid = new SimpleBooleanProperty();
     protected User user;
+    protected boolean invalid;
 
     public Vehicle(){}
 
@@ -138,6 +139,14 @@ public class Vehicle {
         this.user = user;
     }
 
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
+    }
+
     public Vehicle getVehicle(int id) {
         String method = "GET";
         String page = "/vehicle/" + id;
@@ -157,6 +166,10 @@ public class Vehicle {
         return null;
     }
 
+    /**
+     * Get the list of the vehicles
+     * @return
+     */
     public ArrayList<Vehicle> getVehicles(){
         String method = "GET";
         String page = "/vehicle/";
@@ -178,6 +191,9 @@ public class Vehicle {
         return vehicles;
     }
 
+    /**
+     * Validate the vehicle
+     */
     public void validateVehicle(){
         String method = "GET";
         String page = "/vehicle/validate/" + id;
@@ -191,6 +207,9 @@ public class Vehicle {
         }
     }
 
+    /**
+     * Unvalidate the vehicle
+     */
     public void unvalidateVehicle(){
         String method = "GET";
         String page = "/vehicle/unvalidate/" + id;

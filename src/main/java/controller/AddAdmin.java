@@ -56,7 +56,9 @@ public class AddAdmin implements Initializable {
      * Set the data to put on the table
      */
     public void setTable(){
-        //On récupère l'objet user pour retourner son nom et son prénom
+        /**
+         * Get the object user to return his name and firstname
+         */
         name.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
@@ -70,8 +72,8 @@ public class AddAdmin implements Initializable {
         admin.setCellValueFactory(new PropertyValueFactory<>("admin"));
 
         /**
-         * Convertir la valeur boolean des cellules en checkbox
-         * si
+         * Convert cell boolean to checkbox
+         * Update the user status whith the checkbox
          */
         admin.setCellFactory( new Callback<TableColumn<User,Boolean>, TableCell<User,Boolean>>() {
             @Override
@@ -106,6 +108,10 @@ public class AddAdmin implements Initializable {
 
         superAd.setCellValueFactory(new PropertyValueFactory<>("superAd"));
 
+        /**
+         * Convert cell boolean to checkbox
+         * Update the user status whith the checkbox
+         */
         superAd.setCellFactory( new Callback<TableColumn<User,Boolean>, TableCell<User,Boolean>>() {
             @Override
             public TableCell<User,Boolean> call( TableColumn<User,Boolean> param ) {
@@ -136,6 +142,9 @@ public class AddAdmin implements Initializable {
             }
         } );
 
+        /**
+         * Remove line who user is bloqued
+         */
         table.setRowFactory(param -> new TableRow<User>() {
             @Override
             public void updateItem(User item, boolean empty) {

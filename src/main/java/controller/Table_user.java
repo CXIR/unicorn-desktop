@@ -61,6 +61,9 @@ public class Table_user implements Initializable {
         birth.setCellValueFactory(new PropertyValueFactory<>("strDate"));
         mail.setCellValueFactory(new PropertyValueFactory<>("mailAdress"));
 
+        /**
+         * Get the site name
+         */
         site.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<User, String> param) {
@@ -71,6 +74,9 @@ public class Table_user implements Initializable {
             }
         });
 
+        /**
+         * Put the users list on the table
+         */
         if(this.users != null){
             ObservableList<User> list = FXCollections.observableArrayList(users);
             table.setItems(list);
@@ -78,6 +84,9 @@ public class Table_user implements Initializable {
 
         table.setEditable(false);
 
+        /**
+         * Make action when double click on a row
+         */
         table.setRowFactory(tableView -> {
             TableRow<User> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -93,6 +102,10 @@ public class Table_user implements Initializable {
         });
     }
 
+    /**
+     * Search a vehicle in the table
+     * @param event
+     */
     @FXML
     public void search(ActionEvent event){
         if (users != null && txt != null) {
@@ -104,6 +117,10 @@ public class Table_user implements Initializable {
         }
     }
 
+    /**
+     * Cancel the search
+     * @param event
+     */
     @FXML
     public void cancel(ActionEvent event){
         if (users != null){

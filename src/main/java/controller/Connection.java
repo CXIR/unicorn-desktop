@@ -43,8 +43,6 @@ public class Connection implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle re){
-        //border.prefHeightProperty().bind(Main.primaryStage.heightProperty());
-        //border.prefWidthProperty().bind(Main.primaryStage.widthProperty());
     }
 
     @FXML

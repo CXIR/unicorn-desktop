@@ -1,13 +1,14 @@
 package PluginManager;
 
 import javafx.application.Platform;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Main;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
+import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.jar.*;
 
@@ -20,6 +21,10 @@ public class PluginLoader {
     private String directoryPath = "./plugin";
     private static URLClassLoader ucl;
 
+    /**
+     * Find jar on the directory
+     * Find the class who implement Iplugin
+     */
     public void LoadPlugins() {
 
         //Directory with plugins
@@ -31,11 +36,27 @@ public class PluginLoader {
                 return file.getPath().toLowerCase().endsWith(".jar");}
         });
 
-        URL[] urls = new URL[files.length];
+        File directoryTemp = new File(directoryPath + "/temporaryJar");
 
-        for (int i = 0; i < files.length; i++){
+        ArrayList<File> filesTemp = new ArrayList<>();
+
+        for (File file : files){
             try {
-                urls[i] = files[i].toURI().toURL();
+                File newFile = File.createTempFile(file.getName(), ".jar", directoryTemp);
+                Files.copy(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                newFile.deleteOnExit();
+                filesTemp.add(newFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        URL[] urls = new URL[filesTemp.size()];
+
+        for (int i = 0; i < filesTemp.size(); i++){
+            try {
+                urls[i] = filesTemp.get(i).toURI().toURL();
+                System.out.println(urls[i]);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -48,10 +69,12 @@ public class PluginLoader {
         while (apit.hasNext()) {
             IPlugin plugin = apit.next();
             plugin.init();
-            //System.out.println(plugin.getName());
         }
     }
 
+    /**
+     * Close plugins Jar
+     */
     public static void closeFile(){
         try {
             ucl.close();

@@ -26,6 +26,7 @@ public class Site {
     protected String adress;
     protected String city;
     protected String postalCode;
+    protected boolean invalid;
 
     public Site(){
 
@@ -92,7 +93,20 @@ public class Site {
         this.postalCode = postalCode;
     }
 
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
+    }
+
     //GET SITE
+
+    /**
+     * Get a site
+     * @return
+     */
     public Site getSite(){
         String method = "GET";
         String page = "/site/" + id;
@@ -109,6 +123,11 @@ public class Site {
     }
 
     //GET ALL SITE
+
+    /**
+     * Get a list of site
+     * @return
+     */
     public ArrayList<Site> getSites(){
         String method = "GET";
         String page = "/site/";
@@ -128,19 +147,39 @@ public class Site {
     }
 
     //AJOUT SITE
+
+    /**
+     * Create a site
+     */
     public void createSite(){
         String method = "POST";
         String page = "/site/new";
         Request req = new Request(method, page);
         req.post(jsonSite());
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     //MODIF SITE
+
+    /**
+     * Change a site
+     */
     public void changeSite(){
         String method = "POST";
         String page = "/site/edit";
         Request req = new Request(method, page);
         req.post(jsonSite());
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
     }
 
     public JSONObject jsonSite(){
@@ -154,7 +193,28 @@ public class Site {
     }
 
     //DELETE SITE
-
+    /**
+     * DELETE SITE
+     * Call the request DELETE with the site id
+     */
+    public void deleteSite(){
+        String method = "DELETE";
+        String page = "/site/" + id;
+        Request req = new Request(method, page);
+        try {
+            req.getSingleResult("Site");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (RequestException e) {
+            e.printStackTrace();
+        }
+        if (req.isError()){
+            invalid = true;
+        }
+        else{
+            invalid = false;
+        }
+    }
 
 
 }

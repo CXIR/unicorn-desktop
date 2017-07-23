@@ -27,6 +27,7 @@ import org.json.simple.parser.ParseException;
  * Created by mickael.afonso on 17/05/2017.
  */
 public class Request {
+    private boolean error;
     private String site = "http://localhost:3000";
     private String link;
     public HttpURLConnection conn;
@@ -61,6 +62,14 @@ public class Request {
 
     }
 
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
     public void post(JSONObject json){
         OutputStreamWriter writer = null;
         try {
@@ -69,9 +78,27 @@ public class Request {
             json.writeJSONString(writer);
             writer.flush();
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String ligne;
-            while ((ligne = reader.readLine()) != null) {
-                System.out.println(ligne);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+
+                try {
+                    JSONParser parser = new JSONParser();
+                    Object obj = parser.parse(line);
+                    if (obj instanceof JSONObject){
+                        JSONObject jsonObject = (JSONObject) obj;
+                        if (jsonObject.get("result") != null){
+                            if (jsonObject.get("result") instanceof Long){
+                                if (Long.parseLong(jsonObject.get("result").toString()) == 0){
+                                    new RequestException(jsonObject.get("message").toString());
+                                    setError(true);
+                                }
+                            }
+                        }
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
         catch (IOException e) {
@@ -92,11 +119,9 @@ public class Request {
                     JSONObject jsonObject = (JSONObject) obj;
                     if (jsonObject.get("result") != null){
                         if (jsonObject.get("result") instanceof Long){
-                            if (Integer.parseInt(jsonObject.get("result").toString()) == 0){
+                            if (Long.parseLong(jsonObject.get("result").toString()) == 0){
                                 new RequestException(jsonObject.get("message").toString());
-                            }
-                            else if (jsonObject.get("message") != null){
-                                System.out.println(jsonObject.get("message").toString());
+                                setError(true);
                             }
                         }
                     }
@@ -129,9 +154,10 @@ public class Request {
                 if (obj instanceof JSONObject){
                     JSONObject jsonObject = (JSONObject) obj;
                     if (jsonObject.get("result") != null){
-                        if (jsonObject.get("result") instanceof JSONObject){
-                            if (Integer.parseInt(jsonObject.get("result").toString()) == 0){
+                        if (jsonObject.get("result") instanceof Long){
+                            if (Long.parseLong(jsonObject.get("result").toString()) == 0){
                                 new RequestException(jsonObject.get("message").toString());
+                                setError(true);
                             }
                         }
                     }

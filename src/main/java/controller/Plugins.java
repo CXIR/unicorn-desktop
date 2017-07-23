@@ -24,9 +24,12 @@ import java.net.URLClassLoader;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.jar.JarFile;
+
+import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 
 /**
  * Created by Micka on 13/07/2017.
@@ -97,32 +100,26 @@ public class Plugins implements Initializable {
         Object obj = table.getSelectionModel().getSelectedItem();
         File file = (File) obj;
         PluginLoader.closeFile();
-        /*Platform.runLater(() -> {
-            try {
-                Main.primaryStage.close();
-                new Main().start(new Stage());
-                if(file.delete()){
-                    System.out.println(file.getName() + " is deleted!");
-                }else{
-                    System.out.println("Delete operation is failed.");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-*/
-        if(file.delete()){
-            System.out.println(file.getName() + " is deleted!");
-        }else{
-            System.out.println("Delete operation is failed.");
+        if (file.delete()){
+            System.out.println("Le fichier a bien été sauvegardé.");
+        }
+        else{
+            System.out.println("Le fichier n'a pas ");
         }
         table.getItems().remove(obj);
 
+        logout();
     }
 
     public void logout(){
         new Message("L'application doit redémarrer pour prendre en compte les modifications");
-        Menu.menu.logout();
+        try {
+            Runtime run = Runtime.getRuntime();
+            run.exec("cmd /c start launcher.bat");
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean extension(File file){
