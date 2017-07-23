@@ -34,7 +34,7 @@ public class Request {
 
     public Request(String meth, String page){
         link = site + page;
-        System.out.println(link);
+        //System.out.println(link);
         try {
             URL url = new URL(link);
             conn = (HttpURLConnection) url.openConnection();
@@ -115,8 +115,11 @@ public class Request {
 
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(line);
+
                 if (obj instanceof JSONObject){
+
                     JSONObject jsonObject = (JSONObject) obj;
+
                     if (jsonObject.get("result") != null){
                         if (jsonObject.get("result") instanceof Long){
                             if (Long.parseLong(jsonObject.get("result").toString()) == 0){
@@ -125,6 +128,7 @@ public class Request {
                             }
                         }
                     }
+                    if(jsonObject.get("result") == "1") System.out.println(jsonObject);
                     if (jsonObject.get("content") != null){
                         if (jsonObject.get("content") instanceof JSONObject){
                             JSONObject single = (JSONObject) jsonObject.get("content");
@@ -133,7 +137,6 @@ public class Request {
                     }
                 }
                 return null;
-                //return createObject(className,single);
             }
         }
         catch (IOException e) {

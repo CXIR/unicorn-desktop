@@ -216,5 +216,13 @@ public class Site {
         }
     }
 
+    /***
+     *  To String Method
+     */
+    @Override
+    public String toString() {
+        return this.id+" "+this.name+" "+this.adress+" "+this.city+" "+this.postalCode;
+    }
+
 
 }

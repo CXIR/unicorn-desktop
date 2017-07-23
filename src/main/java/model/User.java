@@ -280,7 +280,7 @@ public class User {
 
     public User findUser(String mail){
         String method = "GET";
-        String page = "/users/mail/" + mail;
+        String page = "/users/" + 6;
         Request req = new Request(method, page);
         try {
             Object obj = req.getSingleResult("User");

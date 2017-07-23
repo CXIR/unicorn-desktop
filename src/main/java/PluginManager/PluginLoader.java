@@ -18,7 +18,7 @@ import java.util.jar.*;
 public class PluginLoader {
 
     private List plugins;
-    private String directoryPath = "./plugin";
+    private String directoryPath = "plugin";
     private static URLClassLoader ucl;
 
     /**
