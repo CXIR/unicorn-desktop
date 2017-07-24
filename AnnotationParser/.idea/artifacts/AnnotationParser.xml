@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="AnnotationParser">
+    <output-path>$PROJECT_DIR$/out</output-path>
+    <root id="archive" name="AnnotationParser.jar">
+      <element id="module-output" name="AnnotationParser" />
+    </root>
+  </artifact>
+</component>
