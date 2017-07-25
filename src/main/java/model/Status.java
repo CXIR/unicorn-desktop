@@ -59,6 +59,11 @@ public class Status {
         this.invalid = invalid;
     }
 
+    @Override
+    public String toString() {
+        return this.label;
+    }
+
     //GET STATUS
 
     /**
@@ -142,28 +147,5 @@ public class Status {
         }
         json.put("label", label);
         return json;
-    }
-
-    /**
-     * DELETE STATUS
-     * Call the request DELETE with the status id
-     */
-    public void deleteStatus(){
-        String method = "DELETE";
-        String page = "/status/" + id;
-        Request req = new Request(method, page);
-        try {
-            req.getSingleResult("Status");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (RequestException e) {
-            e.printStackTrace();
-        }
-        if (req.isError()){
-            invalid = true;
-        }
-        else{
-            invalid = false;
-        }
     }
 }

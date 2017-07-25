@@ -119,7 +119,7 @@ public class Request {
                     JSONObject jsonObject = (JSONObject) obj;
                     if (jsonObject.get("result") != null){
                         if (jsonObject.get("result") instanceof Long){
-                            if (Long.parseLong(jsonObject.get("result").toString()) == 0){
+                            if (Long.parseLong(jsonObject.get("result").toString()) == 0 || Long.parseLong(jsonObject.get("result").toString()) == -1){
                                 new RequestException(jsonObject.get("message").toString());
                                 setError(true);
                             }
@@ -155,7 +155,7 @@ public class Request {
                     JSONObject jsonObject = (JSONObject) obj;
                     if (jsonObject.get("result") != null){
                         if (jsonObject.get("result") instanceof Long){
-                            if (Long.parseLong(jsonObject.get("result").toString()) == 0){
+                            if (Long.parseLong(jsonObject.get("result").toString()) == 0 || Long.parseLong(jsonObject.get("result").toString()) == -1){
                                 new RequestException(jsonObject.get("message").toString());
                                 setError(true);
                             }

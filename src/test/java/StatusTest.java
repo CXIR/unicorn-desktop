@@ -78,7 +78,6 @@ public class StatusTest {
                 created = true;
             }
         }
-        toCreate.deleteStatus();
 
         assertTrue("Status insertion failed",created);
         System.out.println("Status insertion succeded");
@@ -97,7 +96,6 @@ public class StatusTest {
                 recovered = true;
             }
         }
-        toGet.deleteStatus();
 
         assertTrue("Status recover failed",recovered);
         System.out.println("Status recover succeded");
@@ -128,8 +126,6 @@ public class StatusTest {
                 break;
             }
         }
-
-        toCreate.deleteStatus();
 
         assertTrue("Status update failed",updated);
         System.out.println("Status update succeded");

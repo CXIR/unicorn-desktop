@@ -28,7 +28,6 @@
                     <children>
                         <Button fx:id="valid" mnemonicParsing="false" onAction="#validate" text="Valider" />
                         <Button fx:id="cancel" mnemonicParsing="false" onAction="#back" text="Annuler" />
-                        <Button fx:id="suppr" mnemonicParsing="false" onAction="#delete" text="Supprimer" visible="false" />
                     </children>
                 </HBox>
             </children>

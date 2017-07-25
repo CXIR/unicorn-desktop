@@ -147,6 +147,11 @@ public class Vehicle {
         this.invalid = invalid;
     }
 
+    @Override
+    public String toString() {
+        return this.brand+" "+this.model+" "+this.registrationNumber+" "+this.placesNumber+" "+this.user.toString();
+    }
+
     public Vehicle getVehicle(int id) {
         String method = "GET";
         String page = "/vehicle/" + id;

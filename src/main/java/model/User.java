@@ -218,6 +218,11 @@ public class User {
         this.invalid = invalid;
     }
 
+    @Override
+    public String toString(){
+        return this.firstname+" "+this.lastname+" "+this.mailAdress+" "+this.site.toString()+" "+this.status.toString();
+    }
+
     /**
      * GET A USER
      * Call the method get to have a Json Object

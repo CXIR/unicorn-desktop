@@ -101,6 +101,11 @@ public class Site {
         this.invalid = invalid;
     }
 
+    @Override
+    public String toString(){
+        return this.name + " " + this.adress + " " + this.city + " " + this.postalCode;
+    }
+
     //GET SITE
 
     /**

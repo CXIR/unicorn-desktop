@@ -105,14 +105,6 @@ public class SetStatus implements Initializable {
         suppr.setVisible(true);
     }
 
-    @FXML
-    public void delete(ActionEvent event){
-        status.deleteStatus();
-        if (!status.isInvalid()){
-            new Loader("/view/Status.fxml", "GESTION DES STATUS");
-        }
-    }
-
     public void setForm(boolean b){
         nameAd.setVisible(b);
     }
