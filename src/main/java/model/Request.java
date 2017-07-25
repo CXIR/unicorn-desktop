@@ -34,7 +34,7 @@ public class Request {
 
     public Request(String meth, String page){
         link = site + page;
-        //System.out.println(link);
+
         try {
             URL url = new URL(link);
             conn = (HttpURLConnection) url.openConnection();
@@ -71,6 +71,48 @@ public class Request {
     }
 
     public void post(JSONObject json){
+
+        OutputStreamWriter writer = null;
+
+        try {
+
+            writer = new OutputStreamWriter(conn.getOutputStream());
+            json.writeJSONString(writer);
+            writer.flush();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                try {
+                    JSONParser parser = new JSONParser();
+                    Object obj = parser.parse(line);
+
+                    if (obj instanceof JSONObject){
+
+                        JSONObject jsonObject = (JSONObject) obj;
+
+                        if (jsonObject.get("result") != null){
+                            if (jsonObject.get("result") instanceof Long){
+                                if (Long.parseLong(jsonObject.get("result").toString()) == 0){
+
+                                    new RequestException(jsonObject.get("message").toString());
+                                    setError(true);
+                                }
+                            }
+                        }
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Object postForTests(JSONObject json, String hauptklasse){
         OutputStreamWriter writer = null;
         try {
             writer = new OutputStreamWriter(conn.getOutputStream());
@@ -90,8 +132,16 @@ public class Request {
                         if (jsonObject.get("result") != null){
                             if (jsonObject.get("result") instanceof Long){
                                 if (Long.parseLong(jsonObject.get("result").toString()) == 0){
-                                    new RequestException(jsonObject.get("message").toString());
+                                    new RequestException(jsonObject.get("content").toString());
                                     setError(true);
+                                }
+                                else if(Long.parseLong(jsonObject.get("result").toString()) == 1){
+                                    if (jsonObject.get("object") != null){
+                                        if (jsonObject.get("object") instanceof JSONObject){
+                                            JSONObject single = (JSONObject) jsonObject.get("object");
+                                            return createObject(hauptklasse,single);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -103,7 +153,9 @@ public class Request {
         }
         catch (IOException e) {
             e.printStackTrace();
+
         }
+        return null;
     }
 
     public Object getSingleResult(String className) throws ParseException, RequestException {

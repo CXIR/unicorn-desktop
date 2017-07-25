@@ -221,7 +221,7 @@ public class Site {
      */
     @Override
     public String toString() {
-        return this.id+" "+this.name+" "+this.adress+" "+this.city+" "+this.postalCode;
+        return this.name+" "+this.adress+" "+this.city+" "+this.postalCode;
     }
 
 

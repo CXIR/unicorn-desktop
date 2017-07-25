@@ -416,5 +416,8 @@ public class User {
         }
     }
 
-    //LOCK USER ACCOUNT
+    @Override
+    public String toString(){
+        return this.firstname+" "+this.lastname+" "+this.mailAdress+" "+this.site.toString()+" "+this.status.toString();
+    }
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>model</OriginalElement>
+  <nodes>
+    <node x="1019.0" y="836.0">model.Verifications</node>
+    <node x="-276.0" y="680.0">model.SiteTest</node>
+    <node x="6.0" y="687.0">model.VehicleTest</node>
+    <node x="-284.0" y="-92.0">model.User</node>
+    <node x="765.0" y="827.0">model.Main</node>
+    <node x="768.0" y="428.0">model.Report</node>
+    <node x="372.0" y="840.0">model.Request</node>
+    <node x="328.0" y="-86.0">model.Vehicle</node>
+    <node x="1029.0" y="710.0">model.RequestException</node>
+    <node x="416.0" y="422.0">model.Status</node>
+    <node x="823.0" y="-80.0">model.Site</node>
+    <node x="-284.0" y="1098.0">model.StatusTest</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="529.5" y="419.5" />
+  <SelectedNodes>
+    <node>model.User</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

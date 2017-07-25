@@ -222,4 +222,9 @@ public class Vehicle {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String toString() {
+        return this.brand+" "+this.model+" "+this.registrationNumber+" "+this.placesNumber+" "+this.user.toString();
+    }
 }

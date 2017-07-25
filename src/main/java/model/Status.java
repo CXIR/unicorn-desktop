@@ -166,4 +166,9 @@ public class Status {
             invalid = false;
         }
     }
+
+    @Override
+    public String toString() {
+        return this.label;
+    }
 }
